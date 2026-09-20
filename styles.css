@@ -90,6 +90,9 @@ h1 { margin: 0; font-size: clamp(4.6rem, 10.5vw, 8.5rem); font-weight: 700; line
 .light-section { color: var(--ink); background: var(--white); }
 .results-highlight, .pipeline-section, .failure-section { background: var(--paper); }
 .dark-section { color: #f5f5f3; background: var(--near-black); }
+.section-divider { display: flex; justify-content: space-between; align-items: center; min-height: 84px; padding: 0 max(24px, calc((100vw - 1100px) / 2)); color: var(--white); background: var(--black); border-top: 3px solid var(--green); }
+.section-divider span { color: var(--green-bright); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.section-divider i { color: var(--green-bright); font-size: 1rem; font-style: normal; }
 .section-index { display: flex; gap: 14px; align-items: center; margin: 0; color: #6d726d; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .section-index::before { content: ""; flex: 0 0 42px; height: 3px; background: var(--green); }
 .dark-section .section-index, .abstract-section .section-index { color: #a9aea9; }
@@ -205,6 +208,7 @@ footer > a:last-child { justify-self: end; }
 
 @media (max-width: 560px) {
   .light-section, .dark-section, .abstract-section { padding: 82px 18px; }
+  .section-divider { min-height: 66px; padding-inline: 18px; }
   .cinematic-hero { min-height: 92svh; }
   .hero-copy { padding-top: 54px; }
   .hero-claims { flex-wrap: wrap; gap: 6px; }
