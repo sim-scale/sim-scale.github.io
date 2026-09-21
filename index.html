@@ -204,8 +204,7 @@
             <div class="flow-node flow-process">
               <span class="flow-type">Process</span>
               <strong>Parameterized generator</strong>
-              <p>AssetEngine turns category variation into explicit controls.</p>
-              <div class="flow-tags" aria-label="Example parameters"><span>Dimensions</span><span>Part variants</span><span>Dependencies</span><span>Articulation</span></div>
+              <p>AssetEngine turns category variation into explicit controls such as dimensions, part variants, dependencies, and articulation.</p>
             </div>
             <i aria-hidden="true">→</i>
             <figure class="flow-node flow-visual">
@@ -213,6 +212,15 @@
               <figcaption><span class="flow-type">Output</span><strong>Diverse asset family</strong><small>Accepted assets + semantic and geometric metadata</small></figcaption>
             </figure>
           </div>
+          <div class="flow-stage-label">Intermediate stages</div>
+          <ol class="flow-intermediates">
+            <li><span>01</span><strong>Search examples</strong><small>Collect real-world references</small></li>
+            <li><span>02</span><strong>Plan variation</strong><small>Identify category structure</small></li>
+            <li><span>03</span><strong>Author generator</strong><small>Define parameters and constraints</small></li>
+            <li><span>04</span><strong>Coverage critic</strong><small>Check the category range</small></li>
+            <li><span>05</span><strong>Geometry validator</strong><small>Check simulation readiness</small></li>
+            <li><span>06</span><strong>Sample + split</strong><small>Create train and held-out assets</small></li>
+          </ol>
         </article>
 
         <article class="flow-lane">
@@ -232,7 +240,6 @@
               <span class="flow-type">Process</span>
               <strong>Geometry-aware task program</strong>
               <p>DemoEngine adapts the shared skill to each asset, then expands successful runs across poses.</p>
-              <div class="flow-tags" aria-label="Task program tools"><span>Semantic stages</span><span>Motion planning</span><span>Collision checks</span><span>Pose expansion</span></div>
             </div>
             <i aria-hidden="true">→</i>
             <figure class="flow-node flow-visual">
@@ -240,6 +247,15 @@
               <figcaption><span class="flow-type">Output</span><strong>Simulation demonstrations</strong><small>Successful trajectories across assets and poses</small></figcaption>
             </figure>
           </div>
+          <div class="flow-stage-label">Intermediate stages</div>
+          <ol class="flow-intermediates">
+            <li><span>01</span><strong>Inspect demo</strong><small>Recover grasp and motion priors</small></li>
+            <li><span>02</span><strong>Decompose task</strong><small>Identify semantic stages</small></li>
+            <li><span>03</span><strong>Write program</strong><small>Compose robot tools and targets</small></li>
+            <li><span>04</span><strong>Seed validation</strong><small>Revise with rollout feedback</small></li>
+            <li><span>05</span><strong>Specialize assets</strong><small>Adapt targets and task logic</small></li>
+            <li><span>06</span><strong>Expand poses</strong><small>Run DexMimicGen and validate</small></li>
+          </ol>
         </article>
 
         <div class="deployment-flow" aria-label="Dataset to policy deployment flow">
