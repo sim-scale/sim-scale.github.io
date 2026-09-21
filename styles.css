@@ -247,10 +247,6 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .abstract-section { color: var(--white); background: var(--black); }
 .abstract { max-width: 980px; margin: 44px 0 0; font-size: clamp(1.7rem, 3.4vw, 3.2rem); line-height: 1.32; letter-spacing: -.035em; }
 
-footer { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 36px; align-items: start; padding: 38px max(24px, calc((100vw - 1100px) / 2)) 52px; color: var(--gray); background: var(--black); border-top: 1px solid var(--line-dark); font-size: .72rem; line-height: 1.5; }
-footer p { margin: 0; }
-footer > a:last-child { justify-self: end; }
-
 .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
 .js .reveal.visible { opacity: 1; transform: none; }
 
@@ -278,8 +274,6 @@ footer > a:last-child { justify-self: end; }
   .real-panel { grid-template-columns: 1fr; }
   .real-panel article { min-height: 300px; }
   .failure-grid { grid-template-columns: 1fr; }
-  footer { grid-template-columns: 1fr 1fr; }
-  footer > a:last-child { justify-self: start; }
 }
 
 @media (max-width: 560px) {
@@ -310,7 +304,6 @@ footer > a:last-child { justify-self: end; }
   .metrics article { padding: 24px; border-right: 0; border-top: 1px solid var(--line-light); }
   .metrics article:first-child { border-top: 0; }
   .sim-eval-panel { min-height: 360px; }
-  footer { grid-template-columns: 1fr; padding-inline: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
