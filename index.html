@@ -185,17 +185,75 @@
           <p class="section-index">06 / Method</p>
           <h2>How does it work?</h2>
         </div>
-        <p>Generate diverse assets, produce demonstrations, train the policy, and evaluate without object-specific fine-tuning.</p>
+        <p>SimScale turns a short asset description and one human demonstration collected in simulation into a training set that spans object geometry and pose.</p>
       </div>
 
-      <div class="method-figure reveal" role="img" aria-label="SimScale method from generated assets to real-world evaluation">
-        <article><span>01</span><div class="method-glyph glyph-assets" aria-hidden="true"></div><strong>Generate assets</strong><small>Object instances</small></article>
+      <div class="method-inputs reveal" aria-label="SimScale inputs">
+        <article>
+          <span>Input 01</span>
+          <strong>Asset description</strong>
+          <p>A short description of the object categories and task-relevant geometry.</p>
+        </article>
+        <i aria-hidden="true">+</i>
+        <article>
+          <span>Input 02</span>
+          <strong>One human demonstration</strong>
+          <p>A reference trajectory collected once in simulation.</p>
+        </article>
+      </div>
+
+      <div class="method-engines reveal">
+        <article class="engine-card">
+          <header>
+            <span>01</span>
+            <div>
+              <p>AssetEngine</p>
+              <h3>Build a category, not one object.</h3>
+            </div>
+          </header>
+          <p class="engine-summary">AssetEngine writes one parameterized procedural generator whose controls describe meaningful variation across an object category.</p>
+          <ol class="engine-steps">
+            <li><b>Search</b><span>Collect diverse real-world examples and identify task-relevant variation.</span></li>
+            <li><b>Author</b><span>Encode dimensions, part choices, dependencies, joints, and semantic metadata.</span></li>
+            <li><b>Review</b><span>A coverage critic checks the category range; a geometry validator checks simulation readiness.</span></li>
+            <li><b>Sample</b><span>Compile accepted parameter settings and split assets into training and held-out sets.</span></li>
+          </ol>
+          <p class="engine-output"><span>Output</span>Diverse, physically plausible simulation assets</p>
+        </article>
+
+        <div class="method-connector" aria-hidden="true"><span>→</span><small>Assets + metadata</small></div>
+
+        <article class="engine-card engine-demo">
+          <header>
+            <span>02</span>
+            <div>
+              <p>DemoEngine</p>
+              <h3>Adapt the skill across geometry and pose.</h3>
+            </div>
+          </header>
+          <p class="engine-summary">DemoEngine turns the reference trajectory into a reusable task program, then uses simulation feedback and robot tools to make it work across the asset family.</p>
+          <ol class="engine-steps">
+            <li><b>Decompose</b><span>Read the demonstration as semantic stages such as grasp, handover, insert, and retreat.</span></li>
+            <li><b>Program</b><span>Compose motion planning, gripper control, collision checking, and object-centric targets.</span></li>
+            <li><b>Specialize</b><span>Revise targets or task logic for each geometry and retain only successful executions.</span></li>
+            <li><b>Expand</b><span>Use DexMimicGen to transform accepted trajectories across sampled object poses.</span></li>
+          </ol>
+          <p class="engine-output"><span>Output</span>Diverse, successful demonstrations across assets and poses</p>
+        </article>
+      </div>
+
+      <div class="method-finish reveal" aria-label="Policy training and deployment">
+        <article>
+          <span>03 / Train</span>
+          <strong>Imitation learning</strong>
+          <p>Train an RGB visuomotor policy on accepted observations, robot states, and action trajectories.</p>
+        </article>
         <i aria-hidden="true">→</i>
-        <article><span>02</span><div class="method-glyph glyph-demos" aria-hidden="true"></div><strong>Produce demonstrations</strong><small>Assets × poses</small></article>
-        <i aria-hidden="true">→</i>
-        <article><span>03</span><div class="method-glyph glyph-policy" aria-hidden="true"></div><strong>Train the policy</strong><small>Simulation data</small></article>
-        <i aria-hidden="true">→</i>
-        <article><span>04</span><div class="method-glyph glyph-eval" aria-hidden="true"></div><strong>Evaluate</strong><small>Simulation + real world</small></article>
+        <article>
+          <span>04 / Deploy</span>
+          <strong>Zero-shot transfer</strong>
+          <p>Evaluate on held-out simulation assets, then deploy to unseen real objects without per-object adaptation.</p>
+        </article>
       </div>
     </section>
 
