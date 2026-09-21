@@ -1,6 +1,12 @@
 (() => {
   const root = document.documentElement;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const heroVideo = document.querySelector('.hero-video');
+
+  if (heroVideo && reducedMotion) {
+    heroVideo.pause();
+    heroVideo.removeAttribute('autoplay');
+  }
 
   const updateProgress = () => {
     const distance = document.documentElement.scrollHeight - window.innerHeight;

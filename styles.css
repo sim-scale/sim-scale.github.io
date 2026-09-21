@@ -64,6 +64,7 @@ nav a:hover, nav a:focus-visible, .github-link:hover, .github-link:focus-visible
 .cinematic-hero::after { content: ""; position: absolute; inset: auto 0 0; height: 3px; background: var(--green); }
 .hero-field { position: absolute; inset: 0; z-index: -1; background: #101512 url("media/hero-slide1-first-frame.webp") center center / cover no-repeat; transform: scale(calc(1 + var(--scroll) * .04)); }
 .hero-field::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,7,6,.74), rgba(5,7,6,.52) 42%, rgba(5,7,6,.86)), radial-gradient(circle at center, rgba(5,7,6,.12) 0 24%, rgba(5,7,6,.34) 58%, rgba(5,7,6,.76) 100%); }
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .orb { position: absolute; border-radius: 50%; filter: blur(18px); opacity: .24; }
 .orb-one { width: min(60vw, 820px); aspect-ratio: 1; left: 6%; top: 6%; background: radial-gradient(circle at 38% 35%, #d8ff76 0 3%, #75b916 13%, #164127 34%, transparent 66%); transform: translateY(calc(var(--scroll) * -85px)); }
 .orb-two { width: min(47vw, 660px); aspect-ratio: 1; right: -2%; bottom: -20%; background: radial-gradient(circle at 45% 45%, #9ee6d1 0 2%, #266653 15%, #0a1d16 38%, transparent 67%); transform: translateY(calc(var(--scroll) * 65px)); }
@@ -317,4 +318,5 @@ footer > a:last-child { justify-self: end; }
   .scroll-cue span { animation: none; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .hero-field, .orb { transform: none !important; }
+  .hero-video { display: none; }
 }
