@@ -188,18 +188,72 @@
         <p>SimScale turns a short asset description and one human demonstration collected in simulation into a training set that spans object geometry and pose.</p>
       </div>
 
-      <div class="method-inputs reveal" aria-label="SimScale inputs">
-        <article>
-          <span>Input 01</span>
-          <strong>Asset description</strong>
-          <p>A short description of the object categories and task-relevant geometry.</p>
+      <div class="method-flow reveal" aria-label="SimScale input, process, and output flow">
+        <article class="flow-lane">
+          <header>
+            <span>AssetEngine flow</span>
+            <h3>From prompt to assets</h3>
+          </header>
+          <div class="flow-track">
+            <div class="flow-node flow-input">
+              <span class="flow-type">Input</span>
+              <strong>Asset description</strong>
+              <p>“Mugs with handles and branched racks”</p>
+            </div>
+            <i aria-hidden="true">→</i>
+            <div class="flow-node flow-process">
+              <span class="flow-type">Process</span>
+              <strong>Parameterized generator</strong>
+              <p>AssetEngine turns category variation into explicit controls.</p>
+              <div class="flow-tags" aria-label="Example parameters"><span>Dimensions</span><span>Part variants</span><span>Dependencies</span><span>Articulation</span></div>
+            </div>
+            <i aria-hidden="true">→</i>
+            <figure class="flow-node flow-visual">
+              <img src="media/method-assets.webp" alt="A diverse family of generated simulation assets">
+              <figcaption><span class="flow-type">Output</span><strong>Diverse asset family</strong><small>Accepted assets + semantic and geometric metadata</small></figcaption>
+            </figure>
+          </div>
         </article>
-        <i aria-hidden="true">+</i>
-        <article>
-          <span>Input 02</span>
-          <strong>One human demonstration</strong>
-          <p>A reference trajectory collected once in simulation.</p>
+
+        <article class="flow-lane">
+          <header>
+            <span>DemoEngine flow</span>
+            <h3>From demonstration to deployment</h3>
+          </header>
+          <div class="flow-track">
+            <div class="flow-node flow-input flow-demo-input">
+              <span class="flow-type">Input</span>
+              <div class="flow-play" aria-hidden="true">▶</div>
+              <strong>One source demo</strong>
+              <p>A single human trajectory collected in simulation.</p>
+            </div>
+            <i aria-hidden="true">→</i>
+            <div class="flow-node flow-process">
+              <span class="flow-type">Process</span>
+              <strong>Geometry-aware task program</strong>
+              <p>DemoEngine adapts the shared skill to each asset, then expands successful runs across poses.</p>
+              <div class="flow-tags" aria-label="Task program tools"><span>Semantic stages</span><span>Motion planning</span><span>Collision checks</span><span>Pose expansion</span></div>
+            </div>
+            <i aria-hidden="true">→</i>
+            <figure class="flow-node flow-visual">
+              <img src="media/method-demos.webp" alt="Robot demonstrations generated across varied simulated assets and poses">
+              <figcaption><span class="flow-type">Output</span><strong>Simulation demonstrations</strong><small>Successful trajectories across assets and poses</small></figcaption>
+            </figure>
+          </div>
         </article>
+
+        <div class="deployment-flow" aria-label="Dataset to policy deployment flow">
+          <div><span>Data output</span><strong>Accepted trajectories</strong><small>RGB + robot state + actions</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>Train</span><strong>Visuomotor policy</strong><small>Standard imitation learning</small></div>
+          <i aria-hidden="true">→</i>
+          <div><span>Policy output</span><strong>Zero-shot transfer</strong><small>Held-out simulation + unseen real objects</small></div>
+        </div>
+      </div>
+
+      <div class="method-detail-heading reveal">
+        <span>Inside the engines</span>
+        <p>The overview above shows what enters and leaves each stage. The details below show how each engine produces those outputs.</p>
       </div>
 
       <div class="method-engines reveal">
@@ -242,19 +296,6 @@
         </article>
       </div>
 
-      <div class="method-finish reveal" aria-label="Policy training and deployment">
-        <article>
-          <span>03 / Train</span>
-          <strong>Imitation learning</strong>
-          <p>Train an RGB visuomotor policy on accepted observations, robot states, and action trajectories.</p>
-        </article>
-        <i aria-hidden="true">→</i>
-        <article>
-          <span>04 / Deploy</span>
-          <strong>Zero-shot transfer</strong>
-          <p>Evaluate on held-out simulation assets, then deploy to unseen real objects without per-object adaptation.</p>
-        </article>
-      </div>
     </section>
 
     <section class="abstract-section">
