@@ -111,11 +111,39 @@
         <p>Successful task trajectories are generated across the object set and valid starting poses.</p>
       </div>
 
-      <div class="media-strip demo-strip reveal" aria-label="Generated simulation demonstrations">
-        <article><div class="play-icon">▶</div><span>Asset A / Pose 01</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
-        <article><div class="play-icon">▶</div><span>Asset B / Pose 02</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
-        <article><div class="play-icon">▶</div><span>Asset C / Pose 03</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
-        <article><div class="play-icon">▶</div><span>Asset D / Pose 04</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
+      <div class="dmg-showcase reveal" data-dmg-showcase>
+        <div class="task-tabs" role="tablist" aria-label="Simulation demonstration task">
+          <button class="active" id="dmg-tab-putcharger" type="button" role="tab" aria-selected="true" aria-controls="dmg-panel-putcharger" data-dmg-task="putcharger">
+            <span>01</span> Put charger in drawer
+          </button>
+          <button id="dmg-tab-hangmug" type="button" role="tab" aria-selected="false" aria-controls="dmg-panel-hangmug" data-dmg-task="hangmug" tabindex="-1">
+            <span>02</span> Hang mug on tree
+          </button>
+          <button id="dmg-tab-putpot" type="button" role="tab" aria-selected="false" aria-controls="dmg-panel-putpot" data-dmg-task="putpot" tabindex="-1">
+            <span>03</span> Put pot on cooktop
+          </button>
+        </div>
+
+        <div class="dmg-stage">
+          <article class="dmg-task active" id="dmg-panel-putcharger" role="tabpanel" aria-labelledby="dmg-tab-putcharger" data-dmg-panel="putcharger">
+            <video controls muted autoplay loop playsinline preload="metadata" poster="media/dmg-putcharger-poster.jpg">
+              <source src="media/dmg-putcharger.mp4" type="video/mp4">
+            </video>
+            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Put charger in drawer</strong><small>Insertion, drawer closure, and release</small></div>
+          </article>
+          <article class="dmg-task" id="dmg-panel-hangmug" role="tabpanel" aria-labelledby="dmg-tab-hangmug" data-dmg-panel="hangmug" hidden>
+            <video controls muted loop playsinline preload="metadata" poster="media/dmg-hangmug-poster.jpg">
+              <source src="media/dmg-hangmug.mp4" type="video/mp4">
+            </video>
+            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Hang mug on tree</strong><small>Hook engagement, release, and resting mug</small></div>
+          </article>
+          <article class="dmg-task" id="dmg-panel-putpot" role="tabpanel" aria-labelledby="dmg-tab-putpot" data-dmg-panel="putpot" hidden>
+            <video controls muted loop playsinline preload="metadata" poster="media/dmg-putpot-poster.jpg">
+              <source src="media/dmg-putpot.mp4" type="video/mp4">
+            </video>
+            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Put pot on cooktop</strong><small>Placement, release, and resting pot</small></div>
+          </article>
+        </div>
       </div>
     </section>
 

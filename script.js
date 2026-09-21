@@ -12,6 +12,42 @@
   window.addEventListener('scroll', updateProgress, { passive: true });
   window.addEventListener('resize', updateProgress);
 
+  document.querySelectorAll('[data-dmg-showcase]').forEach((showcase) => {
+    const tabs = [...showcase.querySelectorAll('[data-dmg-task]')];
+    const panels = [...showcase.querySelectorAll('[data-dmg-panel]')];
+
+    const selectTask = (task, moveFocus = false) => {
+      tabs.forEach((tab) => {
+        const selected = tab.dataset.dmgTask === task;
+        tab.classList.toggle('active', selected);
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        if (selected && moveFocus) tab.focus();
+      });
+
+      panels.forEach((panel) => {
+        const selected = panel.dataset.dmgPanel === task;
+        panel.hidden = !selected;
+        panel.classList.toggle('active', selected);
+        const video = panel.querySelector('video');
+        if (!video) return;
+        if (selected && !reducedMotion) video.play().catch(() => {});
+        if (!selected) video.pause();
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTask(tab.dataset.dmgTask));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = (index + direction + tabs.length) % tabs.length;
+        selectTask(tabs[next].dataset.dmgTask, true);
+      });
+    });
+  });
+
   if (reducedMotion || !('IntersectionObserver' in window)) {
     document.querySelectorAll('.reveal').forEach((element) => element.classList.add('visible'));
     return;
