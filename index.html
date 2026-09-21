@@ -17,10 +17,10 @@
   <header class="site-header">
     <a class="wordmark" href="#top" aria-label="Sim Scale home">SIM<span>/</span>SCALE</a>
     <nav aria-label="Primary navigation">
+      <a href="#transfer">Real world</a>
       <a href="#assets">Assets</a>
-      <a href="#pipeline">Method</a>
-      <a href="#transfer">Transfer</a>
-      <a href="#evaluation">Evaluation</a>
+      <a href="#demonstrations">Demonstrations</a>
+      <a href="#method">Method</a>
     </nav>
     <a class="github-link" href="https://github.com/sim-scale">GitHub <span aria-hidden="true">↗</span></a>
   </header>
@@ -59,34 +59,18 @@
       <div class="section-head reveal">
         <div>
           <p class="section-index">01 / Real-world results</p>
-          <h2>One policy, tested on different physical objects.</h2>
+          <h2>SimScale policies generalize zero-shot to the real world.</h2>
         </div>
-        <p>The policy is trained in simulation and run on each object without object-specific fine-tuning.</p>
+        <p>Policies trained only in simulation are tested on physical objects without object-specific fine-tuning.</p>
       </div>
 
-      <div class="rollout-grid reveal" aria-label="Diverse real-world policy rollouts">
-        <article class="rollout-card rollout-wide"><div class="play-icon">▶</div><span>Policy rollout 01</span><strong>Physical object A</strong><small>Video pending</small></article>
-        <article class="rollout-card"><div class="play-icon">▶</div><span>Policy rollout 02</span><strong>Physical object B</strong><small>Video pending</small></article>
-        <article class="rollout-card"><div class="play-icon">▶</div><span>Policy rollout 03</span><strong>Physical object C</strong><small>Video pending</small></article>
-        <article class="rollout-card"><div class="play-icon">▶</div><span>Policy rollout 04</span><strong>Physical object D</strong><small>Video pending</small></article>
-        <article class="rollout-card rollout-wide"><div class="play-icon">▶</div><span>Policy rollout 05+</span><strong>Additional objects</strong><small>Videos pending</small></article>
-      </div>
-    </section>
-
-    <div class="section-divider" role="separator" aria-label="Approach">
-      <span>Approach</span>
-      <i aria-hidden="true">↓</i>
-    </div>
-
-    <section class="project-intro light-section" id="project">
-      <p class="section-index">Sim Scale / Research overview</p>
-      <div class="project-title reveal">
-        <p class="project-mark">SS</p>
-        <h2>Train on varied simulated assets. Test on unseen physical objects.</h2>
-      </div>
-      <div class="intro-grid reveal">
-        <p class="lead">We generate assets and demonstrations in simulation, train a policy on that data, and test it on objects it has not seen before.</p>
-        <p class="supporting">Simulation and real-world results are reported separately.</p>
+      <div class="rollout-grid rollout-grid-all reveal" aria-label="Diverse real-world policy rollouts">
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 01</span><strong>Object A</strong><small>Video placeholder</small></article>
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 02</span><strong>Object B</strong><small>Video placeholder</small></article>
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 03</span><strong>Object C</strong><small>Video placeholder</small></article>
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 04</span><strong>Object D</strong><small>Video placeholder</small></article>
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 05</span><strong>Object E</strong><small>Video placeholder</small></article>
+        <article class="rollout-card"><div class="play-icon">▶</div><span>Real rollout 06</span><strong>Object F</strong><small>Video placeholder</small></article>
       </div>
     </section>
 
@@ -94,56 +78,44 @@
       <div class="section-head reveal">
         <div>
           <p class="section-index">02 / Asset generation</p>
-          <h2>Vary object geometry,<br>appearance, and pose.</h2>
+          <h2>SimScale generates realistic and diverse simulation assets.</h2>
         </div>
-        <p>For each task, we vary object shape, size, appearance, and starting pose.</p>
+        <p>Each task includes multiple object instances with different shapes, sizes, and appearances.</p>
       </div>
 
-      <div class="feature-stage reveal">
-        <div class="asset-stage">
-          <div class="object-ghost" aria-hidden="true"><i></i><i></i><i></i></div>
-          <span>Generated assets</span>
-          <strong>Simulation renders</strong>
+      <div class="asset-browser reveal" aria-label="Examples of diverse generated simulation assets">
+        <div class="asset-browser-bar">
+          <span>Asset gallery</span>
+          <strong>Multiple instances per task</strong>
+          <small>Render placeholders</small>
         </div>
-        <div class="randomization-list">
-          <div><span>Geometry</span><small>Shape, size, grasp points</small></div>
-          <div><span>Appearance</span><small>Materials, textures, lighting</small></div>
-          <div><span>Object set</span><small>Multiple object instances</small></div>
-          <div><span>Pose</span><small>Position and rotation</small></div>
+        <div class="asset-gallery">
+          <article><div class="asset-object asset-one" aria-hidden="true"></div><span>Asset 01</span><small>Instance A</small></article>
+          <article><div class="asset-object asset-two" aria-hidden="true"></div><span>Asset 02</span><small>Instance B</small></article>
+          <article><div class="asset-object asset-three" aria-hidden="true"></div><span>Asset 03</span><small>Instance C</small></article>
+          <article><div class="asset-object asset-four" aria-hidden="true"></div><span>Asset 04</span><small>Instance D</small></article>
+          <article><div class="asset-object asset-five" aria-hidden="true"></div><span>Asset 05</span><small>Instance E</small></article>
+          <article><div class="asset-object asset-six" aria-hidden="true"></div><span>Asset 06</span><small>Instance F</small></article>
+          <article><div class="asset-object asset-seven" aria-hidden="true"></div><span>Asset 07</span><small>Instance G</small></article>
+          <article><div class="asset-object asset-eight" aria-hidden="true"></div><span>Asset 08</span><small>Instance H</small></article>
         </div>
       </div>
     </section>
 
-    <section class="light-section pipeline-section" id="pipeline">
+    <section class="light-section demonstration-section" id="demonstrations">
       <div class="section-head reveal">
         <div>
           <p class="section-index">03 / Demonstration generation</p>
-          <h2>Generate demonstrations<br>for each asset and pose.</h2>
+          <h2>SimScale produces demonstrations on diverse assets and poses.</h2>
         </div>
-        <p>Each asset is placed in a set of valid starting poses.</p>
+        <p>Successful task trajectories are generated across the object set and valid starting poses.</p>
       </div>
 
-      <div class="pipeline reveal" aria-label="Demonstration generation pipeline">
-        <article>
-          <span class="step">Phase 1</span>
-          <div class="mini-visual shape-a" aria-hidden="true"></div>
-          <h3>Generate assets</h3>
-          <p>Create object variants with different geometry and appearance.</p>
-        </article>
-        <span class="pipeline-arrow" aria-hidden="true">→</span>
-        <article>
-          <span class="step">Phase 2</span>
-          <div class="mini-visual shape-b" aria-hidden="true"></div>
-          <h3>Vary poses</h3>
-          <p>Place each object at valid starting positions and rotations.</p>
-        </article>
-        <span class="pipeline-arrow" aria-hidden="true">→</span>
-        <article>
-          <span class="step">Phase 3</span>
-          <div class="mini-visual shape-c" aria-hidden="true"></div>
-          <h3>Produce demonstrations</h3>
-          <p>Run the task and save successful trajectories.</p>
-        </article>
+      <div class="media-strip demo-strip reveal" aria-label="Generated simulation demonstrations">
+        <article><div class="play-icon">▶</div><span>Asset A / Pose 01</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Asset B / Pose 02</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Asset C / Pose 03</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Asset D / Pose 04</span><strong>Generated demonstration</strong><small>Video placeholder</small></article>
       </div>
     </section>
 
@@ -151,58 +123,58 @@
       <div class="section-head reveal">
         <div>
           <p class="section-index">04 / Simulation evaluation</p>
-          <h2>Evaluate on assets and poses held out from training.</h2>
+          <h2>SimScale policies generalize in simulation.</h2>
         </div>
-        <p>Each setting is run multiple times with the same success criterion.</p>
+        <p>Policies are evaluated on simulation assets and poses held out from training.</p>
       </div>
 
-      <div class="metrics reveal" aria-label="Simulation evaluation metrics">
-        <article><strong>—</strong><span>Success rate</span><small>Result pending</small></article>
-        <article><strong>—</strong><span>Held-out assets</span><small>Result pending</small></article>
-        <article><strong>—</strong><span>Held-out poses</span><small>Result pending</small></article>
-        <article><strong>—</strong><span>Evaluation episodes</span><small>Result pending</small></article>
-      </div>
-
-      <div class="sim-eval-panel reveal">
-        <span>Simulation rollouts</span>
-        <strong>Evaluation videos</strong>
-        <div class="timeline" aria-hidden="true"><i></i></div>
+      <div class="media-strip sim-strip reveal" aria-label="Simulation policy evaluation rollouts">
+        <article><div class="play-icon">▶</div><span>Held-out asset 01</span><strong>Policy rollout</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Held-out asset 02</span><strong>Policy rollout</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Held-out pose 01</span><strong>Policy rollout</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Held-out pose 02</span><strong>Policy rollout</strong><small>Video placeholder</small></article>
       </div>
     </section>
 
     <section class="dark-section real-section" id="real-world">
       <div class="section-head reveal">
         <div>
-          <p class="section-index">05 / Physical execution</p>
-          <h2>Compare real-world runs<br>side by side.</h2>
+          <p class="section-index">05 / More real-world results</p>
+          <h2>More real-world rollouts.</h2>
         </div>
-        <p>Matched camera views and timing make the runs easier to compare.</p>
+        <p>Additional physical runs show the policy across more objects and task conditions.</p>
       </div>
-      <div class="real-panel reveal">
-        <article><span>View A</span><strong>Rollout video</strong></article>
-        <article><span>View B</span><strong>Rollout video</strong></article>
-        <article><span>View C</span><strong>Rollout video</strong></article>
+      <div class="media-strip real-panel reveal">
+        <article><div class="play-icon">▶</div><span>Real rollout 07</span><strong>Physical object G</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Real rollout 08</span><strong>Physical object H</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Real rollout 09</span><strong>Physical object I</strong><small>Video placeholder</small></article>
+        <article><div class="play-icon">▶</div><span>Real rollout 10</span><strong>Physical object J</strong><small>Video placeholder</small></article>
       </div>
     </section>
 
-    <section class="light-section failure-section" id="failures">
+    <section class="light-section method-section" id="method">
       <div class="section-head reveal">
         <div>
-          <p class="section-index">06 / Failure cases</p>
-          <h2>Show the failures too.</h2>
+          <p class="section-index">06 / Method</p>
+          <h2>How does it work?</h2>
         </div>
-        <p>Failed runs are reported alongside successful ones.</p>
+        <p>Generate diverse assets, produce demonstrations, train the policy, and evaluate without object-specific fine-tuning.</p>
       </div>
-      <div class="failure-grid reveal">
-        <article><span>Failure mode A</span><strong>Unmodeled geometry</strong><small>Example pending</small></article>
-        <article><span>Failure mode B</span><strong>Pose ambiguity</strong><small>Example pending</small></article>
-        <article><span>Failure mode C</span><strong>Execution disturbance</strong><small>Example pending</small></article>
+
+      <div class="method-figure reveal" role="img" aria-label="SimScale method from generated assets to real-world evaluation">
+        <article><span>01</span><div class="method-glyph glyph-assets" aria-hidden="true"></div><strong>Generate assets</strong><small>Object instances</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>02</span><div class="method-glyph glyph-demos" aria-hidden="true"></div><strong>Produce demonstrations</strong><small>Assets × poses</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>03</span><div class="method-glyph glyph-policy" aria-hidden="true"></div><strong>Train the policy</strong><small>Simulation data</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>04</span><div class="method-glyph glyph-eval" aria-hidden="true"></div><strong>Evaluate</strong><small>Simulation + real world</small></article>
       </div>
     </section>
 
     <section class="abstract-section">
       <p class="section-index">Project summary</p>
-      <p class="abstract reveal">Sim Scale trains robot policies on demonstrations generated from varied simulated assets, then evaluates them on unseen objects in simulation and the real world.</p>
+      <p class="abstract reveal">Diverse assets. Generated demonstrations. One policy tested on objects it has not seen before.</p>
     </section>
   </main>
 
