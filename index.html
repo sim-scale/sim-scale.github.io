@@ -64,23 +64,35 @@
       </div>
 
       <div class="results-video-grid reveal" aria-label="Real-world policy rollouts across three tasks">
-        <article class="video-card">
-          <video controls muted loop playsinline preload="metadata" poster="media/real-putpot-grid-poster.webp" data-autoplay>
-            <source src="media/real-putpot-grid.mp4" type="video/mp4">
-          </video>
-          <div><span>Put pot on cooktop</span><strong>Four physical rollouts</strong><small>Different pots, same simulation-trained policy</small></div>
+        <article class="video-card rollout-card">
+          <figure class="rollout-media">
+            <video controls muted loop playsinline preload="metadata" poster="media/real-putpot-detail-poster.webp" data-autoplay>
+              <source src="media/real-putpot-detail.mp4" type="video/mp4">
+            </video>
+            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
+            <span class="rollout-label rollout-label-bottom">Uncut</span>
+          </figure>
+          <div class="rollout-caption"><strong>Put pot on cooktop</strong></div>
         </article>
-        <article class="video-card video-card-featured">
-          <video controls muted loop playsinline preload="metadata" poster="media/real-hangmug-five-poster.webp" data-autoplay>
-            <source src="media/real-hangmug-five.mp4" type="video/mp4">
-          </video>
-          <div><span>Hang mug on tree</span><strong>Five physical objects</strong><small>One uninterrupted sequence across the object set</small></div>
+        <article class="video-card rollout-card">
+          <figure class="rollout-media">
+            <video controls muted loop playsinline preload="metadata" poster="media/real-hangmug-five-poster.webp" data-autoplay>
+              <source src="media/real-hangmug-five.mp4" type="video/mp4">
+            </video>
+            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
+            <span class="rollout-label rollout-label-bottom">Uncut</span>
+          </figure>
+          <div class="rollout-caption"><strong>Hang mug on tree</strong></div>
         </article>
-        <article class="video-card">
-          <video controls muted loop playsinline preload="metadata" poster="media/real-putcharger-grid-poster.webp" data-autoplay>
-            <source src="media/real-putcharger-grid.mp4" type="video/mp4">
-          </video>
-          <div><span>Put charger in drawer</span><strong>Four physical rollouts</strong><small>Different chargers, same simulation-trained policy</small></div>
+        <article class="video-card rollout-card">
+          <figure class="rollout-media">
+            <video controls muted loop playsinline preload="metadata" poster="media/real-putcharger-detail-poster.webp" data-autoplay>
+              <source src="media/real-putcharger-detail.mp4" type="video/mp4">
+            </video>
+            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
+            <span class="rollout-label rollout-label-bottom">Uncut</span>
+          </figure>
+          <div class="rollout-caption"><strong>Put charger in drawer</strong></div>
         </article>
       </div>
     </section>
@@ -197,43 +209,20 @@
     <section class="dark-section real-section" id="real-world">
       <div class="section-head reveal">
         <div>
-          <p class="section-index">05 / More real-world results</p>
-          <h2>Uncut real-world rollouts.</h2>
+          <p class="section-index">05 / Baseline comparison</p>
+          <h2>SimScale outperforms asset-generation and real-to-sim baselines.</h2>
         </div>
-        <p>Complete task executions from the supplied source exports, shown at their original 8× presentation speed.</p>
+        <p>Selected 8× rollouts compare SimScale with SimFoundry and Articraft on matched task objects.</p>
       </div>
-      <div class="real-video-grid reveal" aria-label="Individual real-world rollout views">
-        <article class="video-card video-card-dark rollout-card">
-          <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-putpot-detail-poster.webp" data-autoplay>
-              <source src="media/real-putpot-detail.mp4" type="video/mp4">
-            </video>
-            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
-            <span class="rollout-label rollout-label-bottom">Uncut</span>
-          </figure>
-          <div class="rollout-caption"><strong>Put pot on cooktop</strong></div>
-        </article>
-        <article class="video-card video-card-dark rollout-card">
-          <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-hangmug-five-poster.webp" data-autoplay>
-              <source src="media/real-hangmug-five.mp4" type="video/mp4">
-            </video>
-            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
-            <span class="rollout-label rollout-label-bottom">Uncut</span>
-          </figure>
-          <div class="rollout-caption"><strong>Hang mug on tree</strong></div>
-        </article>
-        <article class="video-card video-card-dark rollout-card">
-          <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-putcharger-detail-poster.webp" data-autoplay>
-              <source src="media/real-putcharger-detail.mp4" type="video/mp4">
-            </video>
-            <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
-            <span class="rollout-label rollout-label-bottom">Uncut</span>
-          </figure>
-          <div class="rollout-caption"><strong>Put charger in drawer</strong></div>
-        </article>
+      <div class="comparison-showcase reveal" data-comparison-showcase>
+        <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
+          <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1"><span>01</span> Put pot on cooktop</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task2" data-comparison-task="task2" tabindex="-1"><span>02</span> Hang mug on tree</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1"><span>03</span> Put charger in drawer</button>
+        </div>
+        <div class="comparison-stage" data-comparison-stage></div>
       </div>
+      <p class="comparison-note">Illustrative selected rollouts from the presentation source set; these clips are not success-rate estimates.</p>
     </section>
 
     <section class="light-section method-section" id="method">
