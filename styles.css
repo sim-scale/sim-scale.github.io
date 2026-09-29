@@ -47,9 +47,8 @@ a { color: inherit; }
 .wordmark { font-size: .88rem; font-weight: 800; letter-spacing: .12em; text-decoration: none; }
 .wordmark span { color: var(--green-bright); }
 nav { display: flex; gap: 26px; }
-nav a, .github-link { font-size: .76rem; font-weight: 600; text-decoration: none; transition: color .15s ease; }
-nav a:hover, nav a:focus-visible, .github-link:hover, .github-link:focus-visible { color: var(--green-bright); }
-.github-link { justify-self: end; }
+nav a { font-size: .76rem; font-weight: 600; text-decoration: none; transition: color .15s ease; }
+nav a:hover, nav a:focus-visible { color: var(--green-bright); }
 
 .cinematic-hero {
   position: relative;
