@@ -231,7 +231,6 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .comparison-outcome { flex: 0 0 auto; font-size: .62rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .comparison-outcome-success { color: #79dfbd; }
 .comparison-outcome-failure { color: #ff806d; }
-.comparison-note { margin: 15px 2px 0; color: #8f958f; font-size: .72rem; line-height: 1.5; }
 
 .method-flow { display: grid; gap: 14px; margin-bottom: 54px; }
 .flow-lane { padding: 24px; background: var(--paper); border: 1px solid var(--line-light); border-radius: var(--radius); }
@@ -255,7 +254,7 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .flow-visual strong, .flow-visual small { display: block; }
 .flow-visual strong { margin-top: 7px; font-size: 1.05rem; }
 .flow-visual small { margin-top: 5px; color: #707570; font-size: .72rem; line-height: 1.4; }
-.flow-play { display: grid; place-items: center; width: 54px; height: 54px; margin: auto 0 18px; color: var(--green-deep); background: var(--paper); border: 1px solid var(--line-light); border-radius: 50%; font-size: 1.1rem; }
+.flow-input-video { display: block; width: 100%; aspect-ratio: 4 / 3; margin: 18px 0; object-fit: cover; background: var(--near-black); border-radius: 8px; }
 .flow-demo-input strong { margin-top: 0; }
 .flow-stage-label { margin-top: 20px; padding-top: 18px; color: #6b716c; border-top: 1px solid var(--line-light); font-size: .63rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .flow-intermediates { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }

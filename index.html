@@ -221,7 +221,6 @@
         </div>
         <div class="comparison-stage" data-comparison-stage></div>
       </div>
-      <p class="comparison-note">Illustrative selected rollouts from the presentation source set; these clips are not success-rate estimates.</p>
     </section>
 
     <section class="light-section method-section" id="method">
@@ -276,7 +275,9 @@
           <div class="flow-track">
             <div class="flow-node flow-input flow-demo-input">
               <span class="flow-type">Input</span>
-              <div class="flow-play" aria-hidden="true">▶</div>
+              <video class="flow-input-video" controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay>
+                <source src="media/source-demonstration.mp4" type="video/mp4">
+              </video>
               <strong>One source demo</strong>
               <p>A single human trajectory collected in simulation.</p>
             </div>
