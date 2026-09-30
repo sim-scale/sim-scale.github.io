@@ -284,6 +284,13 @@
             <i aria-hidden="true">→</i>
             <div class="flow-node flow-process">
               <span class="flow-type">Process</span>
+              <pre class="flow-code" aria-label="DemoEngine example program"><code><span class="code-name">program</span> = DemoEngine(source_demo)
+
+<span class="code-keyword">for</span> asset <span class="code-keyword">in</span> asset_family:
+    task = program.adapt(asset)
+    rollout = task.execute()
+    <span class="code-keyword">if</span> rollout.success:
+        dataset += expand(rollout, poses)</code></pre>
               <strong>Geometry-aware task program</strong>
               <p>DemoEngine adapts the shared skill to each asset, then expands successful runs across poses.</p>
             </div>

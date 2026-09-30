@@ -248,6 +248,9 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .flow-process { color: var(--white); background: var(--near-black); border-color: var(--line-dark); }
 .flow-process .flow-type { color: var(--green-bright); }
 .flow-process p { color: #adb3ad; }
+.flow-code { margin: 18px 0; padding: 13px 14px; overflow-x: auto; color: #d8ded8; background: #121814; border: 1px solid var(--line-dark); border-radius: 8px; font: 600 .61rem/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: 0; tab-size: 2; }
+.flow-code .code-keyword { color: var(--green-bright); }
+.flow-code .code-name { color: #8fd8c1; }
 .flow-visual { display: flex; flex-direction: column; margin: 0; overflow: hidden; background: var(--white); }
 .flow-visual img { width: 100%; min-height: 0; flex: 1 1 auto; object-fit: cover; }
 .flow-visual figcaption { padding: 16px 18px 18px; }
