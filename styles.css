@@ -274,7 +274,6 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .deployment-flow small { margin-top: 6px; color: #aeb4ae; font-size: .75rem; line-height: 1.45; }
 .deployment-flow > i { color: var(--green-bright); }
 .method-detail-heading { display: flex; gap: 24px; align-items: baseline; justify-content: space-between; margin-bottom: 18px; padding-top: 6px; border-top: 1px solid var(--line-light); }
-.method-detail-heading p { max-width: 610px; margin: 0; color: #656a65; font-size: .86rem; line-height: 1.55; }
 
 .method-engines { display: grid; grid-template-columns: minmax(0,1fr) 74px minmax(0,1fr); gap: 14px; align-items: stretch; }
 .engine-card { display: flex; flex-direction: column; min-width: 0; padding: 30px; color: var(--white); background: linear-gradient(150deg,#22322a,#090c0a 72%); border: 1px solid var(--line-dark); border-radius: var(--radius); }
