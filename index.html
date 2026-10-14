@@ -8,8 +8,11 @@
   <title>SimScale — Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</title>
   <link rel="canonical" href="https://sim-scale.github.io/">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="feedback.css">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js" defer></script>
+  <script src="playground.js" defer></script>
+  <script src="evaluation.js" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -17,9 +20,11 @@
   <header class="site-header">
     <a class="wordmark" href="#top" aria-label="SimScale home">SimScale</a>
     <nav aria-label="Primary navigation">
-      <a href="#transfer">Real world</a>
+      <a href="#overview">Overview</a>
       <a href="#assets">Assets</a>
-      <a href="#demonstrations">Demonstrations</a>
+      <a href="#playground">Playground</a>
+      <a href="#transfer">Results</a>
+      <a href="#baseline-context">Compare</a>
       <a href="#method">Method</a>
     </nav>
   </header>
@@ -35,22 +40,27 @@
         <div class="scan-grid"></div>
       </div>
       <div class="hero-copy">
-        <div class="hero-claims">
-          <div class="hero-claim">
-            <span>Simulated data</span>
-            <strong>Assets and poses</strong>
-          </div>
-          <div class="hero-claim">
-            <span>Real robot</span>
-            <strong>No per-object tuning</strong>
-          </div>
-        </div>
-        <p class="hero-kicker">Sim-to-real policy learning</p>
+        <p class="hero-kicker">Agentic assets + demonstration generation</p>
         <h1>SimScale</h1>
-        <p class="hero-subtitle">Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</p>
+        <p class="hero-subtitle">Generate diverse worlds.<br>Train robots for unseen geometries.</p>
+        <p class="hero-explanation">SimScale is an agentic simulation data pipeline. It turns an object description and one human demonstration into diverse asset families and thousands of successful robot trajectories—so policies can handle new shapes, sizes, and poses.</p>
+        <div class="hero-actions"><a class="action-primary" href="#overview">Watch the overview ↓</a><a class="action-secondary" href="#playground">Explore asset controls ↗</a></div>
       </div>
       <div class="hero-media-label"><span></span> Simulation at scale</div>
-      <a class="scroll-cue" href="#transfer">See the results <span>↓</span></a>
+      <a class="scroll-cue" href="#overview">Explore the pipeline <span>↓</span></a>
+    </section>
+
+    <section class="light-section overview-section" id="overview">
+      <div class="section-head reveal"><div><p class="section-index">Start here / Overview</p><h2>From one example to a world of variation.</h2></div><p>Collecting a new demonstration for every object geometry is expensive. SimScale separates the reasoning needed to build reusable tools from the computation needed to generate training data at scale.</p></div>
+      <figure class="overview-video reveal"><video controls muted loop playsinline preload="metadata" poster="media/hero-slide1-first-frame.webp"><source src="media/hero-slide1.mp4" type="video/mp4"></video><figcaption>Simulation overview · asset and task diversity · 8-second visual teaser</figcaption></figure>
+      <div class="overview-steps reveal"><article><span>01 / Assets</span><h3>Author a generator.</h3><p>Agents write and validate category-level procedural code, then sample geometry and appearance variations.</p></article><article><span>02 / Demonstrations</span><h3>Adapt the skill.</h3><p>Agents decompose one human demonstration and adapt executable task programs across object geometries.</p></article><article><span>03 / Scale &amp; learn</span><h3>Expand, then train.</h3><p>DexMimicGen expands accepted source trajectories across poses. Imitation learning trains policies for held-out objects.</p></article></div>
+    </section>
+
+    <section class="dark-section decomposition-section" id="decomposition">
+      <div class="section-head reveal"><div><p class="section-index">The scaling principle / Agentic authoring, procedural execution</p><h2>Reason about the hard parts.<br>Reuse the solution at scale.</h2></div><p>Agents create and revise reusable programs. Procedural sampling and trajectory transformation provide throughput, while simulation checks determine which outputs enter training.</p></div>
+      <div class="decomposition-lanes reveal"><article><span class="lane-label">AssetEngine</span><div><h3>Agent reasoning</h3><p>Search real examples → author a parameterized generator → review category coverage and geometry.</p></div><span class="lane-arrow" aria-hidden="true">→</span><div><h3>Procedural execution</h3><p>Sample valid parameters and compile many assets from the accepted generator, without a new agent conversation for each sample.</p></div></article><article><span class="lane-label">DemoEngine</span><div><h3>Agent reasoning</h3><p>Decompose the human demo → write a task program → adapt geometry-dependent targets with simulation feedback.</p></div><span class="lane-arrow" aria-hidden="true">→</span><div><h3>Trajectory expansion</h3><p>DexMimicGen transforms accepted source trajectories across poses. Re-execute and retain successful demonstrations.</p></div></article></div>
+      <p class="decomposition-note reveal">Flexibility comes from agent-authored code and geometry-specific adaptation. Scale comes from reusing those outputs. Agent work remains necessary for new generators and asset-specific task adaptation; pose expansion reuses the accepted sources.</p>
+      <a class="text-link" href="#method">See the complete method and validation stages ↓</a>
     </section>
 
     <section class="light-section transfer-section results-highlight" id="transfer">
@@ -116,16 +126,34 @@
             <video muted loop playsinline preload="metadata" poster="media/asset-diversity-poster.webp" data-autoplay>
               <source src="media/asset-diversity.mp4" type="video/mp4">
             </video>
-            <figcaption><span>Category coverage</span><strong>Mugs and mug trees</strong><small>Geometry and appearance vary within each task-relevant family.</small></figcaption>
+            <figcaption><span>01 / Diversity within a family</span><strong>Many geometries. One object category.</strong><small>Mugs and mug trees vary in proportions, handle geometry, branches, and appearance. Category-level controls expose task-relevant variation.</small></figcaption>
           </figure>
           <figure>
             <video muted loop playsinline preload="metadata" poster="media/asset-categories-poster.webp" data-autoplay>
               <source src="media/asset-categories.mp4" type="video/mp4">
             </video>
-            <figcaption><span>Generator controls</span><strong>Four object categories</strong><small>Mug trees, pots, cabinets, and kettles are sampled from category-level controls.</small></figcaption>
+            <figcaption><span>02 / Coverage across families</span><strong>Mug trees, pots, cabinets, and kettles.</strong><small>Each category has its own parameterized generator. Geometric validation checks sampled assets before they are used to generate robot demonstrations.</small></figcaption>
           </figure>
         </div>
       </div>
+    </section>
+
+    <section class="light-section playground-section" id="playground">
+      <div class="section-head reveal"><div><p class="section-index">Hands-on / Asset playground</p><h2>One generator.<br>Many possible shapes.</h2></div><p>Choose a family and move the sliders to generate a 3D mesh instantly in your browser. Drag the object to orbit, sample a new variant, or download the mesh.</p></div>
+      <div class="playground-layout reveal">
+        <div class="playground-preview"><div class="preview-bar"><span>Procedural geometry preview</span><span id="mesh-count">Loading mesh…</span></div><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Interactive generated asset. Drag or use arrow keys to rotate."></canvas><p class="orbit-hint">Drag or use arrow keys to orbit · geometry updates live</p></div>
+        <form class="asset-controls" onsubmit="return false">
+          <label for="asset-family">Object family</label><select id="asset-family"><option value="mug">Mug</option><option value="pot">Pot</option><option value="tree">Mug tree</option></select>
+          <label for="asset-width">Body width <output id="width-value" for="asset-width"></output></label><input id="asset-width" type="range" min="60" max="140" value="90">
+          <label for="asset-height">Height <output id="height-value" for="asset-height"></output></label><input id="asset-height" type="range" min="70" max="170" value="110">
+          <label for="asset-detail"><span id="detail-label">Handle size</span> <output id="detail-value" for="asset-detail"></output></label><input id="asset-detail" type="range" min="20" max="70" value="40">
+          <label for="asset-color">Surface color</label><input id="asset-color" type="color" value="#a9da58">
+          <div class="playground-buttons"><button id="sample-asset" type="button">Sample a variant ↻</button><button id="reset-asset" type="button">Reset controls</button><button id="download-asset" type="button">Download mesh (.obj) ↓</button></div>
+          <p id="asset-status" class="asset-status" role="status" aria-live="polite">Local procedural sampling · no model calls</p>
+        </form>
+      </div>
+      <p class="playground-boundary">This lightweight playground illustrates procedural geometry controls. It runs a browser demo generator; the research pipeline additionally validates simulation-ready assets, metadata, and robot task execution.</p>
+      <noscript><p>Enable JavaScript to use the interactive asset controls. The asset videos above show generated research assets.</p></noscript>
     </section>
 
     <section class="light-section demonstration-section" id="demonstrations">
@@ -134,7 +162,7 @@
           <p class="section-index">03 / Demonstration generation</p>
           <h2>SimScale produces demonstrations on diverse assets and poses.</h2>
         </div>
-        <p>Successful task trajectories are generated across the object set and valid starting poses.</p>
+        <p>DemoEngine adapts agent-authored task programs across geometries. DexMimicGen then expands accepted source trajectories across object poses and retains successful executions.</p>
       </div>
 
       <div class="demo-expansion reveal" aria-label="One source demonstration expanded across assets and poses">
@@ -144,7 +172,7 @@
           </video>
           <figcaption><span>Input</span><strong>One source demonstration</strong><small>A human demonstration collected once in simulation.</small></figcaption>
         </figure>
-        <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>DemoEngine</small></div>
+        <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>Adapt geometry<br>Expand poses</small></div>
         <figure>
           <video controls muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay>
             <source src="media/generated-demonstrations.mp4" type="video/mp4">
@@ -171,19 +199,19 @@
             <video controls muted autoplay loop playsinline preload="metadata" poster="media/dmg-putcharger-poster.jpg">
               <source src="media/dmg-putcharger.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Put charger in drawer</strong><small>Insertion, drawer closure, and release</small></div>
+            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put charger in drawer</strong><small>DexMimicGen pose expansion<br>Insertion, drawer closure, and release</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-hangmug" role="tabpanel" aria-labelledby="dmg-tab-hangmug" data-dmg-panel="hangmug" hidden>
             <video controls muted loop playsinline preload="metadata" poster="media/dmg-hangmug-poster.jpg">
               <source src="media/dmg-hangmug.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Hang mug on tree</strong><small>Hook engagement, release, and resting mug</small></div>
+            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Hang mug on tree</strong><small>DexMimicGen pose expansion<br>Hook engagement, release, and resting mug</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-putpot" role="tabpanel" aria-labelledby="dmg-tab-putpot" data-dmg-panel="putpot" hidden>
             <video controls muted loop playsinline preload="metadata" poster="media/dmg-putpot-poster.jpg">
               <source src="media/dmg-putpot.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>DMG simulation demonstration</span><strong>Put pot on cooktop</strong><small>Placement, release, and resting pot</small></div>
+            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put pot on cooktop</strong><small>DexMimicGen pose expansion<br>Placement, release, and resting pot</small></div>
           </article>
         </div>
       </div>
@@ -195,24 +223,27 @@
           <p class="section-index">04 / Simulation evaluation</p>
           <h2>SimScale policies generalize in simulation.</h2>
         </div>
-        <p>Policies are evaluated on simulation assets and poses held out from training.</p>
+        <p>Compare task-completion success on held-out asset geometries. Each training condition uses 4,000 generated demonstrations per task; demonstration generation is held fixed to isolate the asset source.</p>
       </div>
 
       <div class="evaluation-protocol reveal" aria-label="Simulation evaluation protocol">
-        <article><span>01</span><strong>Held-out geometry</strong><p>Evaluation assets are reserved before policy training.</p></article>
-        <article><span>02</span><strong>Cross-source tests</strong><p>Policies are tested on generated families, curated assets, and real-object twins.</p></article>
-        <article><span>03</span><strong>Task completion</strong><p>Repeated rollouts measure whether the full manipulation task succeeds.</p></article>
+        <article><span>01 / Split before training</span><strong>Held-out geometry</strong><p>30 SimScale configurations per task, a held-out 20% of RoboCasa assets, and five real-object digital-twin pairs.</p></article>
+        <article><span>02 / Two policy backends</span><strong>Cross-source tests</strong><p>GR00T N1.6 and DINOv3 + FMT are evaluated across generated families, curated assets, and digital twins.</p></article>
+        <article><span>03 / 100 rollouts per configuration</span><strong>Full task completion</strong><p>Success requires completing the manipulation task. Scores below are percentages with reported standard errors.</p></article>
       </div>
+      <div class="evaluation-results reveal"><div class="evaluation-controls"><label for="eval-backend">Policy backend<select id="eval-backend"><option value="groot">GR00T N1.6</option><option value="dino">DINOv3 + FMT</option></select></label><label for="eval-source">Held-out evaluation assets<select id="eval-source"><option value="ours">SimScale</option><option value="rc">RoboCasa</option><option value="twins">Real-object digital twins</option></select></label></div><div class="table-scroll"><table id="simulation-scores"><caption>Simulation task-completion success (%) · mean ± standard error</caption><thead><tr><th scope="col">Training asset source</th><th scope="col">Put pot</th><th scope="col">Hang mug</th><th scope="col">Put charger</th></tr></thead><tbody></tbody></table></div><p id="evaluation-note" role="status" aria-live="polite"></p><p class="source-note">Source: <a href="https://github.com/kevin-thankyou-lin/ICRA27-Digtal-Cousins-Sim2Real/blob/25eb94316d645e83a0952723a194939587728849/tables/table_IV_simulation_all_tasks.tex">manuscript simulation results table</a>. RoboCasa has no charger assets; unavailable comparisons are shown explicitly.</p><noscript><p>The interactive table requires JavaScript. All scores are available in the linked manuscript table.</p></noscript></div>
     </section>
 
     <section class="dark-section real-section" id="real-world">
       <div class="section-head reveal">
         <div>
           <p class="section-index">05 / Baseline comparison</p>
-          <h2>SimScale outperforms asset-generation and real-to-sim baselines.</h2>
+          <h2>Compare the assets.<br>Compare the data pipeline.</h2>
         </div>
-        <p>Selected 8× rollouts compare SimScale with SimFoundry and Articraft on matched task objects.</p>
+        <p>SimScale combines category-level procedural assets with geometry-aware task adaptation. The simulation table above compares training asset sources; the selected real-world rollouts below show matched task objects.</p>
       </div>
+      <div id="baseline-context" class="baseline-context reveal"><h3>Where SimScale extends prior work</h3><div class="baseline-cards"><article><h4>Articraft &amp; asset generation</h4><p>Articraft uses agents to author individual articulated assets. SimScale uses its SDK to author reusable category-level generators, then samples controlled variation and connects it to robot data generation.</p><a href="https://arxiv.org/abs/2605.15187">Articraft paper ↗</a></article><article><h4>RoboCasa &amp; SimFoundry</h4><p>Curated asset libraries and real-to-sim twins or cousins provide alternative training geometries. SimScale learns from a sampled category distribution; our simulation study compares these sources with the same demonstration budget.</p><a href="#evaluation">View the measured comparison ↑</a></article><article><h4>DexMimicGen</h4><p>DexMimicGen efficiently expands source demonstrations across poses. SimScale adds agent-authored task programs and geometry-specific source adaptation, then uses DexMimicGen for pose expansion.</p><a href="https://dexmimicgen.github.io/">DexMimicGen project ↗</a></article><article><h4>MolmoBot</h4><p>MolmoBot scales task-and-motion-planning data for pick-and-place and articulated-object tasks. SimScale studies geometry-aware source generation for bimanual pot placement, mug hanging, and charger placement. These are different task suites, with no head-to-head score reported here.</p><a href="https://arxiv.org/abs/2603.16861">MolmoBot paper ↗</a></article></div><p class="source-note">The comparisons describe method scope. Quantitative evidence above comes from the matched SimScale asset-source study; it does not measure token cost or throughput against MolmoBot or DexMimicGen.</p></div>
+      <p class="comparison-intro">Selected real-world rollouts · 8× playback · illustrative videos, not aggregate success rates</p>
       <div class="comparison-showcase reveal" data-comparison-showcase>
         <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
           <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1"><span>01</span> Put pot on cooktop</button>
@@ -227,7 +258,7 @@
       <div class="section-head reveal">
         <div>
           <p class="section-index">06 / Method</p>
-          <h2>How does it work?</h2>
+          <h2>How it works: two engines, one scalable pipeline.</h2>
         </div>
         <p>SimScale turns a short asset description and one human demonstration collected in simulation into a training set that spans object geometry and pose.</p>
       </div>
@@ -247,8 +278,8 @@
             <i aria-hidden="true">→</i>
             <div class="flow-node flow-process">
               <span class="flow-type">Process</span>
-              <strong>Parameterized generator</strong>
-              <p>AssetEngine turns category variation into explicit controls such as dimensions, part variants, dependencies, and articulation.</p>
+              <strong>Agent-authored generator</strong>
+              <p>An author agent encodes dimensions, part variants, dependencies, and articulation. A coverage critic and geometry validator guide revisions. Accepted code is reused for procedural sampling.</p>
             </div>
             <i aria-hidden="true">→</i>
             <figure class="flow-node flow-visual">
@@ -284,15 +315,16 @@
             <i aria-hidden="true">→</i>
             <div class="flow-node flow-process">
               <span class="flow-type">Process</span>
-              <pre class="flow-code" aria-label="DemoEngine example program"><code><span class="code-name">program</span> = DemoEngine(source_demo)
+              <pre class="flow-code" aria-label="Illustrative DemoEngine pseudocode"><code># Illustrative pseudocode
+<span class="code-name">program</span> = author_task(source_demo)
 
 <span class="code-keyword">for</span> asset <span class="code-keyword">in</span> asset_family:
-    task = program.adapt(asset)
+    task = agent_adapt(program, asset)
     rollout = task.execute()
     <span class="code-keyword">if</span> rollout.success:
-        dataset += expand(rollout, poses)</code></pre>
+        dataset += dexmimicgen(rollout, poses)</code></pre>
               <strong>Geometry-aware task program</strong>
-              <p>DemoEngine adapts the shared skill to each asset, then expands successful runs across poses.</p>
+              <p>Agents reuse the task decomposition while adapting targets and logic to new geometry. DexMimicGen expands successful source runs across poses; task checks filter the resulting executions.</p>
             </div>
             <i aria-hidden="true">→</i>
             <figure class="flow-node flow-visual">
