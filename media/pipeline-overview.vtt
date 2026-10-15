@@ -1,0 +1,23 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.000
+The goal: skills that handle new geometry. Collecting a new demonstration for every shape is expensive. SimScale generates assets and robot training data in simulation.
+
+00:00:06.000 --> 00:00:12.000
+1. Agents author a category generator. AssetEngine turns an object description into parameterized code. Coverage and geometry feedback guide revisions.
+
+00:00:12.000 --> 00:00:18.000
+2. Procedural code samples the asset family. Reuse the accepted generator to vary shape and size. Sampling does not need a new agent conversation for every asset.
+
+00:00:18.000 --> 00:00:24.000
+3. Start from one human demonstration. A human reference supplies the skill. DemoEngine decomposes its semantic stages and authors an executable task program.
+
+00:00:24.000 --> 00:00:30.000
+4. Agents adapt the task across geometries. Object-centric targets and simulation feedback guide asset-specific adaptation. Retain source trajectories that complete the task.
+
+00:00:30.000 --> 00:00:36.000
+5. DexMimicGen expands poses. Transform and re-execute accepted source trajectories across object poses. Keep valid executions for imitation learning.
+
+00:00:36.000 --> 00:00:42.000
+6. Train in simulation. Test on real objects.. Train visuomotor policies on the generated data. Evaluate transfer on held-out simulation assets and unseen physical objects.
+

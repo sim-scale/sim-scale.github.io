@@ -1,0 +1,35 @@
+{
+  "count": 128,
+  "elapsed_seconds": 2.6686296481639147,
+  "failures": [],
+  "source_hashes": {
+    "mug": "18c336e8fa1cf61ba2750333549cf567b556e3e1cbb02d643c95062ec038726a",
+    "tree": "0a2225286291cf8b765701e05f684ad0a983dd1b9a473f7f3b2df3c879eb9c8a"
+  },
+  "autoprocgen_commit": "bb5e144e1a5e53074e41618c21a5c635d338e3ec",
+  "sdk_commit": "959f1455091fc8f86a489ee8cab38f686916099f",
+  "mesh_checks": [
+    "finite vertices",
+    "valid triangle indices",
+    "positive dimensions",
+    "binary hash matches manifest"
+  ],
+  "export_precision": "float32 vertices in meters, uint32 triangle indices; no simplification or interpolation",
+  "source_authoring_reviews": {
+    "MUG_DEMO_80_smaller_range": {
+      "accepted": false,
+      "generator_sha256": "18c336e8fa1cf61ba2750333549cf567b556e3e1cbb02d643c95062ec038726a",
+      "round_count": 3,
+      "status": "stale",
+      "validation_sha256": "8a3b138ca6cf3799eba44af6991217d99c6889c5f1cac6aec66e13bf47a787e0"
+    },
+    "MUG_TREE_7": {
+      "accepted": false,
+      "generator_sha256": "0a2225286291cf8b765701e05f684ad0a983dd1b9a473f7f3b2df3c879eb9c8a",
+      "round_count": 1,
+      "status": "stale",
+      "validation_sha256": "25cf07f9ef47b397a43fbf265ce67ca42d264a0fd1a623b194567d7776cd356e"
+    }
+  },
+  "physics_and_task_execution": "NOT_RUN: this is a visual geometry preview, not a validation campaign."
+}

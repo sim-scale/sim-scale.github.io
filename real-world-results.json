@@ -1,0 +1,256 @@
+{
+  "source_commit": "25eb94316d645e83a0952723a194939587728849",
+  "metric": "Mean task score (0\u2013100), including partial credit.",
+  "studies": {
+    "system": {
+      "groot": [
+        {
+          "method": "SimScale",
+          "scores": [
+            {
+              "value": 80.0,
+              "flags": ""
+            },
+            {
+              "value": 79.5,
+              "flags": ""
+            },
+            {
+              "value": 39.0,
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "SimFoundry twin",
+          "scores": [
+            {
+              "value": 26.0,
+              "flags": ""
+            },
+            {
+              "value": 47.0,
+              "flags": ""
+            },
+            {
+              "value": 48.5,
+              "flags": "\u2021"
+            }
+          ]
+        },
+        {
+          "method": "SimFoundry cousins",
+          "scores": [
+            {
+              "value": 62.0,
+              "flags": ""
+            },
+            {
+              "value": 50.0,
+              "flags": ""
+            },
+            {
+              "value": 26.1,
+              "flags": "\u2020"
+            }
+          ]
+        },
+        {
+          "method": "Real-Demos",
+          "scores": [
+            {
+              "value": 53.0,
+              "flags": ""
+            },
+            {
+              "value": 51.0,
+              "flags": ""
+            },
+            {
+              "value": null,
+              "flags": ""
+            }
+          ]
+        }
+      ],
+      "dino": [
+        {
+          "method": "SimScale",
+          "scores": [
+            {
+              "value": 90.0,
+              "flags": ""
+            },
+            {
+              "value": 84.5,
+              "flags": ""
+            },
+            {
+              "value": 63.2,
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "SimFoundry twin",
+          "scores": [
+            {
+              "value": 25.0,
+              "flags": ""
+            },
+            {
+              "value": 3.5,
+              "flags": ""
+            },
+            {
+              "value": 27.2,
+              "flags": "\u2021"
+            }
+          ]
+        },
+        {
+          "method": "SimFoundry cousins",
+          "scores": [
+            {
+              "value": 68.0,
+              "flags": ""
+            },
+            {
+              "value": 56.5,
+              "flags": ""
+            },
+            {
+              "value": 36.9,
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "Real-Demos",
+          "scores": [
+            {
+              "value": 50.0,
+              "flags": ""
+            },
+            {
+              "value": 51.0,
+              "flags": ""
+            },
+            {
+              "value": 52.4,
+              "flags": ""
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "groot": [
+        {
+          "method": "RoboCasa",
+          "scores": [
+            {
+              "value": 36.0,
+              "flags": ""
+            },
+            {
+              "value": 30.5,
+              "flags": ""
+            },
+            {
+              "value": null,
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "Articraft",
+          "scores": [
+            {
+              "value": 11.0,
+              "flags": ""
+            },
+            {
+              "value": 34.5,
+              "flags": ""
+            },
+            {
+              "value": 36.1,
+              "flags": "\u2020"
+            }
+          ]
+        },
+        {
+          "method": "SimScale AssetEngine + human sources",
+          "scores": [
+            {
+              "value": 83.0,
+              "flags": ""
+            },
+            {
+              "value": 84.5,
+              "flags": ""
+            },
+            {
+              "value": 56.8,
+              "flags": "\u2020"
+            }
+          ]
+        }
+      ],
+      "dino": [
+        {
+          "method": "RoboCasa",
+          "scores": [
+            {
+              "value": 57.0,
+              "flags": ""
+            },
+            {
+              "value": 11.0,
+              "flags": ""
+            },
+            {
+              "value": null,
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "Articraft",
+          "scores": [
+            {
+              "value": 5.0,
+              "flags": ""
+            },
+            {
+              "value": 38.0,
+              "flags": ""
+            },
+            {
+              "value": 55.6,
+              "flags": "\u2020"
+            }
+          ]
+        },
+        {
+          "method": "SimScale AssetEngine + human sources",
+          "scores": [
+            {
+              "value": 82.0,
+              "flags": ""
+            },
+            {
+              "value": 87.5,
+              "flags": ""
+            },
+            {
+              "value": 61.5,
+              "flags": "\u2020\u2021"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

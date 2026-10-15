@@ -1,0 +1,70 @@
+{
+  "duration_seconds": 42,
+  "frames": 1260,
+  "fps": 30,
+  "chapters": [
+    {
+      "start": 0,
+      "end": 6,
+      "title": "The goal: skills that handle new geometry",
+      "caption": "Collecting a new demonstration for every shape is expensive. SimScale generates assets and robot training data in simulation.",
+      "media_type": "Simulation assets",
+      "source": "asset-diversity.mp4",
+      "source_sha256": "450e79090295726e467abb700fe001fdfe3c2e54eed083daf1e5536bf969d053"
+    },
+    {
+      "start": 6,
+      "end": 12,
+      "title": "1. Agents author a category generator",
+      "caption": "AssetEngine turns an object description into parameterized code. Coverage and geometry feedback guide revisions.",
+      "media_type": "Simulation assets",
+      "source": "asset-categories.mp4",
+      "source_sha256": "cc869eb479b309bc2f10e19e9caaef2e2769e8a17e6256ddfb62485a4557bec0"
+    },
+    {
+      "start": 12,
+      "end": 18,
+      "title": "2. Procedural code samples the asset family",
+      "caption": "Reuse the accepted generator to vary shape and size. Sampling does not need a new agent conversation for every asset.",
+      "media_type": "Simulation assets",
+      "source": "asset-diversity.mp4",
+      "source_sha256": "450e79090295726e467abb700fe001fdfe3c2e54eed083daf1e5536bf969d053"
+    },
+    {
+      "start": 18,
+      "end": 24,
+      "title": "3. Start from one human demonstration",
+      "caption": "A human reference supplies the skill. DemoEngine decomposes its semantic stages and authors an executable task program.",
+      "media_type": "Human demonstration in simulation",
+      "source": "source-demonstration.mp4",
+      "source_sha256": "a45e6f7fe47af06f256fa1575979e5b18966b15bf7c5ff386fb9cc5fd4bd7c84"
+    },
+    {
+      "start": 24,
+      "end": 30,
+      "title": "4. Agents adapt the task across geometries",
+      "caption": "Object-centric targets and simulation feedback guide asset-specific adaptation. Retain source trajectories that complete the task.",
+      "media_type": "Generated simulation trajectory",
+      "source": "dmg-hangmug.mp4",
+      "source_sha256": "a320fafacaedd985733e2b8f957c1bfa93a96832913885b5817a90ef4ae45445"
+    },
+    {
+      "start": 30,
+      "end": 36,
+      "title": "5. DexMimicGen expands poses",
+      "caption": "Transform and re-execute accepted source trajectories across object poses. Keep valid executions for imitation learning.",
+      "media_type": "Generated simulation trajectories",
+      "source": "generated-demonstrations.mp4",
+      "source_sha256": "788cbc43798801210b3a3eb09c1cbc64a5204438ed76bdadde7e2c76c1af64c3"
+    },
+    {
+      "start": 36,
+      "end": 42,
+      "title": "6. Train in simulation. Test on real objects.",
+      "caption": "Train visuomotor policies on the generated data. Evaluate transfer on held-out simulation assets and unseen physical objects.",
+      "media_type": "Selected real-world policy rollout \u00b7 8\u00d7 playback",
+      "source": "real-hangmug-five.mp4",
+      "source_sha256": "788fcf0206e408f6249a7d7e071a5a446887dae7b61714b71a5650fc555a7b4f"
+    }
+  ]
+}

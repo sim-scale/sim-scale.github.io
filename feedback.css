@@ -102,6 +102,32 @@ td { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .flow-intermediates li > small { font-size: 1rem; }
 .flow-node p, .engine-steps span, .engine-output { font-size: 1.05rem; }
 .flow-code { font-size: .95rem; overflow-x: auto; }
+.overview-transcript, .generator-provenance { margin-top: 22px; padding: 20px 24px; background: #edf3e6; border-radius: 10px; }
+summary { cursor: pointer; font-weight: 650; }
+.overview-transcript li { padding-bottom: 12px; }
+.generator-provenance p { overflow-wrap: anywhere; }
+.scaling-comparison { margin-top: 32px; }
+.scaling-comparison table { table-layout: fixed; }
+.scaling-comparison td, .sdg-comparison td { white-space: normal; vertical-align: top; }
+.scaling-note { color: #bdc9b4; }
+.category-explorer { margin-top: 56px; }
+.category-explorer h3, .real-results h3 { font-size: 2rem; line-height: 1.25; margin: 0 0 20px; }
+.category-explorer > p { color: #bdc9b4; }
+.category-tabs { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0; }
+.category-tabs button { min-height: 48px; padding: 12px 24px; border: 1px solid #657b54; border-radius: 10px; color: #e6eddf; background: #142016; cursor: pointer; }
+.category-tabs button[aria-selected=true] { color: #152008; background: var(--green); border-color: var(--green); font-weight: 700; }
+#category-panel { overflow: hidden; padding: 28px; border: 1px solid #c9d4c3; border-radius: 16px; color: #192512; background: #f7f9f3; }
+#category-video { display: block; width: 100%; max-height: 580px; object-fit: contain; background: #fff; border-radius: 12px; }
+#category-title { font-size: 1.8rem; margin: 25px 0; }
+.category-parameters { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.category-parameters article { padding: 20px; border-left: 4px solid #689825; background: white; }
+.category-parameters strong { font-size: 1.3rem; }
+.category-parameters p { margin: 6px 0 0; color: #515e48; font-size: 1.1rem; }
+.real-results { margin: 0 0 52px; }
+.real-results > p { font-size: 1.1rem; }
+.real-results .evaluation-controls { margin-top: 28px; }
+.sdg-comparison { margin: 32px 0; }
+button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
 .flow-node strong { font-size: 1.4rem; }
 .method-engines { grid-template-columns: 1fr; gap: 24px; }
 .method-connector { min-height: 60px; }
@@ -140,4 +166,8 @@ td { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .comparison-rollout-grid { grid-template-columns: 1fr; }
   th, td { padding: 14px; }
   .flow-code { font-size: .95rem; }
+  #category-panel { padding: 16px; }
+  .category-tabs button { padding: 12px 16px; }
+  .category-parameters article { padding: 16px; }
+  .scaling-comparison table, .sdg-comparison table { min-width: 760px; }
 }
