@@ -7,6 +7,24 @@
   <meta name="theme-color" content="#050706">
   <title>SimScale — Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</title>
   <link rel="canonical" href="https://sim-scale.github.io/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Link previews. Without these, sharing the site on X, Slack or LinkedIn
+       produces a bare URL with no title, blurb or image. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimScale">
+  <meta property="og:url" content="https://sim-scale.github.io/">
+  <meta property="og:title" content="SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning">
+  <meta property="og:description" content="One object description and one human demonstration become diverse asset families and thousands of robot trajectories. Policies trained only in simulation transfer zero-shot to unseen real objects.">
+  <meta property="og:image" content="https://sim-scale.github.io/media/og-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bimanual robots manipulating procedurally generated mugs, mug trees, pots and cabinets in simulation.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning">
+  <meta name="twitter:description" content="One object description and one human demonstration become diverse asset families and thousands of robot trajectories.">
+  <meta name="twitter:image" content="https://sim-scale.github.io/media/og-card.jpg">
+  <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="feedback.css">
   <script>document.documentElement.classList.add('js');</script>
@@ -33,7 +51,7 @@
   <main id="top">
     <section class="cinematic-hero">
       <div class="hero-field" aria-hidden="true">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/hero-slide1-first-frame.webp" tabindex="-1">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/hero-slide1-first-frame.webp" tabindex="-1" aria-hidden="true">
           <source src="media/hero-slide1.mp4" type="video/mp4">
         </video>
         <div class="orb orb-one"></div>
@@ -71,7 +89,7 @@
       <div class="results-video-grid reveal" aria-label="Real-world policy rollouts across three tasks">
         <article class="video-card rollout-card">
           <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-putpot-detail-poster.webp" data-autoplay>
+            <video controls muted loop playsinline preload="metadata" poster="media/real-putpot-detail-poster.webp" data-autoplay aria-label="Real-robot rollout: placing a pot on a cooktop">
               <source src="media/real-putpot-detail.mp4" type="video/mp4">
             </video>
             <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
@@ -81,7 +99,7 @@
         </article>
         <article class="video-card rollout-card">
           <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-hangmug-five-poster.webp" data-autoplay>
+            <video controls muted loop playsinline preload="metadata" poster="media/real-hangmug-five-poster.webp" data-autoplay aria-label="Real-robot rollouts: hanging mugs on five mug trees">
               <source src="media/real-hangmug-five.mp4" type="video/mp4">
             </video>
             <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
@@ -91,7 +109,7 @@
         </article>
         <article class="video-card rollout-card">
           <figure class="rollout-media">
-            <video controls muted loop playsinline preload="metadata" poster="media/real-putcharger-detail-poster.webp" data-autoplay>
+            <video controls muted loop playsinline preload="metadata" poster="media/real-putcharger-detail-poster.webp" data-autoplay aria-label="Real-robot rollout: placing a charger in a drawer">
               <source src="media/real-putcharger-detail.mp4" type="video/mp4">
             </video>
             <span class="rollout-label rollout-label-top">Autonomous 8x speed</span>
@@ -119,7 +137,7 @@
         </div>
         <div class="asset-media-grid">
           <figure>
-            <video muted loop playsinline preload="metadata" poster="media/asset-diversity-poster.webp" data-autoplay>
+            <video muted loop playsinline preload="metadata" poster="media/asset-diversity-poster.webp" data-autoplay aria-label="Generated asset variations across the task categories, in simulation">
               <source src="media/asset-diversity.mp4" type="video/mp4">
             </video>
             <figcaption><span>01 / Diversity within a family</span><strong>Many geometries. One object category.</strong><small>Mugs and mug trees vary in proportions, handle geometry, branches, and appearance. Category-level controls expose task-relevant variation.</small></figcaption>
@@ -127,7 +145,7 @@
 
         </div>
       </div>
-    <div class="category-explorer reveal" id="category-explorer"><h3>Explore one category at a time.</h3><p>Choose a family to see its geometry and controls at a readable scale.</p><div class="category-tabs" role="tablist" aria-label="Asset category"><button id="category-tab-tree" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="tree">Mug trees</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot">Pots</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet">Cabinets</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle">Kettles</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-tree"><video id="category-video" controls muted loop playsinline preload="metadata" poster="media/category-tree-poster.webp"><source src="media/category-tree.mp4" type="video/mp4"></video><h4 id="category-title">Mug trees</h4><div id="category-parameters" class="category-parameters"><article><strong>Overall height</strong><p>Changes the vertical arrangement of hanging locations.</p></article><article><strong>Base diameter</strong><p>Changes the support footprint.</p></article><article><strong>Branch elevation</strong><p>Changes the approach and hook geometry.</p></article></div></div></div>
+    <div class="category-explorer reveal" id="category-explorer"><h3>Explore one category at a time.</h3><p>Choose a family to see its geometry and controls at a readable scale.</p><div class="category-tabs" role="tablist" aria-label="Asset category"><button id="category-tab-tree" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="tree">Mug trees</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot">Pots</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet">Cabinets</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle">Kettles</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-tree"><video id="category-video" controls muted loop playsinline preload="metadata" poster="media/category-tree-poster.webp" aria-label="Generated mug-tree variations"><source src="media/category-tree.mp4" type="video/mp4"></video><h4 id="category-title">Mug trees</h4><div id="category-parameters" class="category-parameters"><article><strong>Overall height</strong><p>Changes the vertical arrangement of hanging locations.</p></article><article><strong>Base diameter</strong><p>Changes the support footprint.</p></article><article><strong>Branch elevation</strong><p>Changes the approach and hook geometry.</p></article></div></div></div>
     </section>
 
     <section class="light-section playground-section" id="playground">
@@ -149,14 +167,14 @@
 
       <div class="demo-expansion reveal" aria-label="One source demonstration expanded across assets and poses">
         <figure>
-          <video controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay>
+          <video controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
             <source src="media/source-demonstration.mp4" type="video/mp4">
           </video>
           <figcaption><span>Input</span><strong>One source demonstration</strong><small>A human demonstration collected once in simulation.</small></figcaption>
         </figure>
         <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>Adapt geometry<br>Expand poses</small></div>
         <figure>
-          <video controls muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay>
+          <video controls muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay aria-label="Generated demonstrations across asset geometries and poses">
             <source src="media/generated-demonstrations.mp4" type="video/mp4">
           </video>
           <figcaption><span>Output</span><strong>Demonstrations across assets</strong><small>The task is adapted to different geometries and starting poses.</small></figcaption>
@@ -178,19 +196,19 @@
 
         <div class="dmg-stage">
           <article class="dmg-task active" id="dmg-panel-putcharger" role="tabpanel" aria-labelledby="dmg-tab-putcharger" data-dmg-panel="putcharger">
-            <video controls muted autoplay loop playsinline preload="metadata" poster="media/dmg-putcharger-poster.jpg">
+            <video controls muted autoplay loop playsinline preload="metadata" poster="media/dmg-putcharger-poster.jpg" aria-label="DexMimicGen pose expansion for placing a charger in a drawer">
               <source src="media/dmg-putcharger.mp4" type="video/mp4">
             </video>
             <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put charger in drawer</strong><small>DexMimicGen pose expansion<br>Insertion, drawer closure, and release</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-hangmug" role="tabpanel" aria-labelledby="dmg-tab-hangmug" data-dmg-panel="hangmug" hidden>
-            <video controls muted loop playsinline preload="metadata" poster="media/dmg-hangmug-poster.jpg">
+            <video controls muted loop playsinline preload="metadata" poster="media/dmg-hangmug-poster.jpg" aria-label="DexMimicGen pose expansion for hanging a mug on a tree">
               <source src="media/dmg-hangmug.mp4" type="video/mp4">
             </video>
             <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Hang mug on tree</strong><small>DexMimicGen pose expansion<br>Hook engagement, release, and resting mug</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-putpot" role="tabpanel" aria-labelledby="dmg-tab-putpot" data-dmg-panel="putpot" hidden>
-            <video controls muted loop playsinline preload="metadata" poster="media/dmg-putpot-poster.jpg">
+            <video controls muted loop playsinline preload="metadata" poster="media/dmg-putpot-poster.jpg" aria-label="DexMimicGen pose expansion for placing a pot on a cooktop">
               <source src="media/dmg-putpot.mp4" type="video/mp4">
             </video>
             <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put pot on cooktop</strong><small>DexMimicGen pose expansion<br>Placement, release, and resting pot</small></div>
@@ -280,7 +298,7 @@
           <div class="flow-track">
             <div class="flow-node flow-input flow-demo-input">
               <span class="flow-type">Input</span>
-              <video class="flow-input-video" controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay>
+              <video class="flow-input-video" controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
                 <source src="media/source-demonstration.mp4" type="video/mp4">
               </video>
               <strong>One source demo</strong>
