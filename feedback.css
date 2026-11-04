@@ -88,11 +88,7 @@ td { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .baseline-context .source-note { margin-top: 28px; color: #b2bdaa; }
 .comparison-intro { margin: 0 0 20px; font-size: 1.1rem; color: #b9c4b2; }
 .comparison-rollout-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
-.comparison-rollout figcaption { padding-top: 12px; flex-wrap: wrap; }
-.flow-intermediates { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
-.flow-intermediates li > strong { font-size: 1.1rem; }
-.flow-intermediates li > small { font-size: 1rem; }
-.flow-node p, .engine-steps span, .engine-output { font-size: 1.05rem; }
+.comparison-rollout figcaption { padding-top: 12px; flex-wrap: wrap; }.flow-node p, .engine-steps span, .engine-output { font-size: 1.05rem; }
 .flow-code { font-size: .95rem; overflow-x: auto; }
 .overview-transcript, .generator-provenance { margin-top: 22px; padding: 20px 24px; background: #edf3e6; border-radius: 10px; }
 summary { cursor: pointer; font-weight: 650; }
@@ -141,7 +137,6 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
   .section-head > p { font-size: 1.1rem; }
   .section-head { margin-bottom: 32px; }
   .baseline-cards { grid-template-columns: 1fr; }
-  .flow-intermediates { grid-template-columns: 1fr; }
   .asset-media-grid video { aspect-ratio: 2/1; }
   .asset-media-grid figcaption { padding: 24px; }
   .asset-media-grid figcaption strong { font-size: 1.4rem; }

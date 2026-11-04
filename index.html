@@ -131,7 +131,7 @@
     </section>
 
     <section class="light-section playground-section" id="playground">
-      <div class="section-head reveal"><div><p class="section-index">Hands-on / Original generator outputs</p><h2>Explore the real<br>procedural geometry.</h2></div><p>Move the sliders to explore meshes evaluated from the original SimScale mug and mug-tree Python generators. Each family has 64 exact parameter combinations. Drag to orbit, choose another combination, or download the selected mesh.</p></div>
+      <div class="section-head reveal"><div><p class="section-index">Hands-on / Original generator outputs</p><h2>Explore the real<br>procedural geometry.</h2></div><p>Move the sliders to explore meshes evaluated from the original SimScale mug and mug-tree Python generators. Each family has 64 exact parameter combinations. Choose another combination or download the selected mesh.</p></div>
       <div class="playground-layout reveal"><div class="playground-preview"><div class="preview-bar"><span>Original generator geometry</span><span id="mesh-count">Loading mesh…</span></div><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate."></canvas><p class="orbit-hint">Drag or use arrow keys to orbit · exact mesh at every step</p></div>
       <form class="asset-controls" onsubmit="return false"><label for="asset-family">Object family</label><select id="asset-family" disabled><option value="mug">Mug</option><option value="tree">Mug tree</option></select><label for="asset-width"><span id="width-label">Rim diameter</span><output id="width-value" for="asset-width"></output></label><input id="asset-width" type="range" min="0" max="3" step="1" value="1" disabled><label for="asset-height"><span id="height-label">Body height</span><output id="height-value" for="asset-height"></output></label><input id="asset-height" type="range" min="0" max="3" step="1" value="1" disabled><label for="asset-detail"><span id="detail-label">Handle reach</span><output id="detail-value" for="asset-detail"></output></label><input id="asset-detail" type="range" min="0" max="3" step="1" value="1" disabled>
       <label for="asset-color">Preview surface color</label><input id="asset-color" type="color" value="#a9da58"><div class="playground-buttons"><button id="sample-asset" type="button" disabled>Choose another combination ↻</button><button id="reset-asset" type="button" disabled>Reset controls</button><button id="download-asset" type="button" disabled>Download exact mesh (.obj) ↓</button></div><p id="asset-status" class="asset-status" role="status" aria-live="polite">Loading original generator outputs…</p></form></div>
@@ -270,15 +270,6 @@
               <figcaption><span class="flow-type">Output</span><strong>Diverse asset family</strong><small>Accepted assets + semantic and geometric metadata</small></figcaption>
             </figure>
           </div>
-          <div class="flow-stage-label">Intermediate stages</div>
-          <ol class="flow-intermediates">
-            <li><span>01</span><strong>Search examples</strong><small>Collect real-world references</small></li>
-            <li><span>02</span><strong>Plan variation</strong><small>Identify category structure</small></li>
-            <li><span>03</span><strong>Author generator</strong><small>Define parameters and constraints</small></li>
-            <li><span>04</span><strong>Coverage critic</strong><small>Check the category range</small></li>
-            <li><span>05</span><strong>Geometry validator</strong><small>Check simulation readiness</small></li>
-            <li><span>06</span><strong>Sample + split</strong><small>Create train and held-out assets</small></li>
-          </ol>
         </article>
 
         <article class="flow-lane">
@@ -315,15 +306,6 @@
               <figcaption><span class="flow-type">Output</span><strong>Simulation demonstrations</strong><small>Successful trajectories across assets and poses</small></figcaption>
             </figure>
           </div>
-          <div class="flow-stage-label">Intermediate stages</div>
-          <ol class="flow-intermediates">
-            <li><span>01</span><strong>Inspect demo</strong><small>Recover grasp and motion priors</small></li>
-            <li><span>02</span><strong>Decompose task</strong><small>Identify semantic stages</small></li>
-            <li><span>03</span><strong>Write program</strong><small>Compose robot tools and targets</small></li>
-            <li><span>04</span><strong>Seed validation</strong><small>Revise with rollout feedback</small></li>
-            <li><span>05</span><strong>Specialize assets</strong><small>Adapt targets and task logic</small></li>
-            <li><span>06</span><strong>Expand poses</strong><small>Run DexMimicGen and validate</small></li>
-          </ol>
         </article>
 
         <div class="deployment-flow" aria-label="Dataset to policy deployment flow">
