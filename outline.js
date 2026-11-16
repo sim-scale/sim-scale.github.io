@@ -13,7 +13,13 @@
   links.forEach((a) => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
   document.addEventListener('click', (e) => { if (!outline.contains(e.target)) setOpen(false); });
+  // The section behind the list decides its text color, so it reads on dark and light sections alike.
+  const backdrops = [hero, ...document.querySelectorAll('main > section, .section-divider')].filter(Boolean);
+  const isDark = (el) => el === hero || el.classList.contains('dark-section') || el.classList.contains('section-divider') || el.classList.contains('abstract-section');
   const update = () => {
+    const probe = Math.min(window.innerHeight * 0.3, 260);
+    const behind = backdrops.find((el) => { const r = el.getBoundingClientRect(); return r.top <= probe && r.bottom > probe; });
+    outline.classList.toggle('on-dark', !!behind && isDark(behind));
     outline.classList.toggle('shown', !hero || hero.getBoundingClientRect().bottom < 80);
     const mid = window.innerHeight * 0.35;
     let active = null;
