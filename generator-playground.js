@@ -245,7 +245,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611161004',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js?v=202611161017',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
@@ -265,7 +265,7 @@ function startWorker(){
       openBox.hidden=!m.joints.some(j=>j.type==='revolute'||j.type==='prismatic');
       if(m.adjusted)settings=m.adjusted.settings;
       show(m);sync(m.controls);hideEmptyParts();setEnabled(true);remember(m.controls);
-      setStatus(m.adjusted?(m.adjusted.reverted?`The generator rejects that choice with the current sizes, so the last shape is kept. Its check: ${m.adjusted.reason}.`:`Moved to the closest setting the generator accepts. Its check: ${m.adjusted.reason}.`):`${spec.title} · original AssetEngine generator, run live in your browser`);
+      setStatus(m.adjusted?(m.adjusted.reverted?`The generator rejects that choice with the current sizes, so the last shape is kept. Its check: ${m.adjusted.reason}.`:`Moved to the closest setting the generator accepts. Its check: ${m.adjusted.reason}.`):'Mesh downloads use meters and a Z-up axis.');
     }else if(m.type==='error'){
       if(m.id)settle();if(m.id&&m.id<shown)return;
       setStatus(`The generator rejected this combination (${m.message}). Move a slider to try another.`);
