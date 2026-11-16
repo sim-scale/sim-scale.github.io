@@ -1,7 +1,7 @@
 {
   "playback_speed": 8,
   "resolution": "1280x720",
-  "processing": "Cut from the original recordings. All methods: 8x playback and the same per-channel brightness and white-balance correction toward a per-task target. No other edits.",
+  "processing": "Cut from the original recordings, with the same steps for every method: average 1/15 s of source frames before keeping every frame needed for 8x playback (removes LED flicker and rolling-shutter bands), divide out per-frame illumination measured on the static background (steady lighting within each clip and across the loop point), and match the wall color to the new uncut rollout videos. No other edits.",
   "selection_note": "Illustrative selected rollouts, not success-rate estimates. Baseline outcomes and twin/unseen status come from the recording filenames, checked against footage. SimScale rollouts are from the uncut pose-generalization recordings, and each shown rollout was checked as a success.",
   "tasks": [
     {
