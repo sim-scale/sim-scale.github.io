@@ -406,7 +406,6 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
 .rollout-showcase .rollout-group-head:not(:first-child) { margin-top: 26px; padding-top: 44px; border-top: 1px solid var(--line-light); }
 .rollout-demo__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 12px; }
 .rollout-demo__task { font-size: 1.25rem; font-weight: 750; }
-.rollout-demo__meta { color: var(--green-deep); font-size: .95rem; font-weight: 700; }
 .rollout-player { overflow: hidden; background: var(--near-black); border: 1px solid var(--line-light); border-radius: 12px; box-shadow: 0 16px 45px rgba(18,22,19,.08); }
 .rollout-player video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: var(--near-black); }
 .rollout-player:fullscreen { display: flex; flex-direction: column; justify-content: center; border: 0; border-radius: 0; }
