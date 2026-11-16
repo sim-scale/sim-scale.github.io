@@ -211,7 +211,7 @@ function renderControls(){
       box.innerHTML=`<span class="gen-label" id="${id}">${c.label}</span><div class="gen-seg" role="radiogroup" aria-labelledby="${id}"></div><span class="gen-note"></span>`;
       const seg=box.querySelector('.gen-seg');
       c.values.forEach((v,k)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=c.labels[k];b.dataset.value=JSON.stringify(v);
-        b.addEventListener('click',()=>{settings[c.factor]=v;mark(box,v);request();});seg.append(b);});
+        b.addEventListener('click',()=>{settings[c.factor]=v;mark(box,v);fitNext=true;request();});seg.append(b);});
     }else{
       box.innerHTML=`<label class="gen-label" for="${id}"><span>${c.label}</span><output for="${id}"></output></label>${rel}<input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
       const input=box.querySelector('input');
@@ -308,7 +308,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611161045',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js?v=202611161052',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
