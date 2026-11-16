@@ -171,7 +171,7 @@ const fmt=(v,unit)=>{
   if(unit==='m')return v<1?`${(v*100).toFixed(1)} cm`:`${v.toFixed(2)} m`;
   if(unit==='rad')return `${(v*180/Math.PI).toFixed(0)}°`;
   if(unit==='deg')return `${v.toFixed(0)}°`;
-  if(unit==='ratio')return `×${v.toFixed(2)}`;
+  if(unit==='ratio')return `${Math.round(v*100)}%`;
   return Math.abs(v)>=10?v.toFixed(0):v.toFixed(3);
 };
 function renderControls(){
@@ -185,26 +185,27 @@ function renderControls(){
   }
   spec.controls.forEach((c,i)=>{
     const id=`gen-c-${i}`,box=document.createElement('div');box.className='gen-field';box.dataset.factor=c.factor;
-    const rel=c.relative_to?`<span class="gen-rel" title="The range of this parameter depends on ${c.relative_to.toLowerCase()}.">relative to ${c.relative_to.toLowerCase()}</span>`:'';
+    const rel=c.relative_to?`<span class="gen-badge" title="Its range depends on ${c.relative_to.toLowerCase()}.">relative to ${c.relative_to.toLowerCase()}</span>`:'';
     if(c.kind==='choice'){
       box.innerHTML=`<span class="gen-label" id="${id}">${c.label}</span><div class="gen-seg" role="radiogroup" aria-labelledby="${id}"></div><span class="gen-note"></span>`;
       const seg=box.querySelector('.gen-seg');
       c.values.forEach((v,k)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=c.labels[k];b.dataset.value=JSON.stringify(v);
         b.addEventListener('click',()=>{settings[c.factor]=v;mark(box,v);request();});seg.append(b);});
     }else{
-      box.innerHTML=`<label class="gen-label" for="${id}"><span>${c.label}${rel}</span><output for="${id}"></output></label><input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
+      box.innerHTML=`<label class="gen-label" for="${id}"><span>${c.label}</span><output for="${id}"></output></label>${rel}<input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
       const input=box.querySelector('input');
       input.addEventListener('input',()=>{settings[c.factor]=['q',Number(input.value)];request();});
     }
     blocks.get(c.group).append(box);
   });
 }
+function hideEmptyParts(){fields.querySelectorAll('.gen-part').forEach(p=>{p.hidden=![...p.querySelectorAll('.gen-field')].some(f=>!f.hidden);});}
 function mark(box,v){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.value===JSON.stringify(v))));}
 function sync(controls){
   for(const box of fields.querySelectorAll('.gen-field')){
     const c=spec.controls.find(x=>x.factor===box.dataset.factor),s=controls[c.factor];if(!s)continue;
-    box.classList.toggle('inactive',!s.active);
-    box.querySelector('.gen-note').textContent=s.active?'':'Not used with the current choices';
+    // A parameter that only applies to some choices shows only when it applies.
+    box.hidden=!s.active;
     if(c.kind==='choice'){mark(box,s.value);continue;}
     const input=box.querySelector('input'),out=box.querySelector('output');
     out.value=fmt(s.value,c.unit);input.setAttribute('aria-valuetext',out.value);
@@ -244,7 +245,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611160957',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js?v=202611161004',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
@@ -263,7 +264,7 @@ function startWorker(){
       overlay.hidden=true;
       openBox.hidden=!m.joints.some(j=>j.type==='revolute'||j.type==='prismatic');
       if(m.adjusted)settings=m.adjusted.settings;
-      show(m);sync(m.controls);setEnabled(true);remember(m.controls);
+      show(m);sync(m.controls);hideEmptyParts();setEnabled(true);remember(m.controls);
       setStatus(m.adjusted?(m.adjusted.reverted?`The generator rejects that choice with the current sizes, so the last shape is kept. Its check: ${m.adjusted.reason}.`:`Moved to the closest setting the generator accepts. Its check: ${m.adjusted.reason}.`):`${spec.title} · original AssetEngine generator, run live in your browser`);
     }else if(m.type==='error'){
       if(m.id)settle();if(m.id&&m.id<shown)return;

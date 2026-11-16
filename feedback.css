@@ -67,12 +67,13 @@ select { max-width: 100%; padding: 10px 12px; border: 1px solid #9ea99a; border-
 .gen-controls { display: grid; gap: 12px; margin-bottom: 14px; }
 .gen-part { display: grid; gap: 11px; margin: 0; padding: 10px 12px 12px; border: 1px solid #d4d9cf; border-radius: 10px; background: #fbfcfa; }
 .gen-part legend { padding: 0 5px; color: #2f4a1f; font-weight: 700; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; }
-.gen-field .gen-label > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
-.gen-rel { color: #7d8a76; font-size: .76rem; font-weight: 500; font-style: italic; }
+.gen-badge { justify-self: start; margin-top: -1px; padding: 2px 6px; border-radius: 4px; color: #5f6b5a; background: #e9ede6; font-size: .7rem; font-weight: 700; letter-spacing: .03em; }
+.gen-part[hidden] { display: none; }
 .gen-loading { margin: 0; color: #6b7a63; }
 .gen-field { display: grid; gap: 4px; }
 .gen-field[hidden] { display: none; }
 .playground-preview.gen-preview { align-self: start; position: sticky; top: 84px; }
+.playground-layout:has(.gen-form) { grid-template-columns: minmax(0,1.55fr) minmax(340px,1.1fr); }
 .gen-field.inactive { opacity: .5; }
 .gen-field .gen-label { display: flex; justify-content: space-between; gap: 8px; margin: 0; font-weight: 600; font-size: .95rem; }
 .asset-controls .gen-field input[type=range] { margin: 0; min-height: 24px; }
