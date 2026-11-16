@@ -12,7 +12,7 @@ async function start(){
   py=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'});
   post({type:'progress',stage:'Loading NumPy'});
   const [bundle,manifold]=await Promise.all([
-    fetch('media/generators/webgen.zip?v=202611161024').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
+    fetch('media/generators/webgen.zip?v=202611161037').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
     Manifold({locateFile:f=>new URL(`vendor/${f}`,self.location.href).href}),
     py.loadPackage('numpy',{messageCallback:()=>{}}),
   ]);
@@ -43,7 +43,7 @@ function build({id,key,settings,fallback}){
   const parts=out.parts.map(p=>{
     const positions=new Float32Array(p.positions.slice().buffer),indices=new Uint32Array(p.indices.slice().buffer);
     transfer.push(positions.buffer,indices.buffer);
-    return {link:p.link,name:p.name,finish:p.finish,positions,indices};
+    return {link:p.link,name:p.name,finish:p.finish,group:p.group,positions,indices};
   });
   post({type:'mesh',id,key,parts,joints:out.joints,controls:out.controls,adjusted:out.adjusted||null,ms:performance.now()-t0},transfer);
 }

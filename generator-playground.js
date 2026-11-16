@@ -5,20 +5,20 @@ import * as THREE from './vendor/three.module.min.js';
 const $=s=>document.querySelector(s);
 const canvas=$('#asset-canvas'),family=$('#asset-family'),fields=$('#gen-controls'),status=$('#asset-status');
 const openBox=$('#gen-open'),openInput=$('#gen-open-input'),openOut=$('#gen-open-value');
-const bodyColor=$('#asset-color'),accentColor=$('#accent-color'),swatches=$('#gen-swatches');
 const download=$('#download-asset'),randomBtn=$('#sample-asset'),resetBtn=$('#reset-asset');
 const meshCount=$('#mesh-count'),overlay=$('#gen-overlay'),timing=$('#gen-timing');
 const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
 // Glaze colors of the paper figures; the accent colors handles, knobs, and legs.
-const PALETTE=['#7c9781','#59799e','#ad6c50','#c4a44b','#458186','#815073','#cea29b','#a297c8','#90934b','#767e86','#953845','#bfb3a0'];
-const DEFAULT_BODY='#7c9781',DEFAULT_ACCENT='#2f3338';
+const PALETTE=['#7c9781','#59799e','#ad6c50','#c4a44b','#458186','#815073','#cea29b','#a297c8','#767e86','#2f3338'];
+const DEFAULT_BODY='#7c9781',ACCENT='#2f3338',SILVER='#c3c8ce';
 
 let worker=null,categories=null,spec=null,settings={},lastGood=null,latest=0,shown=0,current=null,fitNext=true;
 let yaw=.6,tilt=.42,zoom=1,drag=null,radius=.3,targetZ=.15;
 const setStatus=t=>{status.textContent=t;};
 
 // ---------- Rendering ----------
-let renderer,scene,camera,group,pivot,shadow,materials,view=null;
+let renderer,scene,camera,group,pivot,shadow,view=null;
+let partColors={},partFinishes=new Map();const materials=new Map();
 try{
   renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor('#eef2ec');
@@ -30,14 +30,6 @@ if(renderer){
   scene.add(new THREE.HemisphereLight(0xffffff,0x8a9486,1.9));
   const key=new THREE.DirectionalLight(0xffffff,2.4);key.position.set(-2.5,-3.5,5);scene.add(key);
   const rim=new THREE.DirectionalLight(0xffffff,.9);rim.position.set(3,2.5,2);scene.add(rim);
-  materials={
-    body:new THREE.MeshStandardMaterial({color:DEFAULT_BODY,roughness:.55,metalness:.02,side:THREE.DoubleSide}),
-    light:new THREE.MeshStandardMaterial({color:DEFAULT_BODY,roughness:.8,metalness:0,side:THREE.DoubleSide}),
-    dark:new THREE.MeshStandardMaterial({color:DEFAULT_ACCENT,roughness:.45,metalness:.1,side:THREE.DoubleSide}),
-    steel:new THREE.MeshStandardMaterial({color:'#c3c8ce',roughness:.3,metalness:.55,side:THREE.DoubleSide}),
-  };
-  materials.silver=materials.steel;
-  materials.decal=new THREE.MeshStandardMaterial({color:'#333',roughness:.3,metalness:.05,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
   // A soft contact shadow under the asset.
   const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
   const grad=g.createRadialGradient(64,64,4,64,64,64);grad.addColorStop(0,'rgba(40,52,40,.32)');grad.addColorStop(1,'rgba(40,52,40,0)');
@@ -56,11 +48,34 @@ const render=()=>{
 };
 if(renderer)new ResizeObserver(render).observe(canvas);
 
-function tint(hex,amount){const c=new THREE.Color(hex);return c.lerp(new THREE.Color('#ffffff'),amount);}
-function applyColors(){
-  if(!materials)return;
-  materials.body.color.set(bodyColor.value);materials.light.color.copy(tint(bodyColor.value,.42));materials.decal.color.set(bodyColor.value).multiplyScalar(.42);materials.dark.color.set(accentColor.value);
-  swatches.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===bodyColor.value)));
+const hex=c=>'#'+c.getHexString();
+const tint=(h,a)=>hex(new THREE.Color(h).lerp(new THREE.Color('#ffffff'),a));
+const shade=(h,a)=>hex(new THREE.Color(h).multiplyScalar(a));
+// Each part box has one color. A part made of one finish takes it directly (a dark handle, a light cushion);
+// in a mixed part, soft parts take a lighter tint, printed marks a darker shade, and hardware and bare
+// metal keep their dark and silver finishes, as in the paper figures.
+function soloFinish(g){const f=partFinishes.get(g);return f&&f.size===1?[...f][0]:null;}
+function defaultColor(g){
+  return {dark:ACCENT,steel:SILVER,silver:SILVER,light:tint(DEFAULT_BODY,.42),decal:shade(DEFAULT_BODY,.42)}[soloFinish(g)]||DEFAULT_BODY;
+}
+const colorOf=g=>partColors[g]||defaultColor(g);
+function finishColor(g,finish){
+  const c=colorOf(g);if(soloFinish(g))return c;
+  return {light:tint(c,.42),decal:shade(c,.42),dark:ACCENT,steel:SILVER,silver:SILVER}[finish]||c;
+}
+function material(g,finish){
+  const key=g+'|'+finish;
+  if(!materials.has(key)){
+    const metal=finish==='steel'||finish==='silver';
+    materials.set(key,new THREE.MeshStandardMaterial({roughness:finish==='light'?.8:metal?.3:finish==='decal'?.3:.55,metalness:metal?.55:finish==='dark'?.1:.02,
+      side:THREE.DoubleSide,...(finish==='decal'?{polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}:{})}));
+  }
+  const m=materials.get(key);m.color.set(finishColor(g,finish));return m;
+}
+function recolor(g){
+  for(const [key,m] of materials){const [mg,f]=key.split('|');if(mg===g)m.color.set(finishColor(g,f));}
+  const box=fields.querySelector(`.gen-part[data-part="${CSS.escape(g)}"]`);
+  if(box){const c=colorOf(g);box.querySelector('input[type=color]').value=c;box.querySelectorAll('.gen-swatch').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===c)));}
   render();
 }
 
@@ -149,7 +164,11 @@ function pose(){
 }
 function show(msg){
   const geoms=new Map();
-  for(const p of msg.parts){const k=p.link+'|'+p.finish;if(!geoms.has(k))geoms.set(k,[]);geoms.get(k).push(p);}
+  partFinishes=new Map();
+  for(const p of msg.parts){
+    const k=p.link+'|'+p.finish+'|'+p.group;if(!geoms.has(k))geoms.set(k,[]);geoms.get(k).push(p);
+    if(!partFinishes.has(p.group))partFinishes.set(p.group,new Set());partFinishes.get(p.group).add(p.finish);
+  }
   group.children.forEach(m=>m.geometry.dispose());group.clear();
   let tris=0;
   for(const list of geoms.values()){
@@ -157,10 +176,11 @@ function show(msg){
     const P=new Float32Array(nv),I=new Uint32Array(ni);let ov=0,oi=0;
     for(const p of list){P.set(p.positions,ov);for(let i=0;i<p.indices.length;i++)I[oi+i]=p.indices[i]+ov/3;ov+=p.positions.length;oi+=p.indices.length;}
     tris+=ni/3;
-    const mesh=new THREE.Mesh(creasedGeometry(P,I),materials[list[0].finish]||materials.body);
+    const mesh=new THREE.Mesh(creasedGeometry(P,I),material(list[0].group,list[0].finish));
     mesh.userData.link=list[0].link;group.add(mesh);
   }
   current=msg;pose();
+  for(const g of partFinishes.keys())recolor(g);
   meshCount.textContent=`${tris.toLocaleString()} triangles`;
   timing.textContent=`generated in ${Math.max(1,Math.round(msg.ms))} ms`;
 }
@@ -179,8 +199,8 @@ function renderControls(){
   // One block per part of the object, in the order of the paper figure (main body first).
   const blocks=new Map();
   for(const g of [...(spec.groups||[]),...spec.controls.map(c=>c.group)]){
-    if(blocks.has(g)||!spec.controls.some(c=>c.group===g))continue;
-    const set=document.createElement('fieldset');set.className='gen-part';
+    if(blocks.has(g))continue;
+    const set=document.createElement('fieldset');set.className='gen-part';set.dataset.part=g;
     set.innerHTML=`<legend>${g}</legend>`;blocks.set(g,set);fields.append(set);
   }
   spec.controls.forEach((c,i)=>{
@@ -198,8 +218,18 @@ function renderControls(){
     }
     blocks.get(c.group).append(box);
   });
+  // A color row at the bottom of each part box: the palette on one line, and a free color picker below.
+  for(const [g,set] of blocks){
+    const row=document.createElement('div');row.className='gen-color';
+    row.innerHTML=`<span class="gen-label">Color</span><div class="gen-swatches" role="group" aria-label="${g} color"></div><label class="gen-custom">Custom <input type="color" value="${DEFAULT_BODY}" aria-label="${g} custom color"></label>`;
+    const sw=row.querySelector('.gen-swatches');
+    PALETTE.forEach(c=>{const b=document.createElement('button');b.type='button';b.className='gen-swatch';b.style.background=c;b.dataset.color=c;
+      b.setAttribute('aria-label',`${g} color ${c}`);b.addEventListener('click',()=>{partColors[g]=c;recolor(g);});sw.append(b);});
+    row.querySelector('input').addEventListener('input',e=>{partColors[g]=e.target.value;recolor(g);});
+    set.append(row);
+  }
 }
-function hideEmptyParts(){fields.querySelectorAll('.gen-part').forEach(p=>{p.hidden=![...p.querySelectorAll('.gen-field')].some(f=>!f.hidden);});}
+function hideEmptyParts(){fields.querySelectorAll('.gen-part').forEach(p=>{p.hidden=!partFinishes.has(p.dataset.part)&&![...p.querySelectorAll('.gen-field')].some(f=>!f.hidden);});}
 function mark(box,v){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.value===JSON.stringify(v))));}
 function sync(controls){
   for(const box of fields.querySelectorAll('.gen-field')){
@@ -235,7 +265,7 @@ function request(){
 }
 function settle(){inflight=false;if(pending){pending=false;request();}}
 function selectCategory(key){
-  spec=null;pending=false;lastGood=null;settings={};fitNext=true;
+  spec=null;pending=false;lastGood=null;partColors={};settings={};fitNext=true;
   worker.postMessage({type:'describe',key});
 }
 function setEnabled(on){[family,randomBtn,resetBtn].forEach(e=>e.disabled=!on);download.disabled=!(on&&current);}
@@ -245,7 +275,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611161024',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js?v=202611161037',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
@@ -275,9 +305,6 @@ function startWorker(){
 
 family.addEventListener('change',()=>selectCategory(family.value));
 openInput.addEventListener('input',()=>{openOut.value=`${Math.round(openInput.value*100)}%`;pose();});
-bodyColor.addEventListener('input',applyColors);accentColor.addEventListener('input',applyColors);
-PALETTE.forEach(hex=>{const b=document.createElement('button');b.type='button';b.className='gen-swatch';b.style.background=hex;b.dataset.color=hex;
-  b.setAttribute('aria-label',`Body color ${hex}`);b.addEventListener('click',()=>{bodyColor.value=hex;applyColors();});swatches.append(b);});
 randomBtn.addEventListener('click',()=>{
   if(!spec)return;settings={};
   for(const c of spec.controls){
@@ -288,8 +315,8 @@ randomBtn.addEventListener('click',()=>{
 });
 resetBtn.addEventListener('click',()=>{
   if(!spec)return;settings={};fields.querySelectorAll('input[type=range]').forEach(i=>i.value='0.5');
-  bodyColor.value=DEFAULT_BODY;accentColor.value=DEFAULT_ACCENT;openInput.value='0.6';openOut.value='60%';
-  resetView();applyColors();request();
+  partColors={};openInput.value='0.6';openOut.value='60%';
+  resetView();request();
 });
 download.addEventListener('click',()=>{
   if(!current)return;
@@ -323,7 +350,6 @@ canvas.addEventListener('keydown',e=>{
 });
 
 // Start the runtime only when the playground comes near the viewport, so the rest of the page loads as before.
-applyColors();
 const section=$('#playground');
 if('IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();startWorker();}},{rootMargin:'600px 0px'});

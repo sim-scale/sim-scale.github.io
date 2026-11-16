@@ -200,3 +200,10 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
 .outline nav a:hover, .outline nav a:focus-visible { color: #253321; }
 .outline nav a.active { border-left-color: var(--green-deep); color: var(--green-deep); font-weight: 650; }
 .outline-current { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Color of each part: the palette on one line, and a free color picker underneath. */
+.gen-color { display: grid; gap: 6px; padding-top: 2px; }
+.gen-color .gen-swatches { display: grid; grid-template-columns: repeat(10, minmax(0, 26px)); justify-content: space-between; gap: 5px; margin: 0; }
+.gen-color .gen-swatch { width: 100%; height: auto; aspect-ratio: 1; }
+.asset-controls .gen-custom { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin: 0; color: #5d665a; font-size: .82rem; font-weight: 500; }
+.asset-controls .gen-custom input[type=color] { width: 40px; height: 24px; margin: 0; padding: 1px 2px; border: 1px solid #b5c1ad; border-radius: 6px; }
