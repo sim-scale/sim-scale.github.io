@@ -1,4 +1,4 @@
-// Full-width real-robot rollout players: a control strip below each video (play, playback speed, progress, full screen), playback only
+// Full-width real-robot rollout players: a control strip below each video (play, progress, full screen), playback only
 // while the player is on screen, and object switching for the pose-generalization videos. Videos use preload="none",
 // so nothing is downloaded until a player comes into view, and a switcher only fetches the object that is selected.
 (() => {
@@ -8,8 +8,6 @@
     pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>',
     expand: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
   };
-  const speeds = [1, 2, 0.5];
-
   document.querySelectorAll('.rollout-player').forEach((player) => {
     const video = player.querySelector('video');
     const name = video.getAttribute('aria-label') || 'Rollout';
@@ -19,14 +17,13 @@
     const bar = document.createElement('div');
     bar.className = 'rollout-bar';
     bar.innerHTML = `<button type="button" class="rollout-play" aria-label="Play ${name}">${icons.play}</button>`
-      + `<button type="button" class="rollout-speed" aria-label="Playback speed">Speed 1×</button>`
       + `<input class="rollout-scrub" type="range" min="0" max="1" step="0.001" value="0" aria-label="${name} progress">`
       + `<button type="button" class="rollout-expand" aria-label="Full screen">${icons.expand}</button>`;
     player.appendChild(bar);
-    const [playBtn, speedBtn, scrub, expandBtn] = [...bar.children];
+    const [playBtn, scrub, expandBtn] = [...bar.children];
 
     // A reader who pauses keeps it paused; otherwise the video plays whenever it is on screen.
-    let userPaused = reducedMotion, onScreen = false, speedIndex = 0;
+    let userPaused = reducedMotion, onScreen = false;
     const syncPlay = () => {
       playBtn.innerHTML = video.paused ? icons.play : icons.pause;
       playBtn.setAttribute('aria-label', `${video.paused ? 'Play' : 'Pause'} ${name}`);
@@ -41,12 +38,6 @@
     video.addEventListener('click', () => playBtn.click());
     video.addEventListener('play', syncPlay);
     video.addEventListener('pause', syncPlay);
-    speedBtn.addEventListener('click', () => {
-      speedIndex = (speedIndex + 1) % speeds.length;
-      video.playbackRate = speeds[speedIndex];
-      speedBtn.textContent = `Speed ${speeds[speedIndex]}×`;
-    });
-    video.addEventListener('loadedmetadata', () => { video.playbackRate = speeds[speedIndex]; });
     video.addEventListener('timeupdate', () => {
       if (video.duration && document.activeElement !== scrub) scrub.value = (video.currentTime / video.duration).toFixed(3);
     });
