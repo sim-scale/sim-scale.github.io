@@ -20,27 +20,27 @@
 
   const comparisonTasks = [
     {
-      id: 'task1', number: '01', title: 'Put pot on cooktop', objects: ['White pot', 'Gray pot', 'Tall pot', 'Steel pot'],
+      id: 'task1', number: '01', title: 'Put Pot on Cooktop', objects: ['White Pot', 'Gray Pot', 'Tall Pot', 'Steel Pot'],
       methods: [
-        { key: 'ours', label: 'SimScale', detail: 'one human source demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: '120 human demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: '120 human demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
+        { key: 'ours', label: 'SimScale', detail: 'One Human Source Demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
+        { key: 'simfoundry', label: 'SimFoundry', detail: '120 Human Demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
+        { key: 'articraft', label: 'Articraft', detail: '120 Human Demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
       ]
     },
     {
-      id: 'task2', number: '02', title: 'Hang mug on tree', objects: ['Green mug', 'Bronze mug', 'Cyan mug', 'Pink mug'],
+      id: 'task2', number: '02', title: 'Hang Mug on Tree', objects: ['Green Mug', 'Bronze Mug', 'Cyan Mug', 'Pink Mug'],
       methods: [
-        { key: 'ours', label: 'SimScale', detail: 'one human source demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: '120 human demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: '120 human demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
+        { key: 'ours', label: 'SimScale', detail: 'One Human Source Demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
+        { key: 'simfoundry', label: 'SimFoundry', detail: '120 Human Demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
+        { key: 'articraft', label: 'Articraft', detail: '120 Human Demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
       ]
     },
     {
-      id: 'task3', number: '03', title: 'Put charger in drawer', objects: ['Fabric drawers', 'Tall metal cabinet', 'Black drawers', 'White drawers'],
+      id: 'task3', number: '03', title: 'Put Charger in Drawer', objects: ['Fabric Drawers', 'Tall Metal Cabinet', 'Black Drawers', 'White Drawers'],
       methods: [
-        { key: 'ours', label: 'SimScale', detail: 'one human source demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: '120 human demos', outcomes: [['Success', 'Unseen'], ['Failure', 'Twin'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: '120 human demos', outcomes: [['Success', ''], ['Failure', ''], ['Failure', ''], ['Success', '']] }
+        { key: 'ours', label: 'SimScale', detail: 'One Human Source Demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
+        { key: 'simfoundry', label: 'SimFoundry', detail: '120 Human Demos', outcomes: [['Success', 'Unseen'], ['Failure', 'Twin'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
+        { key: 'articraft', label: 'Articraft', detail: '120 Human Demos', outcomes: [['Success', ''], ['Failure', ''], ['Failure', ''], ['Success', '']] }
       ]
     }
   ];
@@ -60,13 +60,13 @@
 
       const heading = document.createElement('header');
       heading.className = 'comparison-task-heading';
-      heading.innerHTML = `<span>Task ${task.number}</span><strong>${task.title}</strong><small>Selected rollouts at 8x</small>`;
+      heading.innerHTML = `<span>Task ${task.number}</span><strong>${task.title}</strong><small>Selected Rollouts at 8x</small>`;
       panel.appendChild(heading);
 
       task.methods.forEach((method) => {
         const row = document.createElement('section');
         row.className = 'comparison-method';
-        row.innerHTML = `<header><h3>${method.label}${method.key === 'ours' ? ' <span>(ours)</span>' : ''}</h3><small>${method.detail}</small></header>`;
+        row.innerHTML = `<header><h3>${method.label}${method.key === 'ours' ? ' <span>(Ours)</span>' : ''}</h3><small>${method.detail}</small></header>`;
         const grid = document.createElement('div');
         grid.className = 'comparison-rollout-grid';
 
