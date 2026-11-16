@@ -32,10 +32,11 @@ function describe(key){
   return JSON.parse(py.runPython(`json.dumps(R.describe(${JSON.stringify(key)}))`));
 }
 
-function build({id,key,settings}){
+function build({id,key,settings,fallback}){
   const t0=performance.now();
   py.globals.set('_settings_json',JSON.stringify(settings||{}));
-  const result=py.runPython(`R.build(${JSON.stringify(key)}, json.loads(_settings_json))`);
+  py.globals.set('_fallback_json',JSON.stringify(fallback||null));
+  const result=py.runPython(`R.build(${JSON.stringify(key)}, json.loads(_settings_json), json.loads(_fallback_json))`);
   const out=result.toJs({dict_converter:Object.fromEntries});
   result.destroy();
   const transfer=[];
@@ -44,7 +45,7 @@ function build({id,key,settings}){
     transfer.push(positions.buffer,indices.buffer);
     return {link:p.link,name:p.name,finish:p.finish,positions,indices};
   });
-  post({type:'mesh',id,key,parts,joints:out.joints,controls:out.controls,ms:performance.now()-t0},transfer);
+  post({type:'mesh',id,key,parts,joints:out.joints,controls:out.controls,adjusted:out.adjusted||null,ms:performance.now()-t0},transfer);
 }
 
 async function pump(){

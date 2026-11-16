@@ -13,7 +13,7 @@ const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
 const PALETTE=['#7c9781','#59799e','#ad6c50','#c4a44b','#458186','#815073','#cea29b','#a297c8','#90934b','#767e86','#953845','#bfb3a0'];
 const DEFAULT_BODY='#7c9781',DEFAULT_ACCENT='#2f3338';
 
-let worker=null,categories=null,spec=null,settings={},latest=0,shown=0,current=null,fitNext=true;
+let worker=null,categories=null,spec=null,settings={},lastGood=null,latest=0,shown=0,current=null,fitNext=true;
 let yaw=.6,tilt=.42,zoom=1,drag=null,radius=.3,targetZ=.15;
 const setStatus=t=>{status.textContent=t;};
 
@@ -200,9 +200,20 @@ function sync(controls){
     if(c.kind==='choice'){mark(box,s.value);continue;}
     const input=box.querySelector('input'),out=box.querySelector('output');
     out.value=fmt(s.value,c.unit);input.setAttribute('aria-valuetext',out.value);
+    // The knob follows the generator, except for the slider that is being dragged.
+    if(typeof s.t==='number'&&!(document.activeElement===input&&settings[c.factor]?.[0]==='q'))input.value=String(s.t);
     const [lo,hi]=box.querySelectorAll('.gen-range span');
     if(!c.derived&&typeof s.low==='number'){lo.textContent=fmt(s.low,c.unit);hi.textContent=fmt(s.high,c.unit);}
-    if(!(c.factor in settings)&&s.high>s.low&&typeof s.position==='number')input.value=String((s.position-s.low)/(s.high-s.low));
+  }
+}
+// After each accepted build: the settings to fall back to, and absolute values for sliders whose range
+// depends on another slider (a pot height relative to its diameter), so they hold when that slider moves.
+function remember(controls){
+  lastGood={};
+  for(const c of spec.controls){
+    const s=controls[c.factor];if(!s)continue;
+    if(c.kind==='choice')lastGood[c.factor]=s.value;
+    else if(typeof s.t==='number'){lastGood[c.factor]=['q',s.t];if(c.relative&&typeof s.position==='number')settings[c.factor]=['abs',s.position];}
   }
 }
 function resetView(){zoom=1;fitNext=true;if(view){yaw=(view.azimuth+90)*Math.PI/180;tilt=view.elevation*Math.PI/180;}}
@@ -211,11 +222,11 @@ let inflight=false,pending=false;
 function request(){
   if(!worker||!spec)return;
   if(inflight){pending=true;return;}
-  inflight=true;worker.postMessage({type:'build',id:++latest,key:spec.key,settings:structuredClone(settings)});
+  inflight=true;worker.postMessage({type:'build',id:++latest,key:spec.key,settings:structuredClone(settings),fallback:lastGood});
 }
 function settle(){inflight=false;if(pending){pending=false;request();}}
 function selectCategory(key){
-  spec=null;pending=false;settings={};fitNext=true;
+  spec=null;pending=false;lastGood=null;settings={};fitNext=true;
   worker.postMessage({type:'describe',key});
 }
 function setEnabled(on){[family,randomBtn,resetBtn].forEach(e=>e.disabled=!on);download.disabled=!(on&&current);}
@@ -243,8 +254,9 @@ function startWorker(){
       settle();if(m.id<shown||m.key!==spec?.key)return;shown=m.id;
       overlay.hidden=true;
       openBox.hidden=!m.joints.some(j=>j.type==='revolute'||j.type==='prismatic');
-      show(m);sync(m.controls);setEnabled(true);
-      setStatus(`${spec.title} · original AssetEngine generator, run live in your browser`);
+      if(m.adjusted)settings=m.adjusted.settings;
+      show(m);sync(m.controls);setEnabled(true);remember(m.controls);
+      setStatus(m.adjusted?(m.adjusted.reverted?`The generator rejects that choice with the current sizes, so the last shape is kept. Its check: ${m.adjusted.reason}.`:`Moved to the closest setting the generator accepts. Its check: ${m.adjusted.reason}.`):`${spec.title} · original AssetEngine generator, run live in your browser`);
     }else if(m.type==='error'){
       if(m.id)settle();if(m.id&&m.id<shown)return;
       setStatus(`The generator rejected this combination (${m.message}). Move a slider to try another.`);
