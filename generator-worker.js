@@ -12,7 +12,7 @@ async function start(){
   py=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'});
   post({type:'progress',stage:'Loading NumPy'});
   const [bundle,manifold]=await Promise.all([
-    fetch('media/generators/webgen.zip?v=202611161106').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
+    fetch('media/generators/webgen.zip?v=202611161110').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
     Manifold({locateFile:f=>new URL(`vendor/${f}`,self.location.href).href}),
     py.loadPackage('numpy',{messageCallback:()=>{}}),
   ]);

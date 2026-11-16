@@ -212,9 +212,9 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
 
 .outline-brand { display: none; }
 /* Wide screens: as on recent project pages, the contents list stays open on the left, on the page itself (no
-   separate bar). Sections keep their full-width backgrounds, and their content moves right to leave room. The
-   list switches to light text over dark sections (outline.js sets .on-dark). */
-@media (min-width: 1200px) {
+   separate bar). Sections keep their full-width backgrounds and their centered content, with margins wide enough
+   for the list. The list switches to light text over dark sections (outline.js sets .on-dark). */
+@media (min-width: 1360px) {
   :root { --rail: 228px; }
   .outline { inset: 0 auto 0 0; width: var(--rail); padding: 22px 18px 24px 24px; overflow-y: auto; background: none; opacity: 1; visibility: visible; transform: none; }
   .outline-brand { display: block; margin-bottom: 44px; color: #1d1d1f; font-size: .95rem; font-weight: 800; letter-spacing: .12em; text-decoration: none; transition: color .2s ease; }
@@ -228,13 +228,8 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
   .outline.on-dark nav a.active { border-left-color: var(--green-bright); color: var(--green-bright); }
   .site-header { inset: 0 0 auto var(--rail); width: min(1120px, calc(100% - var(--rail) - 48px)); grid-template-columns: 1fr; justify-items: end; }
   .site-header .wordmark { display: none; }
-  .cinematic-hero { padding-left: var(--rail); }
-  .light-section, .dark-section, .abstract-section, .section-divider {
-    padding-left: max(calc(var(--rail) + 24px), calc((100vw - 1100px) / 2 + var(--rail) / 2));
-    padding-right: max(24px, calc((100vw - 1100px) / 2 - var(--rail) / 2));
-  }
-  .real-section {
-    padding-left: max(calc(var(--rail) + 24px), calc((100vw - 1440px) / 2 + var(--rail) / 2));
-    padding-right: max(24px, calc((100vw - 1440px) / 2 - var(--rail) / 2));
-  }
+  /* Equal margins on both sides, each at least as wide as the list, so the content stays centered on the page. */
+  .hero-copy { width: min(1040px, calc(100vw - 2 * var(--rail) - 48px)); }
+  .light-section, .dark-section, .abstract-section, .section-divider { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - 1100px) / 2)); }
+  .real-section { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - 1440px) / 2)); }
 }
