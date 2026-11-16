@@ -184,7 +184,7 @@ function renderControls(){
       c.values.forEach((v,k)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=c.labels[k];b.dataset.value=JSON.stringify(v);
         b.addEventListener('click',()=>{settings[c.factor]=v;mark(box,v);request();});seg.append(b);});
     }else{
-      box.innerHTML=`<label class="gen-label" for="${id}">${c.label}<output for="${id}"></output></label><input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-note"></span>`;
+      box.innerHTML=`<label class="gen-label" for="${id}">${c.label}<output for="${id}"></output></label><input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
       const input=box.querySelector('input');
       input.addEventListener('input',()=>{settings[c.factor]=['q',Number(input.value)];request();});
     }
@@ -200,6 +200,8 @@ function sync(controls){
     if(c.kind==='choice'){mark(box,s.value);continue;}
     const input=box.querySelector('input'),out=box.querySelector('output');
     out.value=fmt(s.value,c.unit);input.setAttribute('aria-valuetext',out.value);
+    const [lo,hi]=box.querySelectorAll('.gen-range span');
+    if(!c.derived&&typeof s.low==='number'){lo.textContent=fmt(s.low,c.unit);hi.textContent=fmt(s.high,c.unit);}
     if(!(c.factor in settings)&&s.high>s.low&&typeof s.position==='number')input.value=String((s.position-s.low)/(s.high-s.low));
   }
 }
@@ -282,11 +284,18 @@ download.addEventListener('click',()=>{
   a.href=url;a.download=`simscale-${spec.key}.obj`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 
-// Orbit and zoom.
-canvas.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});
-canvas.addEventListener('pointermove',e=>{if(!drag)return;yaw-=(e.clientX-drag[0])*.008;tilt=Math.max(-.15,Math.min(1.35,tilt+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY];render();});
-['pointerup','pointercancel','lostpointercapture'].forEach(t=>canvas.addEventListener(t,()=>{drag=null;}));
+// Orbit (one pointer), pinch zoom (two pointers), wheel zoom, and double-click to reset the view.
+const pointers=new Map();let pinch=null;
+canvas.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,[e.clientX,e.clientY]);canvas.setPointerCapture(e.pointerId);
+  if(pointers.size===2){const [a,b]=[...pointers.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),zoom};drag=null;}else drag=[e.clientX,e.clientY];});
+canvas.addEventListener('pointermove',e=>{
+  if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,[e.clientX,e.clientY]);
+  if(pinch&&pointers.size===2){const [a,b]=[...pointers.values()];zoom=Math.max(.45,Math.min(2.5,pinch.zoom*pinch.d/Math.max(1,Math.hypot(a[0]-b[0],a[1]-b[1]))));render();return;}
+  if(!drag)return;yaw-=(e.clientX-drag[0])*.008;tilt=Math.max(-.15,Math.min(1.35,tilt+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY];render();
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(t=>canvas.addEventListener(t,e=>{pointers.delete(e.pointerId);if(pointers.size<2)pinch=null;if(!pointers.size)drag=null;}));
 canvas.addEventListener('wheel',e=>{if(!current)return;e.preventDefault();zoom=Math.max(.45,Math.min(2.5,zoom*Math.exp(e.deltaY*.001)));render();},{passive:false});
+canvas.addEventListener('dblclick',()=>{if(!current)return;resetView();pose();});
 canvas.addEventListener('keydown',e=>{
   const k={ArrowLeft:[.12,0],ArrowRight:[-.12,0],ArrowUp:[0,.08],ArrowDown:[0,-.08]}[e.key];if(!k)return;e.preventDefault();
   yaw+=k[0];tilt=Math.max(-.15,Math.min(1.35,tilt+k[1]));render();

@@ -72,6 +72,7 @@ select { max-width: 100%; padding: 10px 12px; border: 1px solid #9ea99a; border-
 .gen-field.inactive { opacity: .5; }
 .gen-field .gen-label { display: flex; justify-content: space-between; gap: 8px; margin: 0; font-weight: 600; font-size: .95rem; }
 .asset-controls .gen-field input[type=range] { margin: 0; min-height: 24px; }
+.gen-range { display: flex; justify-content: space-between; margin-top: -2px; color: #7d8a76; font-size: .75rem; font-variant-numeric: tabular-nums; }
 .gen-note { color: #6b7a63; font-size: .8rem; min-height: 0; }
 .gen-note:empty { display: none; }
 .gen-seg { display: flex; flex-wrap: wrap; gap: 6px; }
