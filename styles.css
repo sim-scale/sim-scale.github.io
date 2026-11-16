@@ -397,3 +397,38 @@ h2 { max-width: 900px; margin: 0; font-size: clamp(2.5rem, 5vw, 4.9rem); font-we
   .hero-field, .orb { transform: none !important; }
   .hero-video { display: none; }
 }
+
+/* Full-width real-robot rollout players (geometric generalization, then pose generalization with an object switcher). */
+.rollout-showcase { display: flex; flex-direction: column; gap: 44px; margin-top: 64px; }
+.rollout-group-head { max-width: 860px; }
+.rollout-group-head h3 { margin: 0 0 10px; font-size: 1.6rem; letter-spacing: -.01em; }
+.rollout-group-head p { margin: 0; color: #5d615d; font-size: 1.02rem; line-height: 1.6; }
+.rollout-showcase .rollout-group-head:not(:first-child) { margin-top: 26px; padding-top: 44px; border-top: 1px solid var(--line-light); }
+.rollout-demo__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 12px; }
+.rollout-demo__task { font-size: 1.25rem; font-weight: 750; }
+.rollout-demo__meta { color: var(--green-deep); font-size: .95rem; font-weight: 700; }
+.rollout-player { overflow: hidden; background: var(--near-black); border: 1px solid var(--line-light); border-radius: 12px; box-shadow: 0 16px 45px rgba(18,22,19,.08); }
+.rollout-player video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: var(--near-black); }
+.rollout-player:fullscreen { display: flex; flex-direction: column; justify-content: center; border: 0; border-radius: 0; }
+.rollout-player:fullscreen video { flex: 1; min-height: 0; height: 100%; aspect-ratio: auto; }
+/* The control strip sits below the video, so it never covers the footage or the burned-in clock. */
+.rollout-bar { display: flex; gap: 10px; align-items: center; padding: 8px 12px; background: var(--near-black); }
+.rollout-bar button { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; padding: 0 9px; color: var(--white); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.24); border-radius: 6px; cursor: pointer; font: inherit; font-size: .95rem; font-weight: 700; }
+.rollout-bar button:hover, .rollout-bar button:focus-visible { border-color: var(--green); outline: none; }
+.rollout-bar svg { width: 18px; height: 18px; }
+.rollout-scrub { flex: 1; height: 4px; appearance: none; background: rgba(255,255,255,.3); border-radius: 999px; cursor: pointer; }
+.rollout-scrub::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; background: var(--green); border-radius: 50%; }
+.rollout-scrub::-moz-range-thumb { width: 14px; height: 14px; background: var(--green); border: 0; border-radius: 50%; }
+.rollout-gallery { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.rollout-thumb { display: grid; gap: 6px; min-width: 0; padding: 0 0 7px; overflow: hidden; text-align: left; background: var(--white); border: 1px solid var(--line-light); border-radius: 10px; cursor: pointer; font: inherit; transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease; }
+.rollout-thumb img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--near-black); }
+.rollout-thumb span { padding: 0 10px; color: #6b706b; font-size: .95rem; font-weight: 700; }
+.rollout-thumb:hover { border-color: var(--green); transform: translateY(-1px); }
+.rollout-thumb:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 2px; }
+.rollout-thumb[aria-selected="true"] { border-color: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.rollout-thumb[aria-selected="true"] span { color: var(--green-deep); }
+@media (max-width: 560px) {
+  .rollout-showcase { gap: 34px; margin-top: 44px; }
+  .rollout-gallery { grid-template-columns: repeat(5, minmax(64px, 1fr)); gap: 6px; overflow-x: auto; }
+  .rollout-bar { gap: 6px; padding: 6px 8px; }
+}
