@@ -25,14 +25,14 @@
   <meta name="twitter:description" content="One object description and one human demonstration become diverse asset families and thousands of robot trajectories.">
   <meta name="twitter:image" content="https://sim-scale.github.io/media/og-card.jpg">
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
-  <link rel="stylesheet" href="styles.css?v=202611161037">
-  <link rel="stylesheet" href="feedback.css?v=202611161037">
+  <link rel="stylesheet" href="styles.css?v=202611161045">
+  <link rel="stylesheet" href="feedback.css?v=202611161045">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="script.js?v=202611161037" defer></script>
-  <script src="outline.js?v=202611161037" defer></script>
-  <script src="generator-playground.js?v=202611161037" type="module"></script>
-  <script src="evaluation.js?v=202611161037" defer></script>
-  <script src="research-details.js?v=202611161037" defer></script>
+  <script src="script.js?v=202611161045" defer></script>
+  <script src="outline.js?v=202611161045" defer></script>
+  <script src="generator-playground.js?v=202611161045" type="module"></script>
+  <script src="evaluation.js?v=202611161045" defer></script>
+  <script src="research-details.js?v=202611161045" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -169,7 +169,7 @@
       <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="preview-bar"><span id="mesh-count">Generator output</span><span id="gen-timing"></span></div><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div><p class="orbit-hint">Drag to Orbit · Scroll or Pinch to Zoom · Double-Click to Reset</p></div>
       <form class="asset-controls gen-form" onsubmit="return false"><label for="asset-family">Object Category</label><select id="asset-family" disabled><option>Loading categories…</option></select>
       <div id="gen-controls" class="gen-controls" aria-live="off"></div>
-      <div class="gen-field" id="gen-open" hidden><label class="gen-label" for="gen-open-input">Open Doors, Drawers, and Lids<output id="gen-open-value" for="gen-open-input">60%</output></label><input id="gen-open-input" type="range" min="0" max="1" step="0.01" value="0.6"></div>
+      <fieldset class="gen-part gen-joints" id="gen-joints" hidden><legend>Joint Controls</legend><div id="gen-joint-list"></div></fieldset>
       
       <div class="playground-buttons"><button id="sample-asset" type="button" disabled>Random Sample ↻</button><button id="reset-asset" type="button" disabled>Reset</button><button id="download-asset" type="button" disabled>Download Mesh (.obj) ↓</button></div><p id="asset-status" class="asset-status" role="status" aria-live="polite">The generators start when this section comes into view.</p></form></div>
       <noscript><p>Enable JavaScript to use the 3D preview. Research asset videos remain available above.</p></noscript>

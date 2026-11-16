@@ -4,7 +4,8 @@ import * as THREE from './vendor/three.module.min.js';
 // Worker (generator-worker.js) and shows the exact mesh it returns. Nothing is precomputed or interpolated.
 const $=s=>document.querySelector(s);
 const canvas=$('#asset-canvas'),family=$('#asset-family'),fields=$('#gen-controls'),status=$('#asset-status');
-const openBox=$('#gen-open'),openInput=$('#gen-open-input'),openOut=$('#gen-open-value');
+const jointBox=$('#gen-joints'),jointList=$('#gen-joint-list');
+let jointValues=new Map(),jointNames='';
 const download=$('#download-asset'),randomBtn=$('#sample-asset'),resetBtn=$('#reset-asset');
 const meshCount=$('#mesh-count'),overlay=$('#gen-overlay'),timing=$('#gen-timing');
 const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
@@ -106,14 +107,14 @@ function creasedGeometry(positions,indices,crease=Math.cos(32*Math.PI/180)){
 
 // Link frames from the joint tree, with movable joints opened by a fraction of their range.
 const originMatrix=(xyz,rpy)=>new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(rpy[0],rpy[1],rpy[2],'ZYX')).setPosition(xyz[0],xyz[1],xyz[2]);
-function linkFrames(joints,links,open){
+function linkFrames(joints,links){
   const byChild=new Map(joints.map(j=>[j.child,j])),frames=new Map();
   const frame=name=>{
     if(frames.has(name))return frames.get(name);
     const j=byChild.get(name);let m=new THREE.Matrix4();
     if(j){
       m=frame(j.parent).clone().multiply(originMatrix(j.xyz,j.rpy));
-      const lo=j.lower??0,hi=j.upper??0,q=j.type==='continuous'?0:lo+open*(hi-lo);
+      const q=jointValues.get(j.name)??0;
       const axis=new THREE.Vector3(...j.axis).normalize();
       if(j.type==='prismatic')m.multiply(new THREE.Matrix4().makeTranslation(axis.x*q,axis.y*q,axis.z*q));
       else if(j.type==='revolute')m.multiply(new THREE.Matrix4().makeRotationAxis(axis,q));
@@ -152,7 +153,7 @@ function orientation(){
 }
 function pose(){
   if(!current)return;
-  const frames=linkFrames(current.joints,[...new Set(current.parts.map(p=>p.link))],Number(openInput.value));
+  const frames=linkFrames(current.joints,[...new Set(current.parts.map(p=>p.link))]);
   group.children.forEach(m=>{m.matrixAutoUpdate=false;m.matrix.copy(frames.get(m.userData.link));});
   if(fitNext){const [yawObj,tiltObj]=orientation();pivot.rotation.set(0,tiltObj,yawObj,'ZYX');}
   pivot.position.set(0,0,0);pivot.updateMatrixWorld(true);
@@ -229,6 +230,37 @@ function renderControls(){
     set.append(row);
   }
 }
+// Joint controls, as in the AssetEngine viewer: one slider per movable joint of the current model, over its
+// limits, with its type. Joints that the current choices do not create are not shown. A joint starts 60% open,
+// away from its closed end, and keeps its value while sliders change the shape.
+const pretty=n=>n.replace(/_/g,' ').replace(/\b(to|of|and)\b|\b\w/g,(w,small)=>small?w:w.toUpperCase());
+const jointText=(j,q)=>j.type==='prismatic'?`${(q*100).toFixed(1)} cm`:`${(q*180/Math.PI).toFixed(0)}°`;
+function syncJoints(joints){
+  const movable=joints.filter(j=>(j.type==='revolute'||j.type==='prismatic')&&j.lower!=null&&j.upper!=null&&j.upper>j.lower);
+  for(const j of movable){
+    const closed=Math.abs(j.lower)<=Math.abs(j.upper)?j.lower:j.upper,open=closed===j.lower?j.upper:j.lower;
+    const q=jointValues.has(j.name)?jointValues.get(j.name):closed+.6*(open-closed);
+    jointValues.set(j.name,Math.min(j.upper,Math.max(j.lower,q)));
+  }
+  jointBox.hidden=!movable.length;
+  const names=movable.map(j=>j.name+j.type).join('|');
+  if(names!==jointNames){
+    jointNames=names;jointList.innerHTML='';
+    movable.forEach((j,i)=>{
+      const id=`gen-j-${i}`,box=document.createElement('div');box.className='gen-field';box.dataset.joint=j.name;
+      box.innerHTML=`<label class="gen-label" for="${id}"><span>${pretty(j.name)}</span><output for="${id}"></output></label><span class="gen-badge">${j.type}</span><input id="${id}" type="range" step="any"><span class="gen-range" aria-hidden="true"><span></span><span></span></span>`;
+      const input=box.querySelector('input');
+      input.addEventListener('input',()=>{jointValues.set(j.name,Number(input.value));box.querySelector('output').value=jointText(j,Number(input.value));pose();});
+      jointList.append(box);
+    });
+  }
+  for(const j of movable){
+    const box=jointList.querySelector(`[data-joint="${CSS.escape(j.name)}"]`),input=box.querySelector('input'),q=jointValues.get(j.name);
+    input.min=String(j.lower);input.max=String(j.upper);if(document.activeElement!==input)input.value=String(q);
+    box.querySelector('output').value=jointText(j,q);
+    const [lo,hi]=box.querySelectorAll('.gen-range span');lo.textContent=jointText(j,j.lower);hi.textContent=jointText(j,j.upper);
+  }
+}
 function hideEmptyParts(){fields.querySelectorAll('.gen-part').forEach(p=>{p.hidden=!partFinishes.has(p.dataset.part)&&![...p.querySelectorAll('.gen-field')].some(f=>!f.hidden);});}
 function mark(box,v){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.value===JSON.stringify(v))));}
 function sync(controls){
@@ -265,6 +297,7 @@ function request(){
 }
 function settle(){inflight=false;if(pending){pending=false;request();}}
 function selectCategory(key){
+  jointValues=new Map();jointNames='';
   spec=null;pending=false;lastGood=null;partColors={};settings={};fitNext=true;
   worker.postMessage({type:'describe',key});
 }
@@ -275,7 +308,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611161037',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js?v=202611161045',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
@@ -292,7 +325,7 @@ function startWorker(){
     }else if(m.type==='mesh'){
       settle();if(m.id<shown||m.key!==spec?.key)return;shown=m.id;
       overlay.hidden=true;
-      openBox.hidden=!m.joints.some(j=>j.type==='revolute'||j.type==='prismatic');
+      syncJoints(m.joints);
       if(m.adjusted)settings=m.adjusted.settings;
       show(m);sync(m.controls);hideEmptyParts();setEnabled(true);remember(m.controls);
       setStatus(m.adjusted?(m.adjusted.reverted?`The generator rejects that choice with the current sizes, so the last shape is kept. Its check: ${m.adjusted.reason}.`:`Moved to the closest setting the generator accepts. Its check: ${m.adjusted.reason}.`):'Mesh downloads use meters and a Z-up axis.');
@@ -304,7 +337,6 @@ function startWorker(){
 }
 
 family.addEventListener('change',()=>selectCategory(family.value));
-openInput.addEventListener('input',()=>{openOut.value=`${Math.round(openInput.value*100)}%`;pose();});
 randomBtn.addEventListener('click',()=>{
   if(!spec)return;settings={};
   for(const c of spec.controls){
@@ -315,7 +347,7 @@ randomBtn.addEventListener('click',()=>{
 });
 resetBtn.addEventListener('click',()=>{
   if(!spec)return;settings={};fields.querySelectorAll('input[type=range]').forEach(i=>i.value='0.5');
-  partColors={};openInput.value='0.6';openOut.value='60%';
+  partColors={};jointValues=new Map();jointNames='';
   resetView();request();
 });
 download.addEventListener('click',()=>{

@@ -84,7 +84,8 @@ select { max-width: 100%; padding: 10px 12px; border: 1px solid #9ea99a; border-
 .gen-seg button { padding: 6px 11px; min-height: 34px; border: 1px solid #b5c1ad; border-radius: 999px; background: white; color: #2f402a; font-size: .88rem; cursor: pointer; }
 .gen-seg button[aria-checked=true] { background: #2f4a1f; border-color: #2f4a1f; color: white; }
 .gen-seg button:focus-visible, .gen-swatch:focus-visible { outline: 2px solid #59830d; outline-offset: 2px; }
-#gen-open { margin-bottom: 14px; }
+#gen-joints { margin-bottom: 14px; }
+#gen-joint-list { display: grid; gap: 11px; }
 .gen-colors { margin: 0 0 18px; padding: 12px 12px 10px; border: 1px solid #d4d9cf; border-radius: 10px; }
 .gen-colors legend { padding: 0 4px; font-weight: 600; font-size: .95rem; }
 .gen-swatches { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
@@ -207,3 +208,4 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
 .gen-color .gen-swatch { width: 100%; height: auto; aspect-ratio: 1; }
 .asset-controls .gen-custom { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin: 0; color: #5d665a; font-size: .82rem; font-weight: 500; }
 .asset-controls .gen-custom input[type=color] { width: 40px; height: 24px; margin: 0; padding: 1px 2px; border: 1px solid #b5c1ad; border-radius: 6px; }
+.gen-color .gen-label { margin: 0; font-weight: 600; font-size: .95rem; }
