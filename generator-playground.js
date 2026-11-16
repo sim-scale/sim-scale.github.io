@@ -176,24 +176,32 @@ const fmt=(v,unit)=>{
 };
 function renderControls(){
   fields.innerHTML='';
+  // One block per part of the object, in the order of the paper figure (main body first).
+  const blocks=new Map();
+  for(const g of [...(spec.groups||[]),...spec.controls.map(c=>c.group)]){
+    if(blocks.has(g)||!spec.controls.some(c=>c.group===g))continue;
+    const set=document.createElement('fieldset');set.className='gen-part';
+    set.innerHTML=`<legend>${g}</legend>`;blocks.set(g,set);fields.append(set);
+  }
   spec.controls.forEach((c,i)=>{
     const id=`gen-c-${i}`,box=document.createElement('div');box.className='gen-field';box.dataset.factor=c.factor;
+    const rel=c.relative_to?`<span class="gen-rel" title="The range of this parameter depends on ${c.relative_to.toLowerCase()}.">relative to ${c.relative_to.toLowerCase()}</span>`:'';
     if(c.kind==='choice'){
       box.innerHTML=`<span class="gen-label" id="${id}">${c.label}</span><div class="gen-seg" role="radiogroup" aria-labelledby="${id}"></div><span class="gen-note"></span>`;
       const seg=box.querySelector('.gen-seg');
       c.values.forEach((v,k)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','radio');b.textContent=c.labels[k];b.dataset.value=JSON.stringify(v);
         b.addEventListener('click',()=>{settings[c.factor]=v;mark(box,v);request();});seg.append(b);});
     }else{
-      box.innerHTML=`<label class="gen-label" for="${id}">${c.label}<output for="${id}"></output></label><input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
+      box.innerHTML=`<label class="gen-label" for="${id}"><span>${c.label}${rel}</span><output for="${id}"></output></label><input id="${id}" type="range" min="0" max="1" step="0.001" value="0.5"><span class="gen-range" aria-hidden="true"><span></span><span></span></span><span class="gen-note"></span>`;
       const input=box.querySelector('input');
       input.addEventListener('input',()=>{settings[c.factor]=['q',Number(input.value)];request();});
     }
-    fields.append(box);
+    blocks.get(c.group).append(box);
   });
 }
 function mark(box,v){box.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.value===JSON.stringify(v))));}
 function sync(controls){
-  for(const box of fields.children){
+  for(const box of fields.querySelectorAll('.gen-field')){
     const c=spec.controls.find(x=>x.factor===box.dataset.factor),s=controls[c.factor];if(!s)continue;
     box.classList.toggle('inactive',!s.active);
     box.querySelector('.gen-note').textContent=s.active?'':'Not used with the current choices';

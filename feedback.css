@@ -65,6 +65,10 @@ select { max-width: 100%; padding: 10px 12px; border: 1px solid #9ea99a; border-
 .gen-form { gap: 0; }
 .gen-form > select { margin-bottom: 16px; }
 .gen-controls { display: grid; gap: 12px; margin-bottom: 14px; }
+.gen-part { display: grid; gap: 11px; margin: 0; padding: 10px 12px 12px; border: 1px solid #d4d9cf; border-radius: 10px; background: #fbfcfa; }
+.gen-part legend { padding: 0 5px; color: #2f4a1f; font-weight: 700; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; }
+.gen-field .gen-label > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.gen-rel { color: #7d8a76; font-size: .76rem; font-weight: 500; font-style: italic; }
 .gen-loading { margin: 0; color: #6b7a63; }
 .gen-field { display: grid; gap: 4px; }
 .gen-field[hidden] { display: none; }
