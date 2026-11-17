@@ -38,8 +38,15 @@
     video.addEventListener('click', () => playBtn.click());
     video.addEventListener('play', syncPlay);
     video.addEventListener('pause', syncPlay);
+    // Follow playback, except while the reader is holding the knob (focus alone must not freeze it).
+    let dragging = false;
+    const release = () => { dragging = false; };
+    scrub.addEventListener('pointerdown', () => { dragging = true; });
+    window.addEventListener('pointerup', release);
+    window.addEventListener('pointercancel', release);
+    scrub.addEventListener('change', release);
     video.addEventListener('timeupdate', () => {
-      if (video.duration && document.activeElement !== scrub) scrub.value = (video.currentTime / video.duration).toFixed(3);
+      if (video.duration && !dragging) scrub.value = (video.currentTime / video.duration).toFixed(3);
     });
     scrub.addEventListener('input', () => { if (video.duration) video.currentTime = scrub.value * video.duration; });
     expandBtn.addEventListener('click', () => {
