@@ -194,7 +194,7 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });  // tall blocks reveal as soon as their top enters the view
 
   document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 })();
