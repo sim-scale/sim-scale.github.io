@@ -246,3 +246,9 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
   .rollout-group-head p { margin-left: 0; }
   .vis-head .takeaway { font-size: 17px; }
 }
+
+/* No decorative icon tiles: plain headings with a colored takeaway. */
+.vis-head { display: block; }
+.vis-head > div { min-width: 0; }
+.rollout-group-head p { margin-left: 0; }
+.finding > h3::before { content: none; }
