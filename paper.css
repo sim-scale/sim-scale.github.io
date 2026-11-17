@@ -186,3 +186,24 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 #conclusion { background: var(--white); }
 
 .hero-field { background-image: url("media/hero-first-frame.webp?v=202611181700"); }
+
+/* Visual sections near the top: a one-line takeaway under each heading, and a smaller note for details. */
+.title-section { padding-top: 64px; padding-bottom: 8px; }
+.title-section .title-block { margin-bottom: 0; padding-bottom: 40px; border-bottom: 0; }
+.section-head .takeaway { margin: 0; color: #1d1d1f; font-size: 20px; line-height: 1.55; }
+.dark-section .section-head .takeaway { color: #eef1ec; }
+.section-head .note { margin: 12px 0 0; color: rgba(0,0,0,.58); font-size: 15px; line-height: 1.55; }
+.dark-section .section-head .note, .dark-section .note { color: #a9afa8; }
+.category-explorer > .note { margin: 0 0 4px; font-size: 15px; line-height: 1.55; }
+.category-explorer { margin-top: 0; }
+.rollout-group-head h3 { font-size: 20px; }
+/* Divider between the visual results and the paper details. */
+.details-divider { padding: 56px max(24px, calc((100vw - var(--col)) / 2)) 0; background: var(--white); }
+.details-divider span { display: block; padding-top: 28px; border-top: 2px solid #1d1d1f; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.details-divider p { margin: 6px 0 0; color: rgba(0,0,0,.58); font-size: 15px; }
+#method { padding-top: 40px; }
+@media (min-width: 1360px) { .details-divider { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - var(--col)) / 2)); } }
+.title-section { padding-bottom: 0; }
+.title-section .title-block { padding-bottom: 8px; }
+#rollouts { padding-top: 48px; }
+#rollouts .section-head { margin-bottom: 22px; }
