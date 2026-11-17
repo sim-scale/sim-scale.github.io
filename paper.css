@@ -259,3 +259,9 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 .rollout-group-head h3::before { content: ""; position: absolute; left: 2px; top: .62em; width: 11px; height: 11px; background: var(--accent); border-radius: 50%; }
 .rollout-group-head p { margin: 2px 0 0; }
 .rollout-showcase .rollout-group-head:not(:first-child) { border-top: 0; padding-top: 0; margin-top: 40px; }
+
+/* Link row under the title, in the style of the RoboTTT buttons. */
+.title-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.title-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; color: #1d1d1f; background: #fff; border: 1px solid #c9cdc6; border-radius: 999px; font-size: 15px; font-weight: 550; text-decoration: none; transition: border-color .15s, background .15s; }
+.title-btn:hover, .title-btn:focus-visible { border-color: var(--accent); background: var(--accent-soft); }
+.title-btn span { color: var(--accent); }
