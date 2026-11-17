@@ -1,6 +1,5 @@
 /* Paper content: prose blocks, figures with captions, spotlight figures, and the bar charts rebuilt from the
    paper figures. Uses the tokens of styles.css. */
-.hero-anon { margin: 26px 0 0; color: #c9cec8; font-size: 1rem; letter-spacing: .02em; }
 
 .prose { max-width: 860px; }
 .prose p, .prose li { color: #3d413d; font-size: 1.08rem; line-height: 1.75; }
@@ -113,4 +112,64 @@
 @media (prefers-reduced-motion: reduce) {
   .teaser-fig img { animation: none; }
   .spot-box, .pc-bar, .us-seg { transition: none; }
+}
+
+/* ---------- Typography and layout following the RoboTTT project page ----------
+   One centered column for text and figures, Helvetica Neue / Arial, h1 44px, h2 27px, h3 20px, body 18px,
+   lead 20px, captions 14px. */
+:root { --col: 880px; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.62; letter-spacing: normal; }
+.light-section, .dark-section, .abstract-section { padding: 88px max(24px, calc((100vw - var(--col)) / 2)); }
+.real-section { padding-inline: max(24px, calc((100vw - var(--col)) / 2)); }
+@media (min-width: 1360px) {
+  .light-section, .dark-section, .abstract-section, .real-section { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - var(--col)) / 2)); }
+}
+.section-index { display: none; }
+.section-head { display: block; margin: 0 0 30px; padding: 0; border: 0; }
+.section-head h2, .plain-h2 { margin: 0 0 14px; font-size: 27px; font-weight: 600; line-height: 1.62; letter-spacing: -.01em; }
+.section-head > p { max-width: none; margin: 0; color: inherit; font-size: 18px; line-height: 1.62; }
+.light-section .section-head > p { color: #1d1d1f; }
+.dark-section .section-head > p { color: #d4d8d3; }
+.prose, .finding > p, .finding > h3, .rollout-group-head, .category-all p { max-width: none; }
+.prose p, .prose li, .finding > p, .setup-list li { font-size: 18px; line-height: 1.62; color: #1d1d1f; }
+.dark-section .prose p, .dark-section .finding > p { color: #d4d8d3; }
+.abstract-text { font-size: 20px !important; line-height: 1.55 !important; color: #000 !important; }
+.prose h3, .finding > h3, .rollout-group-head h3, .category-explorer h3, .real-results h3 { font-size: 20px; font-weight: 600; line-height: 1.62; letter-spacing: normal; }
+.finding > h3 { margin-bottom: 8px; }
+.finding { margin-top: 48px; padding-top: 0; border-top: 0; }
+.engine-card h3 { font-size: 22px; font-weight: 600; letter-spacing: normal; }
+.engine-summary, .engine-steps span { font-size: 16px; }
+.category-all h4, .fig-pair h4 { font-size: 18px; font-weight: 600; }
+.paper-fig figcaption, .fig-caption, .spot-caption, .rollout-group-head p, .pc-legend li { font-size: 14px; line-height: 1.5; }
+.paper-fig figcaption, .fig-caption, .rollout-group-head p { color: rgba(0,0,0,.6); }
+.spot-caption { font-size: 15px; }
+.setup-list li { font-size: 16px; }
+.conclusion-text { max-width: none; font-size: 18px; line-height: 1.62; }
+
+.title-block { margin: 0 0 48px; padding-bottom: 32px; border-bottom: 1px solid var(--line-light); }
+.title-block h1 { margin: 0; color: #000; font-size: 44px; font-weight: 600; line-height: 1.1; letter-spacing: -.015em; text-shadow: none; }
+.title-tldr { margin: 16px 0 0; color: #3a3d3a; font-size: 20px; line-height: 1.55; }
+@media (max-width: 560px) {
+  .title-block h1 { font-size: 32px; }
+  .section-head h2, .plain-h2 { font-size: 24px; }
+  .light-section, .dark-section, .abstract-section, .real-section { padding: 60px 18px; }
+}
+
+/* Full-screen hero video with nothing over it but the navigation and a scroll cue. */
+.cinematic-hero, .cinematic-hero[class] { min-height: 100vh; min-height: 100svh; }
+.hero-field { background-color: #f2f2f0; transform: none; }
+.hero-field::after { background: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,0) 18%, rgba(0,0,0,0) 82%, rgba(0,0,0,.28)); }
+.orb, .scan-grid, .hero-media-label { display: none; }
+.scroll-cue { color: #fff; letter-spacing: .12em; text-transform: uppercase; font-size: 13px; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+/* Portrait screens: show the whole 2:1 video instead of a narrow crop. */
+@media (max-aspect-ratio: 1/1) {
+  .cinematic-hero, .cinematic-hero[class] { min-height: 0; height: auto; aspect-ratio: 2 / 1; margin-top: 0; }
+  .cinematic-hero { padding-top: 0; }
+  .site-header { position: relative; background: var(--black); }
+  .scroll-cue { display: none; }
+}
+
+/* Wide screens: the contents list appears only after the hero video, as on the RoboTTT page. */
+@media (min-width: 1360px) {
+  .outline:not(.shown) { opacity: 0; visibility: hidden; }
 }
