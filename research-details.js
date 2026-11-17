@@ -1,6 +1,6 @@
 (() => {
  // Category videos: one per generator, swapped in place in the shared rollout player (rollouts.js adds its controls).
- const V='202611171200',tabs=[...document.querySelectorAll('[data-category]')],player=document.querySelector('.category-player'),video=player&&player.querySelector('video');
+ const V='202611171400',tabs=[...document.querySelectorAll('[data-category]')],player=document.querySelector('.category-player'),video=player&&player.querySelector('video');
  const select=(key,focus=false)=>{
   const tab=tabs.find(t=>t.dataset.category===key);
   tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus();});
