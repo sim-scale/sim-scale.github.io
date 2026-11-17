@@ -241,3 +241,6 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
 #category-panel { padding: 0; border: 0; background: transparent; }
 .category-player, .category-player video { background: #f3f6f0; }
 @media (max-width: 720px) { .category-tabs { gap: 6px; } .category-tabs button { min-height: 36px; padding: 6px 11px; font-size: .86rem; } #category-panel { padding: 0; } }
+.category-all { margin-top: 44px; }
+.category-all h4 { margin: 0 0 8px; font-size: 1.5rem; color: #f2f6ee; }
+.category-all p { margin: 0 0 18px; color: #bdc9b4; max-width: 900px; }
