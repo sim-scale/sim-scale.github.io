@@ -5,35 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning.">
   <meta name="theme-color" content="#050706">
-  <title>SimScale — Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</title>
+  <title>SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</title>
   <link rel="canonical" href="https://sim-scale.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
-  <!-- Link previews. Without these, sharing the site on X, Slack or LinkedIn
-       produces a bare URL with no title, blurb or image. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SimScale">
   <meta property="og:url" content="https://sim-scale.github.io/">
   <meta property="og:title" content="SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning">
-  <meta property="og:description" content="One object description and one human demonstration become diverse asset families and thousands of robot trajectories. Policies trained only in simulation transfer zero-shot to unseen real objects.">
+  <meta property="og:description" content="An agentic synthetic data generation framework that defines category-level procedural asset generators and adapts one human demonstration across their geometries. RGB visuomotor policies trained on these data transfer zero-shot to diverse real-world objects.">
   <meta property="og:image" content="https://sim-scale.github.io/media/og-card.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Bimanual robots manipulating procedurally generated mugs, mug trees, pots and cabinets in simulation.">
+  <meta property="og:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning">
-  <meta name="twitter:description" content="One object description and one human demonstration become diverse asset families and thousands of robot trajectories.">
+  <meta name="twitter:description" content="Category-level procedural asset generators and one human demonstration for zero-shot sim-to-real transfer to diverse real-world objects.">
   <meta name="twitter:image" content="https://sim-scale.github.io/media/og-card.jpg">
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
-  <link rel="stylesheet" href="styles.css?v=202611161700">
-  <link rel="stylesheet" href="feedback.css?v=202611162330">
+  <link rel="stylesheet" href="styles.css?v=202611181200">
+  <link rel="stylesheet" href="feedback.css?v=202611181200">
+  <link rel="stylesheet" href="paper.css?v=202611181200">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="script.js?v=202611162000" defer></script>
-  <script src="outline.js?v=202611161110" defer></script>
+  <script src="script.js?v=202611181200" defer></script>
+  <script src="outline.js?v=202611181200" defer></script>
   <script src="generator-playground.js?v=202611161110" type="module"></script>
-  <script src="evaluation.js?v=202611161110" defer></script>
-  <script src="research-details.js?v=202611180100" defer></script>
+  <script src="research-details.js?v=202611181200" defer></script>
   <script src="rollouts.js?v=202611171900" defer></script>
+  <script src="figures.js?v=202611181200" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -41,12 +39,11 @@
   <header class="site-header">
     <a class="wordmark" href="#top" aria-label="SimScale home">SimScale</a>
     <nav aria-label="Primary navigation">
-      <a href="#overview">Overview</a>
-      <a href="#assets">Assets</a>
-      <a href="#playground">Playground</a>
-      <a href="#transfer">Results</a>
-      <a href="#baseline-context">Compare</a>
+      <a href="#abstract">Abstract</a>
       <a href="#method">Method</a>
+      <a href="#assetengine">Assets</a>
+      <a href="#demoengine">Demos</a>
+      <a href="#results">Results</a>
     </nav>
   </header>
 
@@ -54,15 +51,17 @@
     <a class="outline-brand" href="#top">SimScale</a>
     <button class="outline-toggle" type="button" aria-expanded="false" aria-controls="outline-list" aria-label="Contents"><span aria-hidden="true">☰</span><span class="outline-current">Contents</span></button>
     <nav id="outline-list">
-      <a href="#overview">Overview</a>
-      <a href="#transfer">Real-World Results</a>
-      <a href="#assets">Asset Generation</a>
-      <a href="#playground">Live Generators</a>
-      <a href="#demonstrations">Demonstration Generation</a>
-      <a href="#evaluation">Simulation Evaluation</a>
-      <a href="#real-world">Baseline Comparison</a>
+      <a href="#abstract">Abstract</a>
       <a href="#method">Method</a>
-      <a href="#summary">Summary</a>
+      <a href="#assetengine">AssetEngine</a>
+      <a href="#playground">Live Generators</a>
+      <a href="#demoengine">DemoEngine</a>
+      <a href="#setup">Experiment Setup</a>
+      <a href="#results">Real-World Results</a>
+      <a href="#comparison">Baseline Rollouts</a>
+      <a href="#asset-analysis">AssetEngine Analysis</a>
+      <a href="#demo-analysis">DemoEngine Analysis</a>
+      <a href="#conclusion">Conclusion</a>
     </nav>
   </aside>
 
@@ -77,75 +76,90 @@
         <div class="scan-grid"></div>
       </div>
       <div class="hero-copy">
-        <p class="hero-kicker">Agentic Assets + Demonstration Generation</p>
         <h1>SimScale</h1>
-        <p class="hero-subtitle">Generate Diverse Worlds.<br>Train Robots for Unseen Geometries.</p>
-        <p class="hero-explanation">SimScale turns an object description and one human demonstration into diverse asset families and thousands of successful robot trajectories, so policies handle shapes and poses they were never shown.</p>
-        <div class="hero-actions"><a class="action-primary" href="#overview">Watch the Overview ↓</a><a class="action-secondary" href="#playground">Try the Live Generators ↗</a></div>
+        <p class="hero-subtitle">Agentic Simulation Data Scaling<br>for Sim-to-Real Policy Learning</p>
+        <p class="hero-explanation">From one human demonstration in simulation, SimScale generates diverse, physically plausible assets and thousands of demonstrations across their geometries. RGB visuomotor policies trained on these data transfer zero-shot to diverse real-world objects.</p>
+        <p class="hero-anon">Anonymous authors · Under review</p>
       </div>
-      <div class="hero-media-label"><span></span> Simulation at scale</div>
-      <a class="scroll-cue" href="#overview">Explore the Pipeline <span>↓</span></a>
+      <div class="hero-media-label"><span></span> Demonstrations generated in simulation</div>
+      <a class="scroll-cue" href="#abstract">Abstract <span>↓</span></a>
     </section>
 
-    <section class="light-section overview-section" id="overview">
-      <div class="section-head reveal"><div><p class="section-index">Start Here / Overview</p><h2>From One Example to a World of Variation.</h2></div><p>Collecting a new demonstration for every object geometry is expensive. SimScale separates the reasoning needed to build reusable tools from the computation needed to generate training data at scale.</p></div>
-      <figure class="overview-video reveal"><video controls muted playsinline preload="metadata" poster="media/pipeline-overview-poster.webp" aria-label="42-second SimScale pipeline overview"><source src="media/pipeline-overview.mp4" type="video/mp4"><track kind="captions" src="media/pipeline-overview.vtt" srclang="en" label="English"></video><figcaption>42-second pipeline overview · original project footage · captions available</figcaption></figure>
-      <details class="overview-transcript"><summary>Read the Overview Transcript</summary><ol><li><strong>The Goal:</strong> train skills that handle new shapes without collecting a human demonstration for every geometry.</li><li><strong>AssetEngine:</strong> agents author category-level procedural code using coverage and geometry feedback.</li><li><strong>Asset Sampling:</strong> reuse the generator to produce varied shapes without an agent conversation for every sample.</li><li><strong>DemoEngine:</strong> decompose one human demonstration and author an executable task program.</li><li><strong>Geometry Adaptation:</strong> agents adapt targets and task logic using simulation feedback.</li><li><strong>Pose Expansion:</strong> DexMimicGen transforms successful source trajectories and validates execution across poses.</li><li><strong>Policy Learning:</strong> train in simulation; evaluate on held-out simulated and physical objects.</li></ol></details>
-      <div class="overview-steps reveal"><article><span>01 / Assets</span><h3>Author a Generator.</h3><p>Agents write and validate category-level procedural code, then sample geometry and appearance variations.</p></article><article><span>02 / Demonstrations</span><h3>Adapt the Skill.</h3><p>Agents decompose one human demonstration and adapt executable task programs across object geometries.</p></article><article><span>03 / Scale &amp; learn</span><h3>Expand, Then Train.</h3><p>DexMimicGen expands accepted source trajectories across poses. Imitation learning trains policies for held-out objects.</p></article></div>
+    <section class="light-section" id="abstract">
+      <div class="section-head reveal"><div><p class="section-index">Overview</p><h2>Abstract</h2></div></div>
+      <div class="prose reveal">
+        <p class="abstract-text">Simulation offers a scalable source of robot training data, but constructing diverse, physically plausible assets and generating demonstrations across their different geometries remain two major bottlenecks. We introduce SimScale, an agentic synthetic data generation framework for policy generalization across diverse object geometries. Given a short description of an object category, SimScale searches diverse internet images and distills their shared structures and geometric variations into a category-level procedural generator. The generator is iteratively revised until it passes independent reviews for category coverage and geometric validity, yielding diverse, physically plausible, and simulation-ready assets. Given one human demonstration in simulation, SimScale adapts it across the diverse geometric variations, scaling the single demonstration into thousands of trajectories across geometries and poses. RGB visuomotor policies trained on these data transfer zero-shot to diverse real-world objects. We compare SimScale with policies trained on real-world demonstrations and on simulation data from existing asset libraries, real-to-sim methods, and agentic asset generation methods. Across more than 4,500 real-robot trials spanning three bimanual manipulation tasks and two policy architectures, SimScale achieves the strongest real-world performance, outperforming the strongest baseline by approximately 30% on average.</p>
+      </div>
+      <figure class="paper-fig teaser-fig reveal">
+        <div class="teaser-frame"><img src="media/paper/teaser.webp?v=202611181200" alt="Many bimanual robots in simulation manipulating procedurally generated objects, above photographs of real-world rollouts on diverse objects." width="2400" height="1165" loading="lazy"></div>
+        <figcaption><b>Overview.</b> SimScale scales up simulation data from one human demonstration in simulation by automatically defining diverse, physically plausible assets and generating demonstrations across their diverse geometries. RGB visuomotor policies generalize zero-shot to diverse real-world objects.</figcaption>
+      </figure>
     </section>
 
-    <section class="light-section transfer-section results-highlight" id="transfer">
-      <div class="section-head reveal">
+    <section class="light-section results-highlight" id="method">
+      <div class="section-head reveal"><div><p class="section-index">Method</p><h2>Method Overview</h2></div><p>SimScale consists of two coupled engines. AssetEngine authors category-level procedural generators that produce diverse and physically plausible assets. DemoEngine adapts one human demonstration across these assets and expands it into thousands of trajectories.</p></div>
+      <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
+        <div class="spot-stage"><img src="media/paper/method.webp?v=202611181200" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
+        <div class="spot-panel"><div class="spot-steps" aria-label="Figure parts"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
+      </figure>
+
+      <div class="prose reveal" style="margin-top:56px">
+        <h3>Key Idea</h3>
+        <p>Existing asset generation methods lack a mechanism to balance geometric diversity and physical plausibility. Curated asset libraries are physically plausible but cover few instances per category. Real-to-sim methods build digital twins or cousins of a few observed objects, so their assets stay tied to the observed scene. Agentic asset generators produce individual assets from text or images, and when prompted for many instances of a category, they drift away from typical prototypes and produce implausible geometries.</p>
+        <p>Our key idea is that a category-level procedural generator improves this balance by building a parameter space that explains the real-world variations observed in internet images. A new degree of freedom is added only when the current parameterization cannot explain a large portion of the observed objects. The parameterization is therefore grounded by real-world data, so it expands diversity without pushing the geometry toward implausible instances.</p>
+      </div>
+
+      <div class="method-engines reveal" style="margin-top:40px">
+        <article class="engine-card">
+          <header><span>a</span><div><p>AssetEngine</p><h3>Authoring Procedural Asset Generators</h3></div></header>
+          <p class="engine-summary">AssetEngine defines a category-level procedural generator with three sub-agents and revises it in a loop until it passes both reviews.</p>
+          <ol class="engine-steps">
+            <li><b>Author</b><span>Given a category description and an optional reference image, the Generator Author searches internet images and dimensions, writes a coverage plan, and implements the generator as a Python program. It expresses variation with continuous absolute variables, continuous relative variables, and discrete variables.</span></li>
+            <li><b>Coverage</b><span>The Coverage Critic independently searches for ordinary instances, compares them with sampled objects, and proposes revisions if common variations are missing or if rare cases bias the generator toward unrealistic samples.</span></li>
+            <li><b>Geometry</b><span>The Geometry Validator derives a mesh-quality checklist and, given a task description, a task-compatibility checklist. It writes a function for each item that checks compiled samples.</span></li>
+            <li><b>Sample</b><span>Once the generator passes both reviews, randomly sampled parameters give diverse and physically plausible assets for demonstration generation.</span></li>
+          </ol>
+        </article>
+        <article class="engine-card engine-demo">
+          <header><span>b</span><div><p>DemoEngine</p><h3>Generating Demonstrations Across Assets</h3></div></header>
+          <p class="engine-summary">DemoEngine works in two stages. Source demonstrations cover asset geometries, and pose expansion covers object poses.</p>
+          <ol class="engine-steps">
+            <li><b>Storyboard</b><span>The agent converts the human demonstration into an ordered list of keyframes with poses, timestamps, and purposes, proposed from gripper events and motion pauses and refined by a vision pass over all camera streams.</span></li>
+            <li><b>Bootstrap</b><span>Guided by the storyboard, the agent writes a script with motion planning, gripper control, and collision checking tools. The script separates shared task structure from geometry-dependent targets and is first validated on about three seed assets.</span></li>
+            <li><b>Specialize</b><span>Parallel agents adapt the validated script to the remaining assets. An execution becomes a source demonstration only if it succeeds and keeps the human's pacing.</span></li>
+            <li><b>Expand</b><span>DexMimicGen generates demonstrations for new object poses of each asset from its source demonstrations and keeps only those that complete the task.</span></li>
+          </ol>
+        </article>
+      </div>
+      <div class="prose reveal" style="margin-top:40px">
+        <h3>Policy Training</h3>
+        <p>We train RGB visuomotor policies with behavior cloning on the generated data. Each policy maps three RGB views and the robot state to a chunk of future actions. To bridge the visual sim-to-real gap, we apply domain randomization to lighting, textures, and colors during data generation. No real-world data is used for training, and the real-world objects used for evaluation are never used to build the training data.</p>
+      </div>
+    </section>
+
+    <section class="dark-section asset-section" id="assetengine">
+      <div class="section-head reveal"><div><p class="section-index">AssetEngine</p><h2>Category-Level Procedural Generators</h2></div><p>Each generator exposes interpretable parameters for the key features of a category, grounded by internet images. Sampling these parameters gives diverse assets that remain physically plausible.</p></div>
+      <div class="fig-pair reveal">
         <div>
-          <p class="section-index">01 / Real-World Results</p>
-          <h2>SimScale Policies Generalize Zero-Shot to the Real World.</h2>
-        </div>
-        <p>Policies trained only in simulation are tested on physical objects without object-specific fine-tuning.</p>
-      </div>
-
-      <div class="real-results reveal" id="real-results"><h3>Recorded Real-World Results</h3><p>Compare aggregate policy scores across three tasks. These are mean task scores from 0 to 100, including partial credit; they are distinct from simulation task-completion success rates.</p><div class="evaluation-controls"><label for="real-study">Comparison<select id="real-study"><option value="system">Complete system</option><option value="assets">Asset source + human source demos</option></select></label><label for="real-backend">Policy Backend<select id="real-backend"><option value="groot">GR00T N1.6</option><option value="dino">DINOv3 + FMT</option></select></label></div><div class="table-scroll"><table id="real-scores"><caption>Real-world mean task score (0–100), including partial credit</caption><thead><tr><th scope="col">Training Condition</th><th scope="col">Put Pot</th><th scope="col">Hang Mug</th><th scope="col">Put Charger</th></tr></thead><tbody></tbody></table></div><p id="real-study-note" role="status" aria-live="polite"></p><p class="source-note">† Incomplete object panel: four of five charger combinations in the system study; four common charger pairs in the asset-source study. ‡ Recorded trial lists require reconciliation; the manuscript retains the explicitly recorded values. Unavailable results are not treated as zero.</p><p class="source-note">Source: manuscript real-world results tables · <a href="real-world-results.json">Download the displayed score data</a></p><noscript><p>The interactive table requires JavaScript. The linked score data contains every displayed result.</p></noscript></div>
-      <div class="rollout-showcase reveal" id="real-rollouts">
-      <div class="rollout-group-head"><h3>Uncut Rollouts on Five Different Objects</h3><p>For each task, one policy runs on five different real objects in a row. The videos are uncut: policy rollouts play at 8×, resets between rollouts at 32×, and HangMug slows to 2× with a close-up while hanging. The clock shows the real elapsed time.</p></div>
-      <section class="rollout-demo" aria-label="PutPot, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">PutPot</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-pot.webp?v=202611161700" aria-label="PutPot: uncut rollouts on five objects"><source src="media/real/geo-pot.mp4?v=202611161700" type="video/mp4"></video></div></section>
-      <section class="rollout-demo" aria-label="HangMug, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">HangMug</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-mug.webp?v=202611161700" aria-label="HangMug: uncut rollouts on five objects"><source src="media/real/geo-mug.mp4?v=202611172000" type="video/mp4"></video></div></section>
-      <section class="rollout-demo" aria-label="PutCharger, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">PutCharger</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-cabinet.webp?v=202611161700" aria-label="PutCharger: uncut rollouts on five objects"><source src="media/real/geo-cabinet.mp4?v=202611161700" type="video/mp4"></video></div></section>
-      <div class="rollout-group-head"><h3>Uncut Rollouts Across Object Poses</h3><p>Consecutive rollouts on one object, which is moved to a new pose after each rollout. Choose an object below.</p></div>
-      <section class="rollout-demo" data-rollout-switch aria-label="PutPot, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">PutPot</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-pot-1.webp?v=202611161700" aria-label="PutPot: rollouts on pot 1"><source src="media/real/pose-pot-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Pots"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-pot-1.mp4?v=202611161700" data-poster="media/real/pose-pot-1.webp?v=202611161700" data-label="PutPot: rollouts on pot 1"><img src="media/real/pose-pot-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-2.mp4?v=202611161700" data-poster="media/real/pose-pot-2.webp?v=202611161700" data-label="PutPot: rollouts on pot 2"><img src="media/real/pose-pot-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-3.mp4?v=202611161700" data-poster="media/real/pose-pot-3.webp?v=202611161700" data-label="PutPot: rollouts on pot 3"><img src="media/real/pose-pot-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-4.mp4?v=202611161700" data-poster="media/real/pose-pot-4.webp?v=202611161700" data-label="PutPot: rollouts on pot 4"><img src="media/real/pose-pot-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-5.mp4?v=202611161700" data-poster="media/real/pose-pot-5.webp?v=202611161700" data-label="PutPot: rollouts on pot 5"><img src="media/real/pose-pot-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 5</span></button></div></section>
-      <section class="rollout-demo" data-rollout-switch aria-label="HangMug, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">HangMug</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-mug-1.webp?v=202611161700" aria-label="HangMug: rollouts on mug 1"><source src="media/real/pose-mug-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Mugs"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-mug-1.mp4?v=202611161700" data-poster="media/real/pose-mug-1.webp?v=202611161700" data-label="HangMug: rollouts on mug 1"><img src="media/real/pose-mug-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-2.mp4?v=202611161700" data-poster="media/real/pose-mug-2.webp?v=202611161700" data-label="HangMug: rollouts on mug 2"><img src="media/real/pose-mug-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-3.mp4?v=202611161700" data-poster="media/real/pose-mug-3.webp?v=202611161700" data-label="HangMug: rollouts on mug 3"><img src="media/real/pose-mug-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-4.mp4?v=202611161700" data-poster="media/real/pose-mug-4.webp?v=202611161700" data-label="HangMug: rollouts on mug 4"><img src="media/real/pose-mug-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-5.mp4?v=202611161700" data-poster="media/real/pose-mug-5.webp?v=202611161700" data-label="HangMug: rollouts on mug 5"><img src="media/real/pose-mug-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 5</span></button></div></section>
-      <section class="rollout-demo" data-rollout-switch aria-label="PutCharger, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">PutCharger</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-cabinet-1.webp?v=202611161700" aria-label="PutCharger: rollouts on cabinet 1"><source src="media/real/pose-cabinet-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Cabinets"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-cabinet-1.mp4?v=202611161700" data-poster="media/real/pose-cabinet-1.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 1"><img src="media/real/pose-cabinet-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-2.mp4?v=202611161700" data-poster="media/real/pose-cabinet-2.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 2"><img src="media/real/pose-cabinet-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-3.mp4?v=202611161700" data-poster="media/real/pose-cabinet-3.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 3"><img src="media/real/pose-cabinet-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-4.mp4?v=202611161700" data-poster="media/real/pose-cabinet-4.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 4"><img src="media/real/pose-cabinet-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-5.mp4?v=202611161700" data-poster="media/real/pose-cabinet-5.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 5"><img src="media/real/pose-cabinet-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 5</span></button></div></section>
-      </div>
-    </section>
-
-    <section class="dark-section asset-section" id="assets">
-      <div class="section-head reveal">
-        <div>
-          <p class="section-index">02 / Asset Generation</p>
-          <h2>SimScale Generates Realistic and Diverse Simulation Assets.</h2>
-        </div>
-        <p>Each task includes multiple object instances with different shapes, sizes, and appearances.</p>
-      </div>
-
-      <div class="asset-browser reveal" aria-label="Examples of diverse generated simulation assets">
-        <div class="asset-browser-bar">
-          <span>Asset gallery</span>
-          <strong>Multiple Instances per Task</strong>
-          <small>Generated in Simulation</small>
-        </div>
-        <div class="asset-media-grid">
-          <figure>
-            <video muted loop playsinline preload="metadata" poster="media/asset-diversity-poster.webp" data-autoplay aria-label="Generated asset variations across the task categories, in simulation">
-              <source src="media/asset-diversity.mp4" type="video/mp4">
-            </video>
-            <figcaption><span>01 / Diversity within a family</span><strong>Many Geometries. One Object Category.</strong><small>Mugs and mug trees vary in proportions, handle geometry, branches, and appearance. Category-level controls expose task-relevant variation.</small></figcaption>
+          <h4>(a) Major parameters of the AssetEngine mug generator</h4>
+          <figure class="spot-fig" data-spot="params" data-spot-title="Major parameters" data-spot-text="Our category-level procedural generator approximates real-world object variations with interpretable parameters for each key feature, grounded by internet images. This representation provides a mechanism to balance geometric diversity and plausibility.">
+            <div class="spot-stage"><img src="media/paper/mug-parameters.webp?v=202611181200" alt="Mug generator parameters. Cup body: outline, rim diameter, body height, base diameter. Handle: outline, loop height, loop width, mount height." width="1457" height="1510" loading="lazy"></div>
+            <div class="spot-panel"><div class="spot-steps" aria-label="Parameters"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
           </figure>
-
+        </div>
+        <div>
+          <h4>(b) Qualitative comparison of asset generation methods</h4>
+          <figure class="spot-fig" data-spot="compare" data-spot-title="Qualitative comparison" data-spot-text="Other methods lack a mechanism to balance diversity and plausibility, so they sacrifice either plausibility or diversity. Physically implausible geometry appears in the body shapes of GPT-6-Astra and in the rim and handle of SimFoundry cousins, while the handles of Articraft are highly similar.">
+            <div class="spot-stage"><img src="media/paper/mug-comparison.webp?v=202611181200" alt="Four columns of four generated mugs each, from SimFoundry Cousins, Articraft, GPT-6-Astra, and SimScale AssetEngine." width="1368" height="1508" loading="lazy"></div>
+            <div class="spot-panel"><div class="spot-steps" aria-label="Methods"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
+          </figure>
         </div>
       </div>
-    <div class="category-explorer reveal" id="category-explorer"><h3>Explore One Category at a Time.</h3><p>Choose a category. Each video runs that category&rsquo;s AssetEngine generator for every frame, with the same major parameters as the Live Generators below. All continuous parameters move together, each discrete option switches once, and movable parts open and close.</p><div class="category-tabs" role="tablist" aria-label="Asset category"><span class="category-tabs__label" role="presentation">Task objects</span><button id="category-tab-mug" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="mug" data-title="Mug">Mug</button><button id="category-tab-mug_tree" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="mug_tree" data-title="Mug Tree">Mug Tree</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot" data-title="Cooking Pot">Cooking Pot</button><button id="category-tab-cooktop" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cooktop" data-title="Cooktop">Cooktop</button><button id="category-tab-charger" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="charger" data-title="Phone Charger">Phone Charger</button><button id="category-tab-drawer_cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="drawer_cabinet" data-title="Two-Drawer Cabinet">Two-Drawer Cabinet</button><span class="category-tabs__label" role="presentation">More categories</span><button id="category-tab-bed" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bed" data-title="Bed">Bed</button><button id="category-tab-bottle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bottle" data-title="Bottle">Bottle</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet" data-title="Cabinet">Cabinet</button><button id="category-tab-chair" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="chair" data-title="Chair">Chair</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle" data-title="Kettle">Kettle</button><button id="category-tab-lamp" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="lamp" data-title="Lamp">Lamp</button><button id="category-tab-oven" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="oven" data-title="Oven Range">Oven Range</button><button id="category-tab-refrigerator" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="refrigerator" data-title="Refrigerator">Refrigerator</button><button id="category-tab-screwdriver" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="screwdriver" data-title="Screwdriver">Screwdriver</button><button id="category-tab-sofa" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="sofa" data-title="Sofa">Sofa</button><button id="category-tab-suitcase" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="suitcase" data-title="Suitcase">Suitcase</button><button id="category-tab-tv_stand" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="tv_stand" data-title="TV Stand">TV Stand</button><button id="category-tab-table" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="table" data-title="Table">Table</button><button id="category-tab-trash_can" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="trash_can" data-title="Trash Can">Trash Can</button><button id="category-tab-wardrobe" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="wardrobe" data-title="Two-Door Wardrobe">Two-Door Wardrobe</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-mug"><div class="rollout-player category-player"><video controls muted loop playsinline preload="none" poster="media/categories/mug.webp?v=202611180100" aria-label="Mug generator: all parameters moving"><source src="media/categories/mug.mp4?v=202611180100" type="video/mp4"></video></div></div><div class="category-all"><h4>All Generators at Once</h4><p>First one generator with every major parameter, discrete option, and joint moving together, then 20 categories side by side, each running its own generator.</p><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/categories/all.webp?v=202611180100" aria-label="20 generators with all parameters moving at once"><source src="media/categories/all.mp4?v=202611180100" type="video/mp4"></video></div></div></div>
+    <div class="category-explorer reveal" id="category-explorer"><h3>Generated Assets by Category</h3><p>AssetEngine authored generators for the six task-relevant categories and 15 more categories. Each video renders one generator over time. All continuous major parameters vary together, each discrete parameter switches once, and articulated parts open and close. The parameters are those of the live generators below.</p><div class="category-tabs" role="tablist" aria-label="Asset category"><span class="category-tabs__label" role="presentation">Task objects</span><button id="category-tab-mug" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="mug" data-title="Mug">Mug</button><button id="category-tab-mug_tree" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="mug_tree" data-title="Mug Tree">Mug Tree</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot" data-title="Cooking Pot">Cooking Pot</button><button id="category-tab-cooktop" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cooktop" data-title="Cooktop">Cooktop</button><button id="category-tab-charger" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="charger" data-title="Phone Charger">Phone Charger</button><button id="category-tab-drawer_cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="drawer_cabinet" data-title="Two-Drawer Cabinet">Two-Drawer Cabinet</button><span class="category-tabs__label" role="presentation">More categories</span><button id="category-tab-bed" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bed" data-title="Bed">Bed</button><button id="category-tab-bottle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bottle" data-title="Bottle">Bottle</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet" data-title="Cabinet">Cabinet</button><button id="category-tab-chair" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="chair" data-title="Chair">Chair</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle" data-title="Kettle">Kettle</button><button id="category-tab-lamp" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="lamp" data-title="Lamp">Lamp</button><button id="category-tab-oven" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="oven" data-title="Oven Range">Oven Range</button><button id="category-tab-refrigerator" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="refrigerator" data-title="Refrigerator">Refrigerator</button><button id="category-tab-screwdriver" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="screwdriver" data-title="Screwdriver">Screwdriver</button><button id="category-tab-sofa" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="sofa" data-title="Sofa">Sofa</button><button id="category-tab-suitcase" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="suitcase" data-title="Suitcase">Suitcase</button><button id="category-tab-tv_stand" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="tv_stand" data-title="TV Stand">TV Stand</button><button id="category-tab-table" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="table" data-title="Table">Table</button><button id="category-tab-trash_can" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="trash_can" data-title="Trash Can">Trash Can</button><button id="category-tab-wardrobe" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="wardrobe" data-title="Two-Door Wardrobe">Two-Door Wardrobe</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-mug"><div class="rollout-player category-player"><video controls muted loop playsinline preload="none" poster="media/categories/mug.webp?v=202611180100" aria-label="Mug generator: all parameters moving"><source src="media/categories/mug.mp4?v=202611180100" type="video/mp4"></video></div></div><div class="category-all"><h4>Twenty Generators</h4><p>The two-drawer cabinet generator, followed by 20 categories side by side, each rendered from its own generator.</p><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/categories/all.webp?v=202611180100" aria-label="20 generators with all parameters moving at once"><source src="media/categories/all.mp4?v=202611180100" type="video/mp4"></video></div></div></div>
     </section>
 
     <section class="light-section playground-section" id="playground">
-      <div class="section-head reveal"><div><p class="section-index">Hands-On / Live Procedural Generators</p><h2>Run the Real<br>Procedural Generators.</h2></div><p>Move the sliders to run the AssetEngine generators live.<br>Some parameter ranges are slightly widened from AssetEngine’s raw output.</p></div>
+      <div class="section-head reveal"><div><p class="section-index">AssetEngine</p><h2>Live Generators</h2></div><p>These are the AssetEngine generators of the paper, running in the browser with Pyodide. Each control is one major parameter, and every change runs the generator again. Some parameter ranges are slightly wider than those used for sampling.</p></div>
       <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="preview-bar"><span id="mesh-count">Generator output</span><span id="gen-timing"></span></div><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div><p class="orbit-hint">Drag to Orbit · Scroll or Pinch to Zoom · Double-Click to Reset</p></div>
       <form class="asset-controls gen-form" onsubmit="return false"><label for="asset-family">Object Category</label><select id="asset-family" disabled><option>Loading categories…</option></select>
       <div id="gen-controls" class="gen-controls" aria-live="off"></div>
@@ -155,41 +169,34 @@
       <noscript><p>Enable JavaScript to use the 3D preview. Research asset videos remain available above.</p></noscript>
     </section>
 
-    <section class="light-section demonstration-section" id="demonstrations">
-      <div class="section-head reveal">
-        <div>
-          <p class="section-index">03 / Demonstration Generation</p>
-          <h2>SimScale Produces Demonstrations on Diverse Assets and Poses.</h2>
-        </div>
-        <p>DemoEngine adapts agent-authored task programs across geometries. DexMimicGen then expands accepted source trajectories across object poses and retains successful executions.</p>
-      </div>
-
+    <section class="light-section demonstration-section results-highlight" id="demoengine">
+      <div class="section-head reveal"><div><p class="section-index">DemoEngine</p><h2>Demonstrations Across Assets and Poses</h2></div><p>DemoEngine adapts one human demonstration, teleoperated in simulation, to every sampled asset. DexMimicGen then expands these source demonstrations across object poses.</p></div>
       <div class="demo-expansion reveal" aria-label="One source demonstration expanded across assets and poses">
         <figure>
           <video controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
             <source src="media/source-demonstration.mp4" type="video/mp4">
           </video>
-          <figcaption><span>Input</span><strong>One Source Demonstration</strong><small>A human demonstration collected once in simulation.</small></figcaption>
+          <figcaption><span>Input</span><strong>One Source Demonstration</strong><small>One human demonstration, teleoperated in simulation.</small></figcaption>
         </figure>
-        <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>Adapt geometry<br>Expand poses</small></div>
+        <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>DemoEngine<br>+ DexMimicGen</small></div>
         <figure>
           <video controls muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay aria-label="Generated demonstrations across asset geometries and poses">
             <source src="media/generated-demonstrations.mp4" type="video/mp4">
           </video>
-          <figcaption><span>Output</span><strong>Demonstrations Across Assets</strong><small>The task is adapted to different geometries and starting poses.</small></figcaption>
+          <figcaption><span>Output</span><strong>Generated Demonstrations</strong><small>The demonstration adapted to different asset geometries and initial poses.</small></figcaption>
         </figure>
       </div>
 
       <div class="dmg-showcase reveal" data-dmg-showcase>
         <div class="task-tabs" role="tablist" aria-label="Simulation demonstration task">
           <button class="active" id="dmg-tab-putcharger" type="button" role="tab" aria-selected="true" aria-controls="dmg-panel-putcharger" data-dmg-task="putcharger">
-            <span>01</span> Put Charger in Drawer
+            <span>01</span> PutCharger
           </button>
           <button id="dmg-tab-hangmug" type="button" role="tab" aria-selected="false" aria-controls="dmg-panel-hangmug" data-dmg-task="hangmug" tabindex="-1">
-            <span>02</span> Hang Mug on Tree
+            <span>02</span> HangMug
           </button>
           <button id="dmg-tab-putpot" type="button" role="tab" aria-selected="false" aria-controls="dmg-panel-putpot" data-dmg-task="putpot" tabindex="-1">
-            <span>03</span> Put Pot on Cooktop
+            <span>03</span> PutPot
           </button>
         </div>
 
@@ -198,191 +205,126 @@
             <video controls muted autoplay loop playsinline preload="metadata" poster="media/dmg-putcharger-poster.jpg" aria-label="DexMimicGen pose expansion for placing a charger in a drawer">
               <source src="media/dmg-putcharger.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put Charger in Drawer</strong><small>DexMimicGen pose expansion<br>Insertion, drawer closure, and release</small></div>
+            <div class="dmg-caption"><span>Generated demonstrations</span><strong>PutCharger</strong><small>Pick up the charger, open the drawer, place the charger inside, and close the drawer.</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-hangmug" role="tabpanel" aria-labelledby="dmg-tab-hangmug" data-dmg-panel="hangmug" hidden>
             <video controls muted loop playsinline preload="metadata" poster="media/dmg-hangmug-poster.jpg" aria-label="DexMimicGen pose expansion for hanging a mug on a tree">
               <source src="media/dmg-hangmug.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Hang Mug on Tree</strong><small>DexMimicGen pose expansion<br>Hook engagement, release, and resting mug</small></div>
+            <div class="dmg-caption"><span>Generated demonstrations</span><strong>HangMug</strong><small>Pick up the mug, hand it over, and hang it on the mug tree.</small></div>
           </article>
           <article class="dmg-task" id="dmg-panel-putpot" role="tabpanel" aria-labelledby="dmg-tab-putpot" data-dmg-panel="putpot" hidden>
             <video controls muted loop playsinline preload="metadata" poster="media/dmg-putpot-poster.jpg" aria-label="DexMimicGen pose expansion for placing a pot on a cooktop">
               <source src="media/dmg-putpot.mp4" type="video/mp4">
             </video>
-            <div class="dmg-caption"><span>Generated simulation trajectory</span><strong>Put Pot on Cooktop</strong><small>DexMimicGen pose expansion<br>Placement, release, and resting pot</small></div>
+            <div class="dmg-caption"><span>Generated demonstrations</span><strong>PutPot</strong><small>Grasp the pot with both arms and place it upright on the cooktop.</small></div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="light-section evaluation-section" id="evaluation">
-      <div class="section-head reveal">
-        <div>
-          <p class="section-index">04 / Simulation Evaluation</p>
-          <h2>SimScale Policies Generalize in Simulation.</h2>
-        </div>
-        <p>Compare task-completion success on held-out asset geometries. Each training condition uses 4,000 generated demonstrations per task; demonstration generation is held fixed to isolate the asset source.</p>
-      </div>
-
-      <div class="evaluation-protocol reveal" aria-label="Simulation evaluation protocol">
-        <article><span>01 / Split before training</span><strong>Held-Out Geometry</strong><p>30 SimScale configurations per task, a held-out 20% of RoboCasa assets, and five real-object digital-twin pairs.</p></article>
-        <article><span>02 / Two policy backends</span><strong>Cross-Source Tests</strong><p>GR00T N1.6 and DINOv3 + FMT are evaluated across generated families, curated assets, and digital twins.</p></article>
-        <article><span>03 / 100 rollouts per configuration</span><strong>Full Task Completion</strong><p>Success requires completing the manipulation task. Scores below are percentages with reported standard errors.</p></article>
-      </div>
-      <div class="evaluation-results reveal"><div class="evaluation-controls"><label for="eval-backend">Policy Backend<select id="eval-backend"><option value="groot">GR00T N1.6</option><option value="dino">DINOv3 + FMT</option></select></label><label for="eval-source">Held-Out Evaluation Assets<select id="eval-source"><option value="ours">SimScale</option><option value="rc">RoboCasa</option><option value="twins">Real-object digital twins</option></select></label></div><div class="table-scroll"><table id="simulation-scores"><caption>Simulation task-completion success (%) · mean ± standard error</caption><thead><tr><th scope="col">Training Asset Source</th><th scope="col">Put Pot</th><th scope="col">Hang Mug</th><th scope="col">Put Charger</th></tr></thead><tbody></tbody></table></div><p id="evaluation-note" role="status" aria-live="polite"></p><p class="source-note">Source: manuscript simulation results table · <a href="simulation-results.json">Download the displayed score data</a>. RoboCasa has no charger assets; unavailable comparisons are shown explicitly.</p><noscript><p>The interactive table requires JavaScript. All scores are available in the linked score data.</p></noscript></div>
+    <section class="light-section" id="setup">
+      <div class="section-head reveal"><div><p class="section-index">Experiments</p><h2>Experiment Setup</h2></div><p>We evaluate the full framework in the real world, then analyze AssetEngine and DemoEngine separately.</p></div>
+      <figure class="spot-fig reveal" data-spot="tasks" data-spot-title="Tasks and objects" data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects. The top row shows object variants, and the bottom row shows the initial and final states of each task.">
+        <div class="spot-stage"><img src="media/paper/tasks.webp?v=202611181200" alt="Real-world tasks. (a) PutPot with five pots and cooktops. (b) HangMug with five mugs and mug trees. (c) PutCharger with drawer cabinets. Each with initial and final states." width="2145" height="744" loading="lazy"></div>
+        <div class="spot-panel"><div class="spot-steps" aria-label="Tasks"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
+      </figure>
+      <ul class="setup-list reveal">
+        <li><b>Evaluation protocols</b>In sim-to-real evaluation, policies are deployed zero-shot on five sets of distinct real-world objects per task, with 20 rollouts per object set. In sim-to-sim evaluation, policies are tested on unseen assets from AssetEngine generators, held-out RoboCasa assets, and digital twins of the real-world test objects, with 100 rollouts per asset.</li>
+        <li><b>Real-world baseline</b>Real-Demos uses 60 real-world demonstrations per task, 20 on each of three object sets, so three of the five test sets appear in its training data.</li>
+        <li><b>Simulation baselines</b>Each baseline trains on assets from one source: a curated library (RoboCasa), an agentic asset generator (Articraft), or a real-to-sim method (SimFoundry twins or cousins). Except for SimFoundry twins, every dataset uses 40 assets with three source demonstrations per asset, augmented by DexMimicGen to 100 trajectories per asset. The baselines teleoperate these source demonstrations, 120 per task, while SimScale generates them from one human demonstration.</li>
+        <li><b>Policies</b>We train two policy backends on each dataset: GR00T N1.6, and DINOv3 + FMT, which combines a DINOv3 visual backbone with a flow-matching transformer action head. Both take three RGB views and the joint and gripper state as input and predict future action chunks.</li>
+      </ul>
     </section>
 
-    <section class="dark-section real-section" id="real-world">
-      <div class="section-head reveal">
-        <div>
-          <p class="section-index">05 / Baseline Comparison</p>
-          <h2>How SimScale Compares.</h2>
-        </div>
-        <p>SimScale combines category-level procedural assets with geometry-aware task adaptation. The simulation table above compares training asset sources; the selected real-world rollouts below show matched task objects.</p>
+    <section class="light-section transfer-section results-highlight" id="results">
+      <div class="section-head reveal"><div><p class="section-index">Experiments</p><h2>Real-World Results</h2></div><p>Task scores are averaged over five real-world object sets per task. SimScale generates all of its training data in simulation and never sees the real-world test objects.</p></div>
+      <div class="finding reveal">
+        <h3>SimScale policies transfer zero-shot to diverse real-world objects with far less human effort.</h3>
+        <p>SimScale performs the best in all tasks and with both policy backends. Using only one human demonstration, it outperforms Real-Demos, which uses 60 real-world demonstrations per task, by 30.0% on average, and the strongest simulation baseline, SimFoundry Cousins + DexMimicGen, which uses 120 human demonstrations per task, by 31.7%.</p>
+        <div class="pchart" data-chart="realworld" aria-label="Bar chart of real-world task scores for Real-Demos, SimFoundry Cousins + DexMimicGen, and SimScale on PutPot, HangMug, and PutCharger."></div>
       </div>
-      <div id="baseline-context" class="baseline-context reveal"><h3>Where SimScale Extends Prior Work</h3><div class="baseline-cards"><article><h4>Articraft &amp; Asset Generation</h4><p>Articraft uses agents to author individual articulated assets. SimScale uses its SDK to author reusable category-level generators, then samples controlled variation and connects it to robot data generation.</p><a href="https://arxiv.org/abs/2605.15187">Articraft paper ↗</a></article><article><h4>RoboCasa &amp; SimFoundry</h4><p>Curated asset libraries and real-to-sim twins or cousins provide alternative training geometries. SimScale learns from a sampled category distribution; our simulation study compares these sources with the same demonstration budget.</p><a href="#evaluation">View the measured comparison ↑</a></article><article><h4>DexMimicGen</h4><p>DexMimicGen efficiently expands source demonstrations across poses. SimScale adds agent-authored task programs and geometry-specific source adaptation, then uses DexMimicGen for pose expansion.</p><a href="https://dexmimicgen.github.io/">DexMimicGen project ↗</a></article><article><h4>MolmoBot</h4><p>MolmoBot scales task-and-motion-planning data for pick-and-place and articulated-object tasks. SimScale studies geometry-aware source generation for bimanual pot placement, mug hanging, and charger placement.</p><a href="https://arxiv.org/abs/2603.16861">MolmoBot paper ↗</a></article></div><p class="source-note">These cards describe method scope. The measured evidence is the asset-source study above; no head-to-head benchmark against MolmoBot or DexMimicGen is claimed.</p></div>
-      <div class="sdg-comparison table-scroll"><table><caption>How behavior generation differs</caption><thead><tr><th scope="col">Method</th><th scope="col">Source Behavior</th><th scope="col">What Scales</th><th scope="col">SimScale’s Added Role</th></tr></thead><tbody><tr><th scope="row"><a href="https://dexmimicgen.github.io/">DexMimicGen</a></th><td>Supplied source demonstrations</td><td>Object-centric trajectory transformation and replay</td><td>Agents author and adapt source programs across asset geometries before calling DexMimicGen for pose expansion</td></tr><tr><th scope="row"><a href="https://arxiv.org/abs/2603.16861">MolmoBot</a></th><td>Task-and-motion-planning experts</td><td>Procedural environments, assets, and expert trajectories for pick-and-place and articulated-object manipulation</td><td>Agent-authored, geometry-aware source programs for the demonstrated bimanual manipulation tasks</td></tr><tr class="ours-score"><th scope="row">SimScale</th><td>One human reference guides agent-authored task programs</td><td>Procedural asset sampling, agent adaptation across geometry, and DexMimicGen expansion across poses</td><td>Combines flexible source generation with reusable execution tools</td></tr></tbody></table></div>
-      <p class="comparison-intro">Selected real-world rollouts · 8× playback · illustrative videos, not aggregate success rates</p>
+      <div class="finding reveal">
+        <h3>SimScale policies generalize across diverse object instances without overfitting to a subset of objects.</h3>
+        <p>We split the test objects into those seen and unseen by each baseline. Objects seen by SimFoundry are the scenes whose input video is reconstructed. Both baselines degrade significantly from seen to unseen objects. Without any real-world demonstrations or video capture, SimScale outperforms both baselines even on their seen objects, and by larger margins of 46.0% and 35.5% on their unseen objects. Bars average three tasks and two policy backends.</p>
+        <div class="pchart" data-chart="seen" aria-label="Bar chart of task scores on objects seen and unseen by Real-Demos and by SimFoundry."></div>
+      </div>
+      <div class="finding reveal">
+        <h3>Uncut real-world rollouts</h3>
+        <p>Each video below is uncut. Policy rollouts play at 8×, resets between rollouts at 32×, and the HangMug video slows to 2× with a close-up until the handle is on the branch. The clock shows the real elapsed time.</p>
+      </div>
+      <div class="rollout-showcase reveal" id="real-rollouts">
+      <div class="rollout-group-head"><h3>Five Object Sets per Task</h3><p>One SimScale policy runs on the five real-world object sets of each task in a row.</p></div>
+      <section class="rollout-demo" aria-label="PutPot, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">PutPot</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-pot.webp?v=202611161700" aria-label="PutPot: uncut rollouts on five objects"><source src="media/real/geo-pot.mp4?v=202611161700" type="video/mp4"></video></div></section>
+      <section class="rollout-demo" aria-label="HangMug, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">HangMug</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-mug.webp?v=202611161700" aria-label="HangMug: uncut rollouts on five objects"><source src="media/real/geo-mug.mp4?v=202611172000" type="video/mp4"></video></div></section>
+      <section class="rollout-demo" aria-label="PutCharger, five objects"><div class="rollout-demo__label"><span class="rollout-demo__task">PutCharger</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/geo-cabinet.webp?v=202611161700" aria-label="PutCharger: uncut rollouts on five objects"><source src="media/real/geo-cabinet.mp4?v=202611161700" type="video/mp4"></video></div></section>
+      <div class="rollout-group-head"><h3>Uncut Rollouts Across Object Poses</h3><p>Consecutive rollouts on one object set, which is moved to a new initial pose after each rollout. Select an object set below.</p></div>
+      <section class="rollout-demo" data-rollout-switch aria-label="PutPot, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">PutPot</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-pot-1.webp?v=202611161700" aria-label="PutPot: rollouts on pot 1"><source src="media/real/pose-pot-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Pots"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-pot-1.mp4?v=202611161700" data-poster="media/real/pose-pot-1.webp?v=202611161700" data-label="PutPot: rollouts on pot 1"><img src="media/real/pose-pot-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-2.mp4?v=202611161700" data-poster="media/real/pose-pot-2.webp?v=202611161700" data-label="PutPot: rollouts on pot 2"><img src="media/real/pose-pot-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-3.mp4?v=202611161700" data-poster="media/real/pose-pot-3.webp?v=202611161700" data-label="PutPot: rollouts on pot 3"><img src="media/real/pose-pot-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-4.mp4?v=202611161700" data-poster="media/real/pose-pot-4.webp?v=202611161700" data-label="PutPot: rollouts on pot 4"><img src="media/real/pose-pot-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-pot-5.mp4?v=202611161700" data-poster="media/real/pose-pot-5.webp?v=202611161700" data-label="PutPot: rollouts on pot 5"><img src="media/real/pose-pot-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Pot 5</span></button></div></section>
+      <section class="rollout-demo" data-rollout-switch aria-label="HangMug, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">HangMug</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-mug-1.webp?v=202611161700" aria-label="HangMug: rollouts on mug 1"><source src="media/real/pose-mug-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Mugs"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-mug-1.mp4?v=202611161700" data-poster="media/real/pose-mug-1.webp?v=202611161700" data-label="HangMug: rollouts on mug 1"><img src="media/real/pose-mug-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-2.mp4?v=202611161700" data-poster="media/real/pose-mug-2.webp?v=202611161700" data-label="HangMug: rollouts on mug 2"><img src="media/real/pose-mug-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-3.mp4?v=202611161700" data-poster="media/real/pose-mug-3.webp?v=202611161700" data-label="HangMug: rollouts on mug 3"><img src="media/real/pose-mug-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-4.mp4?v=202611161700" data-poster="media/real/pose-mug-4.webp?v=202611161700" data-label="HangMug: rollouts on mug 4"><img src="media/real/pose-mug-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-mug-5.mp4?v=202611161700" data-poster="media/real/pose-mug-5.webp?v=202611161700" data-label="HangMug: rollouts on mug 5"><img src="media/real/pose-mug-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Mug 5</span></button></div></section>
+      <section class="rollout-demo" data-rollout-switch aria-label="PutCharger, rollouts per object"><div class="rollout-demo__label"><span class="rollout-demo__task">PutCharger</span></div><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/real/pose-cabinet-1.webp?v=202611161700" aria-label="PutCharger: rollouts on cabinet 1"><source src="media/real/pose-cabinet-1.mp4?v=202611161700" type="video/mp4"></video></div><div class="rollout-gallery" role="tablist" aria-label="Cabinets"><button type="button" class="rollout-thumb" role="tab" aria-selected="true" tabindex="0" data-src="media/real/pose-cabinet-1.mp4?v=202611161700" data-poster="media/real/pose-cabinet-1.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 1"><img src="media/real/pose-cabinet-1-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 1</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-2.mp4?v=202611161700" data-poster="media/real/pose-cabinet-2.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 2"><img src="media/real/pose-cabinet-2-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 2</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-3.mp4?v=202611161700" data-poster="media/real/pose-cabinet-3.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 3"><img src="media/real/pose-cabinet-3-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 3</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-4.mp4?v=202611161700" data-poster="media/real/pose-cabinet-4.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 4"><img src="media/real/pose-cabinet-4-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 4</span></button><button type="button" class="rollout-thumb" role="tab" aria-selected="false" tabindex="-1" data-src="media/real/pose-cabinet-5.mp4?v=202611161700" data-poster="media/real/pose-cabinet-5.webp?v=202611161700" data-label="PutCharger: rollouts on cabinet 5"><img src="media/real/pose-cabinet-5-thumb.webp?v=202611161700" alt="" loading="lazy" width="360" height="203"><span>Cabinet 5</span></button></div></section>
+      </div>
+    </section>
+
+    <section class="dark-section real-section" id="comparison">
+      <div class="section-head reveal"><div><p class="section-index">Experiments</p><h2>Rollouts Compared with Baselines</h2></div><p>Selected real-world rollouts of SimScale and two simulation baselines on the same objects, played at 8×. These clips illustrate typical behavior and are not success-rate estimates. For SimFoundry, Twin marks the object whose video it reconstructs.</p></div>
       <div class="comparison-showcase reveal" data-comparison-showcase>
         <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
-          <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1"><span>01</span> Put Pot on Cooktop</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task2" data-comparison-task="task2" tabindex="-1"><span>02</span> Hang Mug on Tree</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1"><span>03</span> Put Charger in Drawer</button>
+          <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1"><span>01</span> PutPot</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task2" data-comparison-task="task2" tabindex="-1"><span>02</span> HangMug</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1"><span>03</span> PutCharger</button>
         </div>
         <div class="comparison-stage" data-comparison-stage></div>
       </div>
     </section>
 
-    <section class="light-section method-section" id="method">
-      <div class="section-head reveal">
-        <div>
-          <p class="section-index">06 / Method</p>
-          <h2>How It Works: Two Engines, One Scalable Pipeline.</h2>
-        </div>
-        <p>SimScale turns a short asset description and one human demonstration collected in simulation into a training set that spans object geometry and pose.</p>
+    <section class="light-section" id="asset-analysis">
+      <div class="section-head reveal"><div><p class="section-index">Analysis</p><h2>AssetEngine Analysis</h2></div><p>To isolate the effect of assets, every policy in this section, including those trained on AssetEngine assets, uses per-asset human source demonstrations instead of DemoEngine.</p></div>
+      <div class="finding reveal">
+        <h3>AssetEngine assets improve geometric generalization in sim-to-sim settings.</h3>
+        <p>Policies are trained on assets from different sources and evaluated on unseen assets from different sources in simulation, without visual or physical domain gaps. Policies trained on AssetEngine assets achieve the highest task score for every task, policy backend, and test asset source. They even outperform policies trained on RoboCasa assets when tested on held-out RoboCasa assets. Bars average three tasks and two policy backends.</p>
+        <div class="pchart" data-chart="sim2sim" aria-label="Bar chart of sim-to-sim task scores by training asset source, tested on held-out AssetEngine assets, held-out RoboCasa assets, and digital twins of real objects."></div>
       </div>
-
-      <div class="method-flow reveal" aria-label="SimScale input, process, and output flow">
-        <article class="flow-lane">
-          <header>
-            <span>AssetEngine flow</span>
-            <h3>From Prompt to Assets</h3>
-          </header>
-          <div class="flow-track">
-            <div class="flow-node flow-input">
-              <span class="flow-type">Input</span>
-              <strong>Asset Description</strong>
-              <p>“Mugs with handles and branched racks”</p>
-            </div>
-            <i aria-hidden="true">→</i>
-            <div class="flow-node flow-process">
-              <span class="flow-type">Process</span>
-              <strong>Agent-Authored Generator</strong>
-              <p>An author agent encodes dimensions, part variants, dependencies, and articulation. A coverage critic and geometry validator guide revisions. Accepted code is reused for procedural sampling.</p>
-            </div>
-            <i aria-hidden="true">→</i>
-            <figure class="flow-node flow-visual">
-              <img src="media/method-assets.webp" alt="A diverse family of generated simulation assets">
-              <figcaption><span class="flow-type">Output</span><strong>Diverse Asset Family</strong><small>Accepted assets + semantic and geometric metadata</small></figcaption>
-            </figure>
+      <div class="finding reveal">
+        <h3>AssetEngine assets improve zero-shot sim-to-real transfer.</h3>
+        <p>With the same demonstration quality, policies trained on assets sampled from our category-level procedural generators transfer better to real-world objects never seen during training than those trained on other asset sources. RoboCasa has no charger assets, so it is not evaluated on PutCharger.</p>
+        <div class="pchart" data-chart="assets" aria-label="Bar chart of real-world task scores by training asset source."></div>
+      </div>
+      <div class="finding reveal">
+        <h3>AssetEngine generates diverse and physically plausible assets.</h3>
+        <p>Participants rank sets of 40 assets generated by different methods in terms of geometric realism and plausibility, and in terms of diversity. On the task-relevant objects, participants rank SimScale the highest in geometric plausibility and similar to Articraft in diversity, while SimFoundry is the worst on both criteria. Across 20 categories, including more complex objects, AssetEngine assets have significantly higher geometric plausibility than Articraft while keeping comparable geometric diversity.</p>
+        <div class="us-grid">
+          <div class="us-block" data-stack>
+            <h5>(a) Task-relevant objects: share of top-2 selections</h5>
+            <div class="us-row"><span>Better geometric realism and plausibility</span><div class="us-bar"><i class="us-seg ours" style="--c:#6E9FD3" data-w="40.7" title="SimScale AssetEngine (Ours)"><b>0.0</b>%</i><i class="us-seg" style="--c:#B9A5D0" data-w="33.7" title="Articraft"><b>0.0</b>%</i><i class="us-seg" style="--c:#E2BE5A" data-w="25.6" title="SimFoundry"><b>0.0</b>%</i></div></div>
+            <div class="us-row"><span>Larger geometric diversity</span><div class="us-bar"><i class="us-seg ours" style="--c:#6E9FD3" data-w="39.0" title="SimScale AssetEngine (Ours)"><b>0.0</b>%</i><i class="us-seg" style="--c:#B9A5D0" data-w="41.3" title="Articraft"><b>0.0</b>%</i><i class="us-seg" style="--c:#E2BE5A" data-w="19.8" title="SimFoundry"><b>0.0</b>%</i></div></div>
+            <ul class="pc-legend" style="margin-top:14px"><li class="ours"><i style="--c:#6E9FD3"></i>SimScale AssetEngine (Ours)</li><li><i style="--c:#B9A5D0"></i>Articraft</li><li><i style="--c:#E2BE5A"></i>SimFoundry</li></ul>
           </div>
-        </article>
-
-        <article class="flow-lane">
-          <header>
-            <span>DemoEngine flow</span>
-            <h3>From Demonstration to Deployment</h3>
-          </header>
-          <div class="flow-track">
-            <div class="flow-node flow-input flow-demo-input">
-              <span class="flow-type">Input</span>
-              <video class="flow-input-video" controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
-                <source src="media/source-demonstration.mp4" type="video/mp4">
-              </video>
-              <strong>One Source Demo</strong>
-              <p>A single human trajectory collected in simulation.</p>
-            </div>
-            <i aria-hidden="true">→</i>
-            <div class="flow-node flow-process">
-              <span class="flow-type">Process</span>
-              <pre class="flow-code" aria-label="Illustrative DemoEngine pseudocode"><code># Illustrative pseudocode
-<span class="code-name">program</span> = author_task(source_demo)
-
-<span class="code-keyword">for</span> asset <span class="code-keyword">in</span> asset_family:
-    task = agent_adapt(program, asset)
-    rollout = task.execute()
-    <span class="code-keyword">if</span> rollout.success:
-        dataset += dexmimicgen(rollout, poses)</code></pre>
-              <strong>Geometry-Aware Task Program</strong>
-              <p>Agents reuse the task decomposition while adapting targets and logic to new geometry. DexMimicGen expands successful source runs across poses; task checks filter the resulting executions.</p>
-            </div>
-            <i aria-hidden="true">→</i>
-            <figure class="flow-node flow-visual">
-              <img src="media/method-demos.webp" alt="Robot demonstrations generated across varied simulated assets and poses">
-              <figcaption><span class="flow-type">Output</span><strong>Simulation Demonstrations</strong><small>Successful trajectories across assets and poses</small></figcaption>
-            </figure>
+          <div class="us-block" data-stack>
+            <h5>(b) 20 categories, including more complex objects: pairwise preference</h5>
+            <div class="us-row"><span>Better geometric realism and plausibility</span><div class="us-bar"><i class="us-seg ours" style="--c:#6E9FD3" data-w="71.9" title="SimScale AssetEngine (Ours)"><b>0.0</b>%</i><i class="us-seg" style="--c:#B9A5D0" data-w="28.1" title="Articraft"><b>0.0</b>%</i></div></div>
+            <div class="us-row"><span>Larger geometric diversity</span><div class="us-bar"><i class="us-seg ours" style="--c:#6E9FD3" data-w="47.2" title="SimScale AssetEngine (Ours)"><b>0.0</b>%</i><i class="us-seg" style="--c:#B9A5D0" data-w="52.8" title="Articraft"><b>0.0</b>%</i></div></div>
+            <ul class="pc-legend" style="margin-top:14px"><li class="ours"><i style="--c:#6E9FD3"></i>SimScale AssetEngine (Ours)</li><li><i style="--c:#B9A5D0"></i>Articraft</li></ul>
           </div>
-        </article>
-
-        <div class="deployment-flow" aria-label="Dataset to policy deployment flow">
-          <div><span>Data output</span><strong>Accepted Trajectories</strong><small>RGB + robot state + actions</small></div>
-          <i aria-hidden="true">→</i>
-          <div><span>Train</span><strong>Visuomotor Policy</strong><small>Standard imitation learning</small></div>
-          <i aria-hidden="true">→</i>
-          <div><span>Policy output</span><strong>Zero-Shot Transfer</strong><small>Held-out simulation + unseen real objects</small></div>
         </div>
       </div>
-
-      <div class="method-detail-heading reveal">
-        <span>Inside the engines</span>
-      </div>
-
-      <div class="method-engines reveal">
-        <article class="engine-card">
-          <header>
-            <span>01</span>
-            <div>
-              <p>AssetEngine</p>
-              <h3>Build a Category, Not One Object.</h3>
-            </div>
-          </header>
-          <p class="engine-summary">AssetEngine writes one parameterized procedural generator whose controls describe meaningful variation across an object category.</p>
-          <ol class="engine-steps">
-            <li><b>Search</b><span>Collect diverse real-world examples and identify task-relevant variation.</span></li>
-            <li><b>Author</b><span>Encode dimensions, part choices, dependencies, joints, and semantic metadata.</span></li>
-            <li><b>Review</b><span>A coverage critic checks the category range; a geometry validator checks simulation readiness.</span></li>
-            <li><b>Sample</b><span>Compile accepted parameter settings and split assets into training and held-out sets.</span></li>
-          </ol>
-          <p class="engine-output"><span>Output</span>Diverse, physically plausible simulation assets</p>
-        </article>
-
-        <div class="method-connector" aria-hidden="true"><span>→</span><small>Assets + metadata</small></div>
-
-        <article class="engine-card engine-demo">
-          <header>
-            <span>02</span>
-            <div>
-              <p>DemoEngine</p>
-              <h3>Adapt the Skill Across Geometry and Pose.</h3>
-            </div>
-          </header>
-          <p class="engine-summary">DemoEngine turns the reference trajectory into a reusable task program, then uses simulation feedback and robot tools to make it work across the asset family.</p>
-          <ol class="engine-steps">
-            <li><b>Decompose</b><span>Read the demonstration as semantic stages such as grasp, handover, insert, and retreat.</span></li>
-            <li><b>Program</b><span>Compose motion planning, gripper control, collision checking, and object-centric targets.</span></li>
-            <li><b>Specialize</b><span>Revise targets or task logic for each geometry and retain only successful executions.</span></li>
-            <li><b>Expand</b><span>Use DexMimicGen to transform accepted trajectories across sampled object poses.</span></li>
-          </ol>
-          <p class="engine-output"><span>Output</span>Diverse, successful demonstrations across assets and poses</p>
-        </article>
-      </div>
-
     </section>
 
-    <section class="abstract-section" id="summary">
-      <p class="section-index">Project Summary</p>
-      <p class="abstract reveal">Diverse assets. Generated demonstrations. One policy tested on objects it has not seen before.</p>
+    <section class="light-section results-highlight" id="demo-analysis">
+      <div class="section-head reveal"><div><p class="section-index">Analysis</p><h2>DemoEngine Analysis</h2></div><p>All methods in this section use the same 40 AssetEngine assets and differ only in how the source demonstrations are generated.</p></div>
+      <div class="finding reveal">
+        <h3>DemoEngine generates trajectories that match the quality of human-collected demonstrations.</h3>
+        <p>Using only one human demonstration, DemoEngine matches the performance of re-collecting human source demonstrations for every asset. It preserves the quality of human demonstrations by adapting one demonstration across diverse object geometries, so training data scales across geometric variations without scaling human effort.</p>
+      </div>
+      <div class="finding reveal">
+        <h3>DemoEngine trajectories are more suitable for visuomotor policy training than datasets distilled from GPT-6-Astra programs.</h3>
+        <p>GPT-6-Astra receives the same human demonstration and iterates in simulation to write a task program for each asset. Although these programs solve the task in simulation with more than 95% success, their policies almost entirely fail in the real world. The programs produce motions unlike natural human motions, such as unwanted pauses and inconsistent speeds, and often approach and manipulate objects while the wrist camera cannot see the target object. DemoEngine instead adapts the single human demonstration across object geometries, preserving natural human motions and intents.</p>
+        <div class="pchart" data-chart="demos" aria-label="Bar chart of real-world task scores by demonstration source: GPT-6-Astra programs, human demonstrations per asset, and SimScale DemoEngine."></div>
+      </div>
+    </section>
+
+    <section class="abstract-section" id="conclusion">
+      <p class="section-index">Conclusion</p>
+      <p class="conclusion-text reveal">We presented SimScale, an agentic framework that scales up simulation training data for sim-to-real robot learning with only one human demonstration. Its AssetEngine authors category-level procedural generators that balance geometric diversity and physical plausibility, and its DemoEngine adapts the demonstration across the resulting geometries. Policies trained only on SimScale data transfer zero-shot to diverse real-world objects and outperform the strongest baseline by approximately 30% with far less human effort. These findings support category-level procedural generation as a practical approach to scaling up simulation data for sim-to-real robot learning.</p>
     </section>
   </main>
 
