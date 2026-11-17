@@ -233,3 +233,11 @@ button:disabled, input:disabled, select:disabled { opacity: .55; cursor: wait; }
   .light-section, .dark-section, .abstract-section, .section-divider { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - 1100px) / 2)); }
   .real-section { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - 1440px) / 2)); }
 }
+/* Category generator videos: tabs in two labeled groups, and a full-width player. */
+.category-tabs { align-items: center; gap: 8px; margin: 24px 0 20px; }
+.category-tabs__label { flex-basis: 100%; margin: 8px 0 2px; color: #9fb091; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.category-tabs__label:first-child { margin-top: 0; }
+.category-tabs button { min-height: 40px; padding: 8px 16px; font-size: .95rem; }
+#category-panel { padding: 0; border: 0; background: transparent; }
+.category-player, .category-player video { background: #f3f6f0; }
+@media (max-width: 720px) { .category-tabs { gap: 6px; } .category-tabs button { min-height: 36px; padding: 6px 11px; font-size: .86rem; } #category-panel { padding: 0; } }

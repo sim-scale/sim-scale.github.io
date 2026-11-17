@@ -1,22 +1,15 @@
 (() => {
- const categories={
-  tree:{label:'Mug trees',controls:[['Overall height','Changes the vertical arrangement of hanging locations.'],['Base diameter','Changes the support footprint.'],['Branch elevation','Changes the approach and hook geometry.']]},
-  pot:{label:'Pots',controls:[['Body height','Changes the grasp and placement geometry.'],['Body diameter','Changes the pot footprint and separation of handles.'],['Handle reach','Changes where the robot can establish a grasp.']]},
-  cabinet:{label:'Cabinets',controls:[['Overall height','Changes the drawer access height.'],['Body width','Changes the storage opening and object clearance.'],['Handle width','Changes the geometry available for opening the drawer.']]},
-  kettle:{label:'Kettles',controls:[['Body height','Changes the object proportions.'],['Body diameter','Changes the body footprint.'],['Spout length','Changes the extent and silhouette of the pouring interface.']]}
- };
- const tabs=[...document.querySelectorAll('[data-category]')],video=document.querySelector('#category-video');
+ // Category videos: one per generator, swapped in place in the shared rollout player (rollouts.js adds its controls).
+ const V='202611162200',tabs=[...document.querySelectorAll('[data-category]')],player=document.querySelector('.category-player'),video=player&&player.querySelector('video');
  const select=(key,focus=false)=>{
-  const data=categories[key],playing=!video.paused;
-  tabs.forEach(t=>{const active=t.dataset.category===key;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus();});
+  const tab=tabs.find(t=>t.dataset.category===key);
+  tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus();});
   document.querySelector('#category-panel').setAttribute('aria-labelledby',`category-tab-${key}`);
-  document.querySelector('#category-title').textContent=data.label;
-  const controls=document.querySelector('#category-parameters');controls.replaceChildren();
-  data.controls.forEach(([name,description])=>{const article=document.createElement('article'),heading=document.createElement('strong'),p=document.createElement('p');heading.textContent=name;p.textContent=description;article.append(heading,p);controls.append(article);});
-  video.pause();video.poster=`media/category-${key}-poster.webp`;video.querySelector('source').src=`media/category-${key}.mp4`;video.load();
-  if(playing)video.play().catch(()=>{});
+  video.poster=`media/categories/${key}.webp?v=${V}`;video.src=`media/categories/${key}.mp4?v=${V}`;
+  video.setAttribute('aria-label',`${tab.dataset.title} generator: parameter sweeps`);video.load();
+  if(player.rolloutUpdate)player.rolloutUpdate();
  };
- tabs.forEach((tab,index)=>{
+ if(video)tabs.forEach((tab,index)=>{
   tab.addEventListener('click',()=>select(tab.dataset.category));
   tab.addEventListener('keydown',e=>{
    if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();
