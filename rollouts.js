@@ -55,6 +55,25 @@
       else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
     });
 
+    // GitHub Pages sometimes answers a new file with a brief 503 right after a deploy, and the browser then gives up on
+    // the video. Retry a few times with a fresh URL so the player recovers without a page reload.
+    let retries = 0, retryTimer = null;
+    const retry = () => {
+      if (retryTimer || retries >= 4) return;            // one pending retry at a time
+      const src = (video.currentSrc || video.querySelector('source')?.src || '').replace(/([?&])r=\d+&?/, '$1').replace(/[?&]$/, '');
+      if (!src) return;
+      const attempt = ++retries;
+      retryTimer = setTimeout(() => {
+        retryTimer = null;
+        video.src = src + (src.includes('?') ? '&' : '?') + 'r=' + attempt;
+        video.load();
+        update();
+      }, 1500 * attempt);
+    };
+    video.addEventListener('error', retry);
+    video.querySelectorAll('source').forEach((s) => s.addEventListener('error', retry));
+    video.addEventListener('loadeddata', () => { retries = 0; clearTimeout(retryTimer); retryTimer = null; });
+
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; update(); }, { threshold: 0.35 }).observe(player);
     }
