@@ -70,10 +70,11 @@
 
     <section class="cinematic-hero">
       <div class="hero-field" aria-hidden="true">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="media/hero-slide1-first-frame.webp" tabindex="-1" aria-hidden="true">
-          <source src="media/hero-slide1.mp4" type="video/mp4">
+        <video class="hero-video" autoplay muted playsinline preload="auto" poster="media/hero-first-frame.webp?v=202611181700" tabindex="-1" aria-hidden="true">
+          <source src="media/hero.mp4?v=202611181700" type="video/mp4">
         </video>
       </div>
+      <div class="hero-title"><p class="hero-name">SimScale</p><p class="hero-sub">Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</p></div>
       <a class="scroll-cue" href="#abstract">Scroll <span>↓</span></a>
     </section>
 
@@ -316,9 +317,9 @@
       </div>
     </section>
 
-    <section class="abstract-section" id="conclusion">
-      <p class="section-index">Conclusion</p>
-      <p class="conclusion-text reveal">We presented SimScale, an agentic framework that scales up simulation training data for sim-to-real robot learning with only one human demonstration. Its AssetEngine authors category-level procedural generators that balance geometric diversity and physical plausibility, and its DemoEngine adapts the demonstration across the resulting geometries. Policies trained only on SimScale data transfer zero-shot to diverse real-world objects and outperform the strongest baseline by approximately 30% with far less human effort. These findings support category-level procedural generation as a practical approach to scaling up simulation data for sim-to-real robot learning.</p>
+    <section class="light-section" id="conclusion">
+      <h2 class="plain-h2">Conclusion</h2>
+      <div class="prose reveal"><p>We presented SimScale, an agentic framework that scales up simulation training data for sim-to-real robot learning with only one human demonstration. Its AssetEngine authors category-level procedural generators that balance geometric diversity and physical plausibility, and its DemoEngine adapts the demonstration across the resulting geometries. Policies trained only on SimScale data transfer zero-shot to diverse real-world objects and outperform the strongest baseline by approximately 30% with far less human effort. These findings support category-level procedural generation as a practical approach to scaling up simulation data for sim-to-real robot learning.</p></div>
     </section>
   </main>
 

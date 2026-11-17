@@ -3,9 +3,21 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const heroVideo = document.querySelector('.hero-video');
 
+  // The hero video plays once, from close-ups of single tasks out to the full scene. When it ends, the last
+  // frame stays, darkens, and the title fades in.
+  const hero = document.querySelector('.cinematic-hero');
+  const showTitle = () => hero && hero.classList.add('hero-done');
   if (heroVideo && reducedMotion) {
     heroVideo.pause();
     heroVideo.removeAttribute('autoplay');
+    showTitle();
+  } else if (heroVideo) {
+    heroVideo.addEventListener('ended', showTitle);
+    heroVideo.addEventListener('error', showTitle);
+    // If autoplay is blocked, show the title over the poster instead of waiting forever.
+    setTimeout(() => { if (heroVideo.paused || heroVideo.readyState < 2) showTitle(); }, 4000);
+  } else {
+    showTitle();
   }
 
   const updateProgress = () => {

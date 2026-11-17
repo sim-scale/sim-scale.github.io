@@ -173,3 +173,16 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 @media (min-width: 1360px) {
   .outline:not(.shown) { opacity: 0; visibility: hidden; }
 }
+
+/* Hero title, shown over the darkened last frame once the zoom-out ends. */
+.hero-field::after { transition: background-color 1.4s ease; background-color: rgba(0,0,0,0); }
+.hero-done .hero-field::after { background-color: rgba(8,10,9,.5); }
+.hero-title { position: relative; z-index: 2; padding: 0 24px; text-align: center; color: #fff; opacity: 0; transform: translateY(14px); transition: opacity 1.2s ease .5s, transform 1.2s ease .5s; pointer-events: none; }
+.hero-done .hero-title { opacity: 1; transform: none; }
+.hero-name { margin: 0; font-size: clamp(56px, 8.5vw, 112px); font-weight: 700; line-height: 1; letter-spacing: -.03em; text-shadow: 0 6px 40px rgba(0,0,0,.45); }
+.hero-sub { max-width: 900px; margin: 22px auto 0; font-size: clamp(20px, 2.3vw, 30px); font-weight: 500; line-height: 1.3; text-shadow: 0 2px 20px rgba(0,0,0,.5); }
+@media (max-aspect-ratio: 1/1) { .hero-name { font-size: 40px; } .hero-sub { margin-top: 10px; font-size: 15px; } }
+/* Conclusion reads like the rest of the text. */
+#conclusion { background: var(--white); }
+
+.hero-field { background-image: url("media/hero-first-frame.webp?v=202611181700"); }
