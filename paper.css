@@ -252,3 +252,10 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 .vis-head > div { min-width: 0; }
 .rollout-group-head p { margin-left: 0; }
 .finding > h3::before { content: none; }
+
+/* The two rollout groups are parts of "Zero-Shot Transfer to Real Robots": a bullet before each, text aligned after it. */
+.rollout-group-head { position: relative; padding-left: 26px; }
+.rollout-group-head h3 { display: block; color: #1d1d1f; font-size: 20px; font-weight: 600; }
+.rollout-group-head h3::before { content: ""; position: absolute; left: 2px; top: .62em; width: 11px; height: 11px; background: var(--accent); border-radius: 50%; }
+.rollout-group-head p { margin: 2px 0 0; }
+.rollout-showcase .rollout-group-head:not(:first-child) { border-top: 0; padding-top: 0; margin-top: 40px; }
