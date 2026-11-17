@@ -207,3 +207,42 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 .title-section .title-block { padding-bottom: 8px; }
 #rollouts { padding-top: 48px; }
 #rollouts .section-head { margin-bottom: 22px; }
+
+/* ---------- Color and icons for the visual sections ---------- */
+:root { --accent: #4f8a0b; --accent-soft: #eef6e0; --pot: #d9622b; --mug: #0f8f8a; --charger: #4a5fd1; }
+.vis-head { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 18px; align-items: start; }
+.vis-icon { display: grid; place-items: center; width: 52px; height: 52px; margin-top: 4px; color: #fff; background: linear-gradient(140deg, #8fd61c, #3f7d05); border-radius: 14px; box-shadow: 0 8px 22px rgba(79,138,11,.28); }
+.vis-icon svg { width: 28px; height: 28px; }
+.vis-head h2 { margin-bottom: 6px; }
+.light-section .vis-head h2 { color: #14210a; }
+.vis-head .takeaway { color: #44513d; font-size: 19px; }
+.vis-head .takeaway b { color: var(--accent); font-weight: 650; }
+.dark-section .vis-head .takeaway { color: #c9d2c3; }
+.dark-section .vis-head .takeaway b { color: var(--green-bright); }
+.dark-section .vis-icon { box-shadow: 0 8px 26px rgba(157,221,34,.25); }
+
+/* Rollout groups: a colored conclusion line with an icon, and colored task chips. */
+.rollout-group-head h3 { display: flex; align-items: center; gap: 12px; margin: 0 0 4px; color: var(--accent); font-size: 21px; font-weight: 650; }
+.rollout-group-head p { margin: 0 0 0 46px; color: #6a7365; font-size: 15px; }
+.gh-icon { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; color: var(--accent); background: var(--accent-soft); border-radius: 10px; }
+.gh-icon svg { width: 20px; height: 20px; }
+.rollout-showcase { gap: 34px; margin-top: 36px; }
+.rollout-showcase .rollout-group-head:not(:first-child) { margin-top: 30px; padding-top: 40px; }
+.rollout-demo__task { display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px 5px 10px; color: #fff; border-radius: 999px; font-size: 15px; font-weight: 650; letter-spacing: .01em; }
+.rollout-demo__task svg { width: 18px; height: 18px; }
+.rollout-demo__task.t-pot { background: var(--pot); }
+.rollout-demo__task.t-mug { background: var(--mug); }
+.rollout-demo__task.t-charger { background: var(--charger); }
+.rollout-demo__label { margin-bottom: 10px; }
+
+/* Smaller touches: section headings in the details part, demo captions, category heading. */
+.category-all h4 { color: var(--green-bright); font-size: 19px; }
+.finding > h3 { color: #14210a; }
+.finding > h3::before { content: ""; display: inline-block; width: 10px; height: 10px; margin: 0 10px 2px 0; background: var(--accent); border-radius: 3px; }
+@media (max-width: 560px) {
+  .vis-head { grid-template-columns: 40px minmax(0,1fr); gap: 12px; }
+  .vis-icon { width: 40px; height: 40px; border-radius: 11px; }
+  .vis-icon svg { width: 22px; height: 22px; }
+  .rollout-group-head p { margin-left: 0; }
+  .vis-head .takeaway { font-size: 17px; }
+}
