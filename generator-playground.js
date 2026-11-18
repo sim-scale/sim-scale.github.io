@@ -26,7 +26,7 @@ const M={
 };
 const BLACK=M.plastic('#26282b'),BLACKMETAL={color:'#2a2c30',roughness:.35,metalness:.7};
 const LOOK={
-  mug:{'*':M.ceramic('#3d6e99')},
+  mug:{'*':M.ceramic('#d9cdb8')},
   pot:{'Pot Body':M.steel(),'Handle':BLACK},
   cooktop:{'Cooktop Body':M.brushed('#8d9298'),'Cooking Surface':M.glass(),'Touch Button':M.glass(),
     decal:{'Cooking Surface':M.print('#7c8187'),'Touch Button':M.print('#d4d8dc')}},
@@ -50,7 +50,7 @@ const LOOK={
   wardrobe:{'*':M.wood('#c29a6b'),dark:BLACKMETAL},
 };
 // Swatches for recoloring: natural glazes, woods, and paints.
-const PALETTE=['#3d6e99','#c94f3d','#e8c46a','#3f8f6e','#f0eee8','#2a2c30','#c49a6c','#82593a','#c9cdd2','#b7a6d9'];
+const PALETTE=['#d9cdb8','#3d6e99','#c94f3d','#e8c46a','#3f8f6e','#f0eee8','#2a2c30','#c49a6c','#82593a','#c9cdd2'];
 const DEFAULT_BODY='#3d6e99';
 function lookDef(g,finish){
   const look=LOOK[family.value]||{};let def=null;
