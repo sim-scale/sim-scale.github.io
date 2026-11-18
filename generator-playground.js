@@ -128,12 +128,23 @@ function orientation(){
   const rule=view?.orient,joints=current.joints,pts=[];
   const moving=new Set(joints.filter(j=>j.type==='revolute'||j.type==='prismatic').map(j=>j.child));
   const children=new Set(joints.map(j=>j.child));
-  const boxOf=pred=>{const b=new THREE.Box3();group.children.forEach(m=>{if(pred(m.userData.link))b.expandByObject(m);});return b;};
+  // Boxes in the object's own frame (mesh matrices only), so the turn applied to the previous sample does not leak in.
+  const boxOf=pred=>{const b=new THREE.Box3();group.children.forEach(m=>{if(!pred(m.userData.link))return;m.geometry.computeBoundingBox();b.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrix));});return b;};
   group.children.forEach(m=>{const p=m.geometry.attributes.position,v=new THREE.Vector3();for(let i=0;i<p.count;i++)pts.push(v.fromBufferAttribute(p,i).applyMatrix4(m.matrix).clone());});
   const all=new THREE.Box3().setFromPoints(pts),ext=all.getSize(new THREE.Vector3());
   const snap=a=>Math.round(a/(Math.PI/2))*Math.PI/2;
   if(typeof rule==='number')return [rule*Math.PI/180,0];
   if(rule==='front'){
+    // Drawers slide out of the front: their opening direction (joint axis toward the far limit) fixes the turn,
+    // whatever the parameters or the current joint values. Doors fall back to where the moving parts sit.
+    const frames=linkFrames(joints,[...new Set(current.parts.map(p=>p.link))]),dir=new THREE.Vector3();
+    for(const j of joints){
+      if(j.type!=='prismatic')continue;
+      const lo=j.lower??0,hi=j.upper??0,sgn=Math.abs(hi)>=Math.abs(lo)?Math.sign(hi):Math.sign(lo);
+      if(!sgn)continue;
+      dir.addScaledVector(new THREE.Vector3(...j.axis).normalize().transformDirection(frames.get(j.child)),sgn);
+    }
+    if(Math.hypot(dir.x,dir.y)>.5)return [snap(-Math.PI/2-Math.atan2(dir.y,dir.x)),0];
     const st=boxOf(l=>!children.has(l)),mv=boxOf(l=>moving.has(l));if(st.isEmpty()||mv.isEmpty())return [0,0];
     const sc=st.getCenter(new THREE.Vector3()),shift=mv.getCenter(new THREE.Vector3()).sub(sc),se=st.getSize(new THREE.Vector3());
     if(Math.hypot(shift.x/Math.max(se.x,1e-6),shift.y/Math.max(se.y,1e-6))<.15)return [0,0];
@@ -155,7 +166,7 @@ function pose(){
   if(!current)return;
   const frames=linkFrames(current.joints,[...new Set(current.parts.map(p=>p.link))]);
   group.children.forEach(m=>{m.matrixAutoUpdate=false;m.matrix.copy(frames.get(m.userData.link));});
-  if(fitNext){const [yawObj,tiltObj]=orientation();pivot.rotation.set(0,tiltObj,yawObj,'ZYX');}
+  if(fitNext){const [yawObj,tiltObj]=orientation();pivot.rotation.set(0,tiltObj,yawObj,'ZYX');canvas.dataset.turn=Math.round(yawObj*180/Math.PI);}
   pivot.position.set(0,0,0);pivot.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(pivot),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
   pivot.position.set(-center.x,-center.y,-box.min.z);pivot.updateMatrixWorld(true);
