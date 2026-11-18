@@ -28,6 +28,11 @@ The page text follows the paper. Figures in `media/paper/` are rendered from the
 charts from their plotted values (task scores in %, averaged as stated in each caption), so the
 bars animate and the real-world charts can switch between the two policy backends.
 
+The Method sections walk through HangMug step by step. Their images in `media/method/` are the
+components of the paper's method figure (internet references, Coverage Critic and Geometry
+Validator examples, storyboard frames, source demonstrations). `method.js` loops the mug family
+and the storyboard while they are on screen.
+
 Category videos isolate object imagery; control names and explanations are native
 HTML so they remain readable at mobile sizes. Baseline rollout clips in
 `media/comparisons/` are selected illustrations, not success-rate estimates.

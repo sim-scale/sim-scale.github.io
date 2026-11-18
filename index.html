@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191400">
+  <link rel="stylesheet" href="paper.css?v=202611191500">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,6 +32,7 @@
   <script src="research-details.js?v=202611182000" defer></script>
   <script src="rollouts.js?v=202611190130" defer></script>
   <script src="figures.js?v=202611182200" defer></script>
+  <script src="method.js?v=202611191500" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -114,39 +115,137 @@
 
     <section class="light-section results-highlight" id="method">
       <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines:</p><ul class="takeaway-list"><li><b>AssetEngine</b> generates diverse and realistic assets.</li><li><b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</li></ul></div></div>
-      <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
-        <div class="spot-stage"><img src="media/paper/method.webp?v=202611181500" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
-        <div class="spot-panel"><div class="spot-steps" aria-label="Figure parts"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
-      </figure>
+      <div class="mflow reveal" aria-label="SimScale overview: task and categories, AssetEngine, assets, DemoEngine with one human demonstration, demonstrations, policy">
+        <div class="mflow-node mflow-input"><span class="mflow-tag">Input</span><div class="mflow-card"><p><small>Task</small>Hang a mug on a mug tree</p><p><small>Categories</small>Mug, Mug tree</p></div></div>
+        <div class="mflow-arrow"><span>AssetEngine</span></div>
+        <div class="mflow-node"><span class="mflow-tag">Assets</span><img src="media/method/asset-family.webp?v=202611191500" alt="Many generated mugs and mug trees" loading="lazy"></div>
+        <div class="mflow-arrow"><span>DemoEngine</span><small>+ one human demo</small></div>
+        <div class="mflow-node"><span class="mflow-tag">Demonstrations</span><img src="media/method/demo-family.webp?v=202611191500" alt="Many simulated bimanual robots hanging different mugs on different mug trees" loading="lazy"></div>
+        <div class="mflow-arrow"><span>Train</span></div>
+        <div class="mflow-node mflow-policy"><span class="mflow-tag">Policy</span><div class="mflow-card"><p>RGB visuomotor policy</p><p><small>Zero-shot to the real world</small></p></div></div>
+      </div>
+      <p class="mrunning reveal"><b>Running example.</b> Below, we follow HangMug step by step: the robot hands a mug from the left arm to the right arm and hangs it on a mug tree.</p>
     </section>
 
     <section class="light-section" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents build each generator. The <b>Generator Author</b> defines it from internet images, the <b>Coverage Critic</b> checks that it covers real-world variations, and the <b>Geometry Validator</b> checks physical plausibility.</p></div></div>
-      <div class="fig-single reveal" style="margin:0 auto;max-width:640px">
-          <figure class="spot-fig" data-spot="params" data-spot-title="Major parameters" data-spot-text="Our category-level procedural generator approximates real-world object variations with interpretable parameters for each key feature, grounded by internet images. This representation provides a mechanism to balance geometric diversity and plausibility.">
-            <div class="spot-stage"><img src="media/paper/mug-parameters.webp?v=202611181500" alt="Mug generator parameters. Cup body: outline, rim diameter, body height, base diameter. Handle: outline, loop height, loop width, mount height." width="1457" height="1510" loading="lazy"></div>
-            <div class="spot-panel"><div class="spot-steps" aria-label="Parameters"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
-          </figure>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">1</span><div><h3>Generator Author searches internet images</h3><p>Given the category, it searches internet images and dimensions. For mugs, body height, base diameter, and the height and mount position of the handle loop vary widely.</p></div></div>
+        <div class="mstep-vis mv-search">
+          <div class="mv-query"><span class="mv-label">Category</span><span class="mv-typed">Mug</span></div>
+          <div class="mv-web">
+            <img style="--d:.5s" src="media/method/web-1.webp?v=202611191500" alt="Red mug from the internet" loading="lazy">
+            <img style="--d:.7s" src="media/method/web-2.webp?v=202611191500" alt="Steel mug with a white coat" loading="lazy">
+            <img style="--d:.9s" src="media/method/web-3.webp?v=202611191500" alt="Small stoneware mug" loading="lazy">
+            <img style="--d:1.1s" src="media/method/web-4.webp?v=202611191500" alt="Mug with a cork base" loading="lazy">
+          </div>
+          <div class="mv-tags"><span style="--d:1.5s">Body height</span><span style="--d:1.7s">Base diameter</span><span style="--d:1.9s">Loop height</span><span style="--d:2.1s">Mount height</span></div>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">2</span><div><h3>Generator Author writes the generator</h3><p>It implements the generator as a Python program with three types of variables. One program covers a continuous family of mugs.</p></div></div>
+        <div class="mstep-vis mv-code-split">
+          <pre class="mv-code" aria-label="Excerpt of the mug generator"><span class="c-file">mug_generator.py</span><span style="--d:.3s"><span class="c-k">def</span> generate(p):</span><span style="--d:.6s" class="c-abs">    body_height    = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span style="--d:.9s" class="c-rel">    base_diameter  = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span style="--d:1.2s" class="c-dis">    handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span><span style="--d:1.5s">    ...</span><span style="--d:1.8s">    <span class="c-k">return</span> build_mug(...)</span></pre>
+          <div class="mv-family" data-cycle aria-label="Mugs sampled from the generator">
+            <img src="media/method/var-body-height-1.webp?v=202611191500" alt="" class="on">
+            <img src="media/method/var-body-height-2.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/var-base-diameter-0.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/var-handle-outline-1.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/var-body-height-0.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/var-handle-opening-depth-2.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/var-rim-diameter-2.webp?v=202611191500" alt="" loading="lazy">
+          </div>
+          <ul class="mv-legend"><li class="c-abs">Continuous absolute</li><li class="c-rel">Continuous relative</li><li class="c-dis">Discrete</li></ul>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">3</span><div><h3>Coverage Critic checks coverage</h3><p>It independently searches for ordinary mugs and compares them with sampled mugs. It finds mugs with a rounded body outline that the draft generator cannot produce, so the Generator Author revises the generator.</p></div></div>
+        <div class="mstep-vis mv-critic">
+          <figure class="mv-counter" style="--d:.2s"><img src="media/method/critic-round.webp?v=202611191500" alt="Mug with a rounded body from the internet" loading="lazy"><figcaption><span class="mv-x">✕</span> Rounded body outline not covered</figcaption></figure>
+          <div class="mv-revise" style="--d:.8s"><span>Revise</span></div>
+          <div class="mv-after" style="--d:1.2s">
+            <pre class="mv-code mv-code-sm"><span class="c-add">+   body_outline = p.choice(<span class="c-s">"linear"</span>, <span class="c-s">"rounded"</span>)</span></pre>
+            <div class="mv-pair"><figure><img src="media/method/outline-linear.webp?v=202611191600" alt="Mug with a linear body outline" loading="lazy"><figcaption>Linear</figcaption></figure><figure><img src="media/method/outline-rounded.webp?v=202611191600" alt="Mug with a rounded body outline" loading="lazy"><figcaption>Rounded <em>new</em></figcaption></figure></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">4</span><div><h3>Geometry Validator checks plausibility</h3><p>It derives a mesh-quality checklist and a task-compatibility checklist, and writes a function that checks each item on sampled mugs. For HangMug, the handle must be attached, graspable, and hangable.</p></div></div>
+        <div class="mstep-vis mv-validate">
+          <div class="mv-checklist">
+            <p>Mesh quality</p>
+            <ul><li style="--d:.3s">Cup has an opening</li><li style="--d:.5s">Handle attached</li></ul>
+            <p>Task compatibility</p>
+            <ul><li style="--d:.7s">Handle graspable</li><li style="--d:.9s">Handle hangable</li></ul>
+          </div>
+          <div class="mv-samples">
+            <figure class="bad" style="--d:1.2s"><img src="media/method/detached-handle.webp?v=202611191500" alt="Draft mug with a detached handle" loading="lazy"><figcaption><span class="mv-x">✕</span> Detached handle</figcaption></figure>
+            <figure class="bad" style="--d:1.5s"><img src="media/method/open-handle.webp?v=202611191500" alt="Draft mug whose handle is not a closed loop" loading="lazy"><figcaption><span class="mv-x">✕</span> Not hangable: open loop</figcaption></figure>
+            <figure class="good" style="--d:1.8s"><img src="media/method/valid.webp?v=202611191500" alt="Valid mug" loading="lazy"><figcaption><span class="mv-ok">✓</span> Valid</figcaption></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">5</span><div><h3>Asset sampling</h3><p>Once the generator passes both reviews, we randomly sample its parameters to obtain diverse and physically plausible assets. The mug tree generator is built the same way.</p></div></div>
+        <div class="mstep-vis mv-wide"><img src="media/method/asset-family.webp?v=202611191500" alt="Many sampled mugs and mug trees in different shapes and colors" loading="lazy"></div>
       </div>
     </section>
 
     <section class="light-section demonstration-section results-highlight" id="demoengine">
-      <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine adapts <b>one human demonstration</b> to every generated asset and object pose.</p></div></div>
-      <div class="demo-expansion reveal" aria-label="One source demonstration expanded across assets and poses">
-        <figure>
-          <video controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
-            <source src="media/source-demonstration.mp4" type="video/mp4">
-          </video>
-          <figcaption><span>Input</span><strong>One Source Demonstration</strong><small>Teleoperated once in simulation.</small></figcaption>
-        </figure>
-        <div class="demo-expansion-arrow" aria-hidden="true"><span>→</span><small>DemoEngine<br>+ DexMimicGen</small></div>
-        <figure>
-          <video controls muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay aria-label="Generated demonstrations across asset geometries and poses">
+      <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine adapts <b>one human demonstration</b> to every generated asset and object pose, in two stages: <b>per-asset source demonstrations</b> and <b>pose expansion</b>.</p></div></div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">1</span><div><h3>Storyboard from the human demonstration</h3><p>A human teleoperates HangMug once in simulation, on one sampled mug and mug tree. The agent converts this demonstration into a storyboard of keyframes, which fixes the stage order, key poses, and timing of every generated demonstration.</p></div></div>
+        <div class="mstep-vis mv-story" data-story>
+          <div class="mv-story-frame">
+            <img src="media/method/story-0.webp?v=202611191500" alt="Start of the human demonstration" class="on" data-stage="-1">
+            <img src="media/method/story-96.webp?v=202611191500" alt="Left Grasp: the left arm grasps the mug" data-stage="0" loading="lazy">
+            <img src="media/method/story-281.webp?v=202611191500" alt="Handover: the left arm hands the mug to the right arm" data-stage="1" loading="lazy">
+            <img src="media/method/story-459.webp?v=202611191500" alt="Left Observes: the left wrist camera observes the mug tree" data-stage="2" loading="lazy">
+            <img src="media/method/story-645.webp?v=202611191500" alt="Insert: the right arm hangs the mug on a branch" data-stage="3" loading="lazy">
+            <span class="mv-story-badge">One human demonstration</span>
+          </div>
+          <ol class="mv-stages">
+            <li><b>Left Grasp</b><small>Left arm grasps the mug.</small></li>
+            <li><b>Handover</b><small>Mug passes to the right arm.</small></li>
+            <li><b>Left Observes</b><small>Wrist camera views the tree. No contact, so gripper events alone would miss it.</small></li>
+            <li><b>Insert</b><small>Right arm hangs the mug.</small></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">2</span><div><h3>Source-demo bootstrapping</h3><p>Guided by the storyboard, the agent writes a script with motion planning, gripper control, and collision checking tools. The sequence of skills is shared, while grasp and hanging targets follow the handle and branch of each asset. The agent validates the script on about three seed assets.</p></div></div>
+        <div class="mstep-vis mv-script">
+          <pre class="mv-code" aria-label="HangMug source demonstration script"><span class="c-file">source_demo.py</span><span style="--d:.3s">pick(left, <span class="c-geo">scene.mug.handle</span>)</span><span style="--d:.6s">handover(left, right)</span><span style="--d:.9s">observe(left, <span class="c-geo">scene.tree.peg</span>)</span><span style="--d:1.2s">hang(right, <span class="c-geo">scene.tree.peg</span>)</span><span style="--d:1.5s">retreat(right)</span></pre>
+          <ul class="mv-legend"><li class="c-shared">Shared task structure</li><li class="c-geo">Geometry-dependent target</li></ul>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">3</span><div><h3>Parallel asset specialization</h3><p>Parallel agents adapt the validated script to the remaining assets. An execution becomes a source demonstration only if it succeeds and keeps the human's pacing: every storyboard milestone within 2&nbsp;s and the total duration within 15%.</p></div></div>
+        <div class="mstep-vis mv-sources">
+          <figure style="--d:.2s"><img src="media/method/source-B.webp?v=202611191500" alt="Source demonstration on a blue mug and a light wooden mug tree" loading="lazy"><figcaption><span class="mv-ok">✓</span> Success <span class="mv-ok">✓</span> Pacing</figcaption></figure>
+          <figure style="--d:.5s"><img src="media/method/source-C.webp?v=202611191500" alt="Source demonstration on an orange mug and a black mug tree" loading="lazy"><figcaption><span class="mv-ok">✓</span> Success <span class="mv-ok">✓</span> Pacing</figcaption></figure>
+          <figure style="--d:.8s"><img src="media/method/source-D.webp?v=202611191500" alt="Source demonstration on a purple mug and a white mug tree" loading="lazy"><figcaption><span class="mv-ok">✓</span> Success <span class="mv-ok">✓</span> Pacing</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="mstep reveal">
+        <div class="mstep-text"><span class="mstep-n">4</span><div><h3>Pose expansion</h3><p>From the source demonstrations of each asset, DexMimicGen generates demonstrations for new object poses and keeps only those that complete the task. Together, the two stages turn one human demonstration into thousands of simulated trajectories.</p></div></div>
+        <div class="mstep-vis mv-wide">
+          <video muted loop playsinline preload="metadata" poster="media/generated-demonstrations-poster.webp" data-autoplay aria-label="Generated demonstrations across mug and mug tree geometries and poses">
             <source src="media/generated-demonstrations.mp4" type="video/mp4">
           </video>
-          <figcaption><span>Output</span><strong>Generated Demonstrations</strong><small>Adapted to new assets and poses.</small></figcaption>
-        </figure>
+        </div>
       </div>
+
+      <h3 class="mstep-after reveal">Generated demonstrations for all three tasks</h3>
 
       <div class="dmg-showcase reveal" data-dmg-showcase>
         <div class="task-tabs" role="tablist" aria-label="Simulation demonstration task">
