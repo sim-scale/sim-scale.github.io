@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191200">
+  <link rel="stylesheet" href="paper.css?v=202611191300">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -112,7 +112,7 @@
       <noscript><p>Enable JavaScript to use the 3D preview. Research asset videos remain available above.</p></noscript>
     </section>
 
-    <section class="light-section" id="method">
+    <section class="light-section results-highlight" id="method">
       <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines. <b>AssetEngine</b> generates diverse and realistic assets, and <b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</p></div></div>
       <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
         <div class="spot-stage"><img src="media/paper/method.webp?v=202611181500" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
@@ -196,7 +196,7 @@
       </div>
     </section>
 
-    <section class="light-section transfer-section results-highlight" id="results">
+    <section class="light-section transfer-section" id="results">
       <div class="section-head reveal"><h2>Real-World Results</h2><p>Average task score over five sets of unseen real-world objects per task.</p></div>
 
       <div class="finding reveal">
@@ -219,7 +219,7 @@
       </figure>
     </section>
 
-    <section class="light-section" id="asset-analysis">
+    <section class="light-section results-highlight" id="asset-analysis">
       <div class="section-head reveal"><h2>AssetEngine Analysis</h2><p>All policies here use human source demonstrations, to isolate the effect of assets.</p></div>
       <div class="finding reveal">
         <h3>AssetEngine assets improve geometric generalization in sim-to-sim settings.</h3>
@@ -258,7 +258,7 @@
       </div>
     </section>
 
-    <section class="light-section results-highlight" id="demo-analysis">
+    <section class="light-section" id="demo-analysis">
       <div class="section-head reveal"><h2>DemoEngine Analysis</h2><p>All methods use the same 40 AssetEngine assets.</p></div>
       <div class="finding reveal">
         <h3>DemoEngine generates trajectories that match the quality of human-collected demonstrations.</h3>
@@ -271,7 +271,7 @@
       </div>
     </section>
 
-    <section class="light-section" id="conclusion">
+    <section class="light-section results-highlight" id="conclusion">
       <h2 class="plain-h2">Conclusion</h2>
       <div class="prose reveal"><p>We presented SimScale, an agentic framework that scales up simulation training data for sim-to-real robot learning with only one human demonstration. Its AssetEngine authors category-level procedural generators that balance geometric diversity and physical plausibility, and its DemoEngine adapts the demonstration across the resulting geometries. Policies trained only on SimScale data transfer zero-shot to diverse real-world objects and outperform the strongest baseline by approximately 30% with far less human effort. These findings support category-level procedural generation as a practical approach to scaling up simulation data for sim-to-real robot learning.</p></div>
     </section>
