@@ -572,3 +572,12 @@ body, .light-section, .results-highlight, #conclusion, .title-section, .real-sec
 .ov-policy p { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 .ov-cats img[src*="input-mug"] { height: 74px; } .ov-cats img[src*="input-tree"] { height: 110px; }
 .asset-controls .gen-top label { font-size: 16px; }
+
+/* Asset categories on the light page (no dark sections below the opening video). */
+#assets .category-tabs__label { color: var(--muted); font-size: 13px; font-weight: 500; letter-spacing: normal; text-transform: none; }
+#assets .category-tabs button { min-height: 0; padding: 4px 11px; color: rgba(0,0,0,.72); background: transparent; border: 1px solid var(--ctl); border-radius: 4px; font: 500 13px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+#assets .category-tabs button:hover { color: #000; border-color: rgba(0,0,0,.5); }
+#assets .category-tabs button[aria-selected=true] { color: #000; background: transparent; border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 600; }
+#assets .category-all h4 { color: #000; font-size: 18px; }
+#assets .category-all p, #assets .category-explorer > p { color: rgba(0,0,0,.66); }
+#assets .category-player, #assets .category-player video { border-radius: 4px; }
