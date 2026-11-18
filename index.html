@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191300">
+  <link rel="stylesheet" href="paper.css?v=202611191400">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -113,7 +113,7 @@
     </section>
 
     <section class="light-section results-highlight" id="method">
-      <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines. <b>AssetEngine</b> generates diverse and realistic assets, and <b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</p></div></div>
+      <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines:</p><ul class="takeaway-list"><li><b>AssetEngine</b> generates diverse and realistic assets.</li><li><b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</li></ul></div></div>
       <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
         <div class="spot-stage"><img src="media/paper/method.webp?v=202611181500" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
         <div class="spot-panel"><div class="spot-steps" aria-label="Figure parts"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
