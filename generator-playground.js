@@ -9,9 +9,60 @@ let jointValues=new Map(),jointNames='';
 const download=$('#download-asset'),randomBtn=$('#sample-asset'),resetBtn=$('#reset-asset');
 const overlay=$('#gen-overlay');
 const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
-// Glaze colors of the paper figures; the accent colors handles, knobs, and legs.
-const PALETTE=['#7c9781','#59799e','#ad6c50','#c4a44b','#458186','#815073','#cea29b','#a297c8','#767e86','#2f3338'];
-const DEFAULT_BODY='#7c9781',ACCENT='#2f3338',SILVER='#c3c8ce';
+// Realistic finishes per part, as in the category videos (the same table renders those videos). The color
+// swatches recolor a part and keep its finish (ceramic stays glossy, wood keeps its grain, steel stays metal).
+const M={
+  ceramic:c=>({color:c,roughness:.22,metalness:0,clearcoat:.7,clearcoatRoughness:.12}),
+  steel:(c='#e4e6e9')=>({color:c,roughness:.16,metalness:1}),
+  brushed:(c='#c9cdd2')=>({color:c,roughness:.38,metalness:1}),
+  brass:(c='#c7a467')=>({color:c,roughness:.3,metalness:1}),
+  wood:c=>({color:c,roughness:.62,metalness:0,clearcoat:.15,clearcoatRoughness:.5,grain:true}),
+  paint:c=>({color:c,roughness:.45,metalness:0,clearcoat:.2,clearcoatRoughness:.4}),
+  plastic:c=>({color:c,roughness:.4,metalness:0,clearcoat:.25,clearcoatRoughness:.3}),
+  matte:c=>({color:c,roughness:.78,metalness:0}),
+  fabric:c=>({color:c,roughness:.95,metalness:0,sheen:.6,sheenRoughness:.8,sheenColor:'#ffffff'}),
+  glass:(c='#141518')=>({color:c,roughness:.06,metalness:0,clearcoat:1,clearcoatRoughness:.03}),
+  print:c=>({color:c,roughness:.35,metalness:0}),
+};
+const BLACK=M.plastic('#26282b'),BLACKMETAL={color:'#2a2c30',roughness:.35,metalness:.7};
+const LOOK={
+  mug:{'*':M.ceramic('#3d6e99')},
+  pot:{'Pot Body':M.steel(),'Handle':BLACK},
+  cooktop:{'Cooktop Body':M.brushed('#8d9298'),'Cooking Surface':M.glass(),'Touch Button':M.glass(),
+    decal:{'Cooking Surface':M.print('#7c8187'),'Touch Button':M.print('#d4d8dc')}},
+  mug_tree:{'*':M.wood('#c99a66')},
+  drawer_cabinet:{'Cabinet Body':M.wood('#c49a6c'),'Drawer':M.paint('#f0eee8'),'Handle':BLACKMETAL,dark:BLACKMETAL},
+  charger:{'Charger Body':M.plastic('#f5f5f2'),steel:M.steel('#d8d2c4'),dark:M.matte('#2a2b2e')},
+  bed:{'Bed Frame':M.wood('#6f4a2e'),'Headboard':M.fabric('#7f8994'),'Mattress':M.fabric('#f0ede6'),light:M.fabric('#f0ede6')},
+  bottle:{'Bottle Body':M.glass('#2f7350'),'Cap':M.plastic('#e9e7e1'),dark:M.plastic('#e9e7e1')},
+  cabinet:{'*':M.paint('#2f4a66'),dark:M.brass()},
+  chair:{'*':M.wood('#a8744a'),dark:BLACKMETAL},
+  kettle:{'*':M.steel(),dark:BLACK},
+  lamp:{'Base':BLACKMETAL,'Stem or Arm':M.brass(),'Shade':M.paint('#1f2a24'),light:M.fabric('#efe5d1')},
+  oven:{'*':M.brushed(),dark:M.glass('#16171a')},
+  refrigerator:{'*':M.brushed('#cdd1d6')},
+  screwdriver:{'Handle':M.plastic('#c4302a'),'Shaft':M.steel('#e3e6ea'),steel:M.steel('#e3e6ea')},
+  sofa:{'*':M.fabric('#5e6f7f'),light:M.fabric('#74879a'),dark:M.wood('#4b3323')},
+  suitcase:{'*':M.plastic('#2d4b6c'),dark:M.plastic('#1f2124')},
+  table:{'Tabletop':M.wood('#82593a'),dark:BLACKMETAL,'Legs and Base':BLACKMETAL},
+  trash_can:{'*':M.steel('#d3d7db'),dark:BLACK},
+  tv_stand:{'Console Body':M.wood('#6e4c32'),'Fronts':M.wood('#b98f63'),'Leg':BLACKMETAL,dark:BLACKMETAL},
+  wardrobe:{'*':M.wood('#c29a6b'),dark:BLACKMETAL},
+};
+// Swatches for recoloring: natural glazes, woods, and paints.
+const PALETTE=['#3d6e99','#c94f3d','#e8c46a','#3f8f6e','#f0eee8','#2a2c30','#c49a6c','#82593a','#c9cdd2','#b7a6d9'];
+const DEFAULT_BODY='#3d6e99';
+function lookDef(g,finish){
+  const look=LOOK[family.value]||{};let def=null;
+  if(finish!=='body')def=(look[finish]&&!look[finish].color?look[finish][g]:look[finish])||null;
+  if(!def)def=look[g]||look['*'];
+  if(!def)def=M.paint('#7c8b8f');
+  if(finish==='dark'&&!look.dark&&!look[g])def=BLACK;
+  if((finish==='steel'||finish==='silver')&&!look.steel)def=M.steel();
+  if(finish==='light'&&!look.light)def={...def,color:'#'+new THREE.Color(def.color).lerp(new THREE.Color('#ffffff'),.45).getHexString(),roughness:.9};
+  if(finish==='decal'&&!look.decal)def={...def,color:'#'+new THREE.Color(def.color).multiplyScalar(.45).getHexString()};
+  return def;
+}
 
 let worker=null,categories=null,spec=null,settings={},lastGood=null,latest=0,shown=0,current=null,fitNext=true;
 let yaw=.6,tilt=.42,zoom=1,drag=null,radius=.3,targetZ=.15;
@@ -24,16 +75,32 @@ try{
   renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor('#f2f0eb');
   renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.VSMShadowMap;
 }catch(e){renderer=null;}
+let keyLight=null,ground=null;
 if(renderer){
   scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(30,1,.005,50);camera.up.set(0,0,1);
   group=new THREE.Group();pivot=new THREE.Group();pivot.add(group);scene.add(pivot);
-  scene.add(new THREE.HemisphereLight(0xffffff,0x8a9486,1.9));
-  const key=new THREE.DirectionalLight(0xffffff,2.4);key.position.set(-2.5,-3.5,5);scene.add(key);
-  const rim=new THREE.DirectionalLight(0xffffff,.9);rim.position.set(3,2.5,2);scene.add(rim);
+  // Studio environment for reflections: a soft gradient dome with softboxes and strip lights, as in the videos.
+  const env=new THREE.Scene();
+  env.add(new THREE.Mesh(new THREE.SphereGeometry(10,48,24),new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,
+    vertexShader:'varying vec3 p; void main(){p=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:'varying vec3 p; void main(){float h=p.z; vec3 top=vec3(1.05,1.07,1.1); vec3 hor=vec3(.6,.63,.6); vec3 band=vec3(.16,.17,.16); vec3 gnd=vec3(.13,.14,.13);'+
+      'vec3 c= h>0. ? mix(hor,top,pow(h,.45)) : (h>-.1 ? mix(hor,band,-h/.1) : mix(band,gnd,pow((-h-.1)/.9,.6))); gl_FragColor=vec4(c,1.);}'})));
+  const box=(w,h,pos,k)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(k,k,k),side:THREE.DoubleSide}));m.position.set(...pos);m.lookAt(0,0,0);env.add(m);};
+  box(5,3,[-4,-6,6],9);box(8,1.2,[0,7,4],4);
+  for(let k=0;k<7;k++){const a=k/7*2*Math.PI+.3;box(.9,7,[8*Math.cos(a),8*Math.sin(a),1],k%2?2.2:5);}
+  scene.environment=new THREE.PMREMGenerator(renderer).fromScene(env,.02).texture;scene.environmentIntensity=.75;
+  keyLight=new THREE.DirectionalLight(0xffffff,2.2);keyLight.position.set(-2.2,-3.2,5);keyLight.castShadow=true;
+  keyLight.shadow.mapSize.set(2048,2048);keyLight.shadow.bias=-.0006;keyLight.shadow.radius=10;keyLight.shadow.blurSamples=16;
+  scene.add(keyLight);scene.add(keyLight.target);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x7d8778,.55));
+  const rim=new THREE.DirectionalLight(0xffffff,.7);rim.position.set(3,2.5,2.5);scene.add(rim);
+  ground=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.ShadowMaterial({opacity:.1}));ground.receiveShadow=true;scene.add(ground);
   // A soft contact shadow under the asset.
   const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
-  const grad=g.createRadialGradient(64,64,4,64,64,64);grad.addColorStop(0,'rgba(40,52,40,.32)');grad.addColorStop(1,'rgba(40,52,40,0)');
+  const grad=g.createRadialGradient(64,64,4,64,64,64);grad.addColorStop(0,'rgba(60,52,40,.26)');grad.addColorStop(1,'rgba(60,52,40,0)');
   g.fillStyle=grad;g.fillRect(0,0,128,128);
   shadow=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
   scene.add(shadow);
@@ -52,31 +119,47 @@ if(renderer)new ResizeObserver(render).observe(canvas);
 const hex=c=>'#'+c.getHexString();
 const tint=(h,a)=>hex(new THREE.Color(h).lerp(new THREE.Color('#ffffff'),a));
 const shade=(h,a)=>hex(new THREE.Color(h).multiplyScalar(a));
-// Each part box has one color. A part made of one finish takes it directly (a dark handle, a light cushion);
-// in a mixed part, soft parts take a lighter tint, printed marks a darker shade, and hardware and bare
-// metal keep their dark and silver finishes, as in the paper figures.
-function soloFinish(g){const f=partFinishes.get(g);return f&&f.size===1?[...f][0]:null;}
-function defaultColor(g){
-  return {dark:ACCENT,steel:SILVER,silver:SILVER,light:tint(DEFAULT_BODY,.42),decal:shade(DEFAULT_BODY,.42)}[soloFinish(g)]||DEFAULT_BODY;
-}
+// The finish a part shows in the swatch row: its main surface.
+function defaultColor(g){const f=partFinishes.get(g);const main=f&&f.size===1?[...f][0]:'body';return lookDef(g,main).color;}
 const colorOf=g=>partColors[g]||defaultColor(g);
+// A chosen color replaces the part's main color. Light, printed, dark, and metal finishes follow it as before.
 function finishColor(g,finish){
-  const c=colorOf(g);if(soloFinish(g))return c;
-  return {light:tint(c,.42),decal:shade(c,.42),dark:ACCENT,steel:SILVER,silver:SILVER}[finish]||c;
+  const d=lookDef(g,finish);if(!partColors[g])return d.color;
+  const c=partColors[g],f=partFinishes.get(g);if(f&&f.size===1)return c;
+  return {light:tint(c,.42),decal:shade(c,.42)}[finish]||(finish==='dark'||finish==='steel'||finish==='silver'?d.color:c);
+}
+function addGrain(mat){
+  mat.onBeforeCompile=sh=>{
+    sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vGP;').replace('#include <begin_vertex>','#include <begin_vertex>\nvGP = position;');
+    sh.fragmentShader=sh.fragmentShader.replace('#include <common>',`#include <common>
+varying vec3 vGP;
+float h3(vec3 p){ p = fract(p * .3183099 + .1); p *= 17.; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+float n3(vec3 x){ vec3 i = floor(x), f = fract(x); f = f * f * (3. - 2. * f);
+  return mix(mix(mix(h3(i), h3(i + vec3(1,0,0)), f.x), mix(h3(i + vec3(0,1,0)), h3(i + vec3(1,1,0)), f.x), f.y),
+             mix(mix(h3(i + vec3(0,0,1)), h3(i + vec3(1,0,1)), f.x), mix(h3(i + vec3(0,1,1)), h3(i + vec3(1,1,1)), f.x), f.y), f.z); }`)
+      .replace('#include <color_fragment>',`#include <color_fragment>
+{ vec3 q = vGP * vec3(9., 9., 2.2);
+  float w = n3(q * 1.3) * 2.2 + n3(q * 4.1) * .5;
+  float band = .5 + .5 * sin((vGP.x * 38. + vGP.y * 31. + w * 3.2) * 3.14159);
+  float fine = n3(vGP * vec3(240., 240., 30.));
+  diffuseColor.rgb *= .93 + .045 * band + .045 * fine; }`);
+  };
 }
 function material(g,finish){
-  const key=g+'|'+finish;
+  const key=family.value+'|'+g+'|'+finish;
   if(!materials.has(key)){
-    const metal=finish==='steel'||finish==='silver';
-    materials.set(key,new THREE.MeshStandardMaterial({roughness:finish==='light'?.8:metal?.3:finish==='decal'?.3:.55,metalness:metal?.55:finish==='dark'?.1:.02,
-      side:THREE.DoubleSide,...(finish==='decal'?{polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}:{})}));
+    const {grain,color,...p}=lookDef(g,finish);
+    const m=new THREE.MeshPhysicalMaterial({...p,side:THREE.DoubleSide,...(p.sheenColor?{sheenColor:new THREE.Color(p.sheenColor)}:{}),
+      ...(finish==='decal'?{polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}:{})});
+    if(grain)addGrain(m);
+    materials.set(key,m);
   }
   const m=materials.get(key);m.color.set(finishColor(g,finish));return m;
 }
 function recolor(g){
-  for(const [key,m] of materials){const [mg,f]=key.split('|');if(mg===g)m.color.set(finishColor(g,f));}
+  for(const [key,m] of materials){const [k,mg,f]=key.split('|');if(k===family.value&&mg===g)m.color.set(finishColor(g,f));}
   const box=fields.querySelector(`.gen-part[data-part="${CSS.escape(g)}"]`);
-  if(box){const c=colorOf(g);box.querySelector('input[type=color]').value=c;box.querySelectorAll('.gen-swatch').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===c)));}
+  if(box){const c=colorOf(g);box.style.setProperty('--part',c);box.querySelector('input[type=color]').value=c;box.querySelectorAll('.gen-swatch').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===c)));}
   render();
 }
 
@@ -172,6 +255,9 @@ function pose(){
   pivot.position.set(-center.x,-center.y,-box.min.z);pivot.updateMatrixWorld(true);
   if(fitNext){radius=Math.max(.03,.5*Math.hypot(size.x,size.y,size.z));targetZ=size.z/2;fitNext=false;}
   const s=Math.max(size.x,size.y)*1.6+.02;shadow.scale.set(s,s,1);shadow.position.set(0,0,.0005);
+  ground.scale.set(s*3,s*3,1);ground.position.set(0,0,0);
+  const e=Math.max(size.x,size.y,size.z)*1.4,sc=keyLight.shadow.camera;sc.left=-e;sc.right=e;sc.top=e;sc.bottom=-e;sc.near=.01;sc.far=e*20;
+  keyLight.position.set(-.44*e*4,-.64*e*4,e*7+size.z/2);keyLight.target.position.set(0,0,size.z/2);sc.updateProjectionMatrix();
   render();
 }
 function show(msg){
@@ -188,7 +274,7 @@ function show(msg){
     const P=new Float32Array(nv),I=new Uint32Array(ni);let ov=0,oi=0;
     for(const p of list){P.set(p.positions,ov);for(let i=0;i<p.indices.length;i++)I[oi+i]=p.indices[i]+ov/3;ov+=p.positions.length;oi+=p.indices.length;}
     tris+=ni/3;
-    const mesh=new THREE.Mesh(creasedGeometry(P,I),material(list[0].group,list[0].finish));
+    const mesh=new THREE.Mesh(creasedGeometry(P,I),material(list[0].group,list[0].finish));mesh.castShadow=true;mesh.receiveShadow=true;
     mesh.userData.link=list[0].link;group.add(mesh);
   }
   current=msg;pose();
@@ -231,7 +317,7 @@ function renderControls(){
   // A color row at the bottom of each part box: the palette on one line, and a free color picker below.
   for(const [g,set] of blocks){
     const row=document.createElement('div');row.className='gen-color';
-    row.innerHTML=`<span class="gen-label">Color</span><div class="gen-swatches" role="group" aria-label="${g} color"></div><label class="gen-custom">Custom <input type="color" value="${DEFAULT_BODY}" aria-label="${g} custom color"></label>`;
+    row.innerHTML=`<span class="gen-label">Color</span><div class="gen-swatches" role="group" aria-label="${g} color"></div><label class="gen-custom">Custom <input type="color" value="${defaultColor(g)}" aria-label="${g} custom color"></label>`;
     const sw=row.querySelector('.gen-swatches');
     PALETTE.forEach(c=>{const b=document.createElement('button');b.type='button';b.className='gen-swatch';b.style.background=c;b.dataset.color=c;
       b.setAttribute('aria-label',`${g} color ${c}`);b.addEventListener('click',()=>{partColors[g]=c;recolor(g);});sw.append(b);});
