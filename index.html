@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191100">
+  <link rel="stylesheet" href="paper.css?v=202611191200">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -40,11 +40,11 @@
     <a class="wordmark" href="#top" aria-label="SimScale home">SimScale</a>
     <nav aria-label="Primary navigation">
       <a href="#rollouts">Rollouts</a>
-      <a href="#assetengine">Assets</a>
-      <a href="#playground">Live Demo</a>
-      <a href="#demoengine">Demos</a>
-      <a href="#comparison">Baselines</a>
       <a href="#method">Method</a>
+      <a href="#assetengine">AssetEngine</a>
+      <a href="#playground">Live Demo</a>
+      <a href="#demoengine">DemoEngine</a>
+      <a href="#comparison">Baselines</a>
       <a href="#results">Results</a>
     </nav>
   </header>
@@ -54,11 +54,11 @@
     <button class="outline-toggle" type="button" aria-expanded="false" aria-controls="outline-list" aria-label="Contents"><span aria-hidden="true">☰</span><span class="outline-current">Contents</span></button>
     <nav id="outline-list">
       <a href="#rollouts">Real-World Rollouts</a>
-      <a href="#assetengine">Asset Generators</a>
+      <a href="#method">Method Overview</a>
+      <a href="#assetengine">AssetEngine</a>
       <a href="#playground">Live Generators</a>
-      <a href="#demoengine">Generated Demos</a>
+      <a href="#demoengine">DemoEngine</a>
       <a href="#comparison">Baseline Rollouts</a>
-      <a href="#method">Method</a>
       <a href="#results">Real-World Results</a>
       <a href="#asset-analysis">AssetEngine Analysis</a>
       <a href="#demo-analysis">DemoEngine Analysis</a>
@@ -96,8 +96,16 @@
       </div>
     </section>
 
+    <section class="light-section" id="method">
+      <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines. <b>AssetEngine</b> generates diverse and realistic assets, and <b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</p></div></div>
+      <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
+        <div class="spot-stage"><img src="media/paper/method.webp?v=202611181500" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
+        <div class="spot-panel"><div class="spot-steps" aria-label="Figure parts"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
+      </figure>
+    </section>
+
     <section class="dark-section asset-section" id="assetengine">
-      <div class="section-head vis-head reveal"><div><h2>Diverse, Physically Plausible Assets</h2><p class="takeaway">SimScale defines a <b>category-level procedural generator</b> for each task-relevant object category, producing both diverse and realistic assets for policy training.</p></div></div>
+      <div class="section-head vis-head reveal"><div><h2>AssetEngine: Diverse, Physically Plausible Assets</h2><p class="takeaway">SimScale defines a <b>category-level procedural generator</b> for each task-relevant object category, producing both diverse and realistic assets for policy training.</p></div></div>
       <div class="category-explorer reveal" id="category-explorer"><div class="category-tabs" role="tablist" aria-label="Asset category"><span class="category-tabs__label" role="presentation">Task objects</span><button id="category-tab-mug" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="mug" data-title="Mug">Mug</button><button id="category-tab-mug_tree" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="mug_tree" data-title="Mug Tree">Mug Tree</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot" data-title="Cooking Pot">Cooking Pot</button><button id="category-tab-cooktop" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cooktop" data-title="Cooktop">Cooktop</button><button id="category-tab-charger" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="charger" data-title="Phone Charger">Phone Charger</button><button id="category-tab-drawer_cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="drawer_cabinet" data-title="Two-Drawer Cabinet">Two-Drawer Cabinet</button><span class="category-tabs__label" role="presentation">More categories</span><button id="category-tab-bed" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bed" data-title="Bed">Bed</button><button id="category-tab-bottle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bottle" data-title="Bottle">Bottle</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet" data-title="Cabinet">Cabinet</button><button id="category-tab-chair" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="chair" data-title="Chair">Chair</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle" data-title="Kettle">Kettle</button><button id="category-tab-lamp" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="lamp" data-title="Lamp">Lamp</button><button id="category-tab-oven" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="oven" data-title="Oven Range">Oven Range</button><button id="category-tab-refrigerator" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="refrigerator" data-title="Refrigerator">Refrigerator</button><button id="category-tab-screwdriver" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="screwdriver" data-title="Screwdriver">Screwdriver</button><button id="category-tab-sofa" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="sofa" data-title="Sofa">Sofa</button><button id="category-tab-suitcase" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="suitcase" data-title="Suitcase">Suitcase</button><button id="category-tab-tv_stand" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="tv_stand" data-title="TV Stand">TV Stand</button><button id="category-tab-table" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="table" data-title="Table">Table</button><button id="category-tab-trash_can" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="trash_can" data-title="Trash Can">Trash Can</button><button id="category-tab-wardrobe" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="wardrobe" data-title="Two-Door Wardrobe">Two-Door Wardrobe</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-mug"><div class="rollout-player category-player"><video controls muted loop playsinline preload="none" poster="media/categories/mug.webp?v=202611180100" aria-label="Mug generator: all parameters moving"><source src="media/categories/mug.mp4?v=202611180100" type="video/mp4"></video></div></div><div class="category-all"><h4>20 categories, one generator each</h4><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/categories/all.webp?v=202611180100" aria-label="20 generators with all parameters moving at once"><source src="media/categories/all.mp4?v=202611180100" type="video/mp4"></video></div></div></div>
     </section>
 
@@ -113,7 +121,7 @@
     </section>
 
     <section class="light-section demonstration-section results-highlight" id="demoengine">
-      <div class="section-head vis-head reveal"><div><h2>One Demonstration, Thousands of Trajectories</h2><p class="takeaway">DemoEngine adapts <b>one human demonstration</b> to every generated asset and object pose.</p></div></div>
+      <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine adapts <b>one human demonstration</b> to every generated asset and object pose.</p></div></div>
       <div class="demo-expansion reveal" aria-label="One source demonstration expanded across assets and poses">
         <figure>
           <video controls muted loop playsinline preload="metadata" poster="media/source-demonstration-poster.webp" data-autoplay aria-label="The single human source demonstration, collected in simulation">
@@ -175,20 +183,6 @@
           <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1"><span>03</span> PutCharger</button>
         </div>
         <div class="comparison-stage" data-comparison-stage></div>
-      </div>
-    </section>
-
-    <div class="details-divider" id="details"><span>Details</span><p>Method, quantitative results, and analyses from the paper.</p></div>
-
-    <section class="light-section" id="method">
-      <div class="section-head reveal"><h2>Method</h2><p>AssetEngine writes category-level procedural generators. DemoEngine adapts one human demonstration across the generated assets. Click a step to see what each part does.</p></div>
-      <figure class="spot-fig reveal" data-spot="method" data-spot-title="Method overview" data-spot-text="(a) In AssetEngine, the Generator Author defines a category-level procedural generator, grounded by internet images, to cover real-world variations. The Coverage Critic and Geometry Validator diagnose the geometry coverage and physical plausibility of sampled assets and send feedback to the Generator Author for revision. (b) DemoEngine extracts a storyboard from the human demonstration and writes a source-demo script that adapts it to diverse object geometries. DexMimicGen further augments these source demonstrations across object poses. (c) RGB visuomotor policies are trained on the resulting data and deployed zero-shot on diverse unseen real objects.">
-        <div class="spot-stage"><img src="media/paper/method.webp?v=202611181500" alt="Method overview figure with three panels: (a) AssetEngine, with the Generator Author, Coverage Critic, Geometry Validator, the final category-level procedural generator, and sampled mugs. (b) DemoEngine, with one human demonstration, a four-keyframe storyboard, a source-demo script, source demonstrations on other assets, and DexMimicGen. (c) Policy training and real-world deployment." width="2400" height="1495"></div>
-        <div class="spot-panel"><div class="spot-steps" aria-label="Figure parts"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
-      </figure>
-
-      <div class="prose reveal" style="margin-top:40px">
-        <p><b>Key idea.</b> A category-level procedural generator grounds its parameters in real-world variation seen in internet images, so it expands diversity without drifting into implausible geometry.</p>
       </div>
     </section>
 

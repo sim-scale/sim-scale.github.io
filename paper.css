@@ -201,7 +201,7 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 .details-divider { padding: 56px max(24px, calc((100vw - var(--col)) / 2)) 0; background: var(--white); }
 .details-divider span { display: block; padding-top: 28px; border-top: 2px solid #1d1d1f; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 .details-divider p { margin: 6px 0 0; color: rgba(0,0,0,.58); font-size: 15px; }
-#method { padding-top: 40px; }
+
 @media (min-width: 1360px) { .details-divider { padding-inline: max(calc(var(--rail) + 24px), calc((100vw - var(--col)) / 2)); } }
 .title-section { padding-bottom: 0; }
 .title-section .title-block { padding-bottom: 8px; }
