@@ -620,3 +620,4 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .outline nav a.sub { color: rgba(0,0,0,.55); font-weight: 400; }
 .outline nav a.active { color: var(--green-deep); }
 .outline.on-dark nav a:not(.sub) { color: rgba(255,255,255,.88); } .outline.on-dark nav a.sub { color: rgba(255,255,255,.62); }
+.comparison-rollout figcaption { justify-content: flex-end; }
