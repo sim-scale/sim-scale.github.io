@@ -28,10 +28,10 @@ The page text follows the paper. Figures in `media/paper/` are rendered from the
 charts from their plotted values (task scores in %, averaged as stated in each caption), so the
 bars animate and the real-world charts can switch between the two policy backends.
 
-The Method sections walk through HangMug step by step. Their images in `media/method/` are the
-components of the paper's method figure (internet references, Coverage Critic and Geometry
-Validator examples, storyboard frames, source demonstrations). `method.js` loops the mug family
-and the storyboard while they are on screen.
+The Method section is an animated overview (inputs, the two engines, and their outputs as videos)
+followed by two short players that step through AssetEngine and DemoEngine on HangMug, with images
+from the paper's method figure. `media/method/assets-field.mp4` is a Blender render of mugs and mug
+trees sampled from the website's generators. `method.js` runs the overview and the players.
 
 Category videos isolate object imagery; control names and explanations are native
 HTML so they remain readable at mobile sizes. Baseline rollout clips in
