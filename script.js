@@ -72,7 +72,7 @@
 
       const heading = document.createElement('header');
       heading.className = 'comparison-task-heading';
-      heading.innerHTML = `<small>Selected rollouts, played at 8×.</small>`;
+      heading.innerHTML = "";
       panel.appendChild(heading);
 
       task.methods.forEach((method) => {

@@ -621,3 +621,6 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .outline nav a.active { color: var(--green-deep); }
 .outline.on-dark nav a:not(.sub) { color: rgba(255,255,255,.88); } .outline.on-dark nav a.sub { color: rgba(255,255,255,.62); }
 .comparison-rollout figcaption { justify-content: flex-end; }
+#baselines .comparison-showcase { margin-top: 18px; }
+.comparison-task-heading:empty { display: none; }
+#setup + .spot-fig { margin-top: 20px; }

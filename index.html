@@ -24,9 +24,9 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611200500">
+  <link rel="stylesheet" href="paper.css?v=202611200600">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="script.js?v=202611200500" defer></script>
+  <script src="script.js?v=202611200600" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
   <script src="generator-playground.js?v=202611200200" type="module"></script>
   <script src="research-details.js?v=202611182000" defer></script>
@@ -59,10 +59,10 @@
       <a class="sub" href="#assetengine">AssetEngine</a>
       <a class="sub" href="#demoengine">DemoEngine</a>
       <a href="#experiments">Experiments</a>
-      <a class="sub" href="#baselines">Baselines</a>
-      <a class="sub" href="#results">Real-World Results</a>
-      <a class="sub" href="#asset-analysis">AssetEngine Analysis</a>
-      <a class="sub" href="#demo-analysis">DemoEngine Analysis</a>
+      <a class="sub" href="#setup">Experiment Setup</a>
+      <a class="sub" href="#results">SimScale Capabilities</a>
+      <a class="sub" href="#asset-analysis">Analysis: AssetEngine</a>
+      <a class="sub" href="#demo-analysis">Analysis: DemoEngine</a>
       <a href="#conclusion">Conclusion</a>
     </nav>
   </aside>
@@ -274,24 +274,19 @@
       </div>
     </section>
 
-    <section class="light-section real-section group" id="comparison">
-      <h2 class="group-title reveal" id="experiments">Experiments</h2>
-      <div class="section-head vis-head reveal" id="baselines"><div><h2 class="sub-title">SimScale vs. Baselines</h2><p class="takeaway">On the same real objects, baselines trained with <b>120 human demonstrations</b> often fail where SimScale, with one, succeeds.</p></div></div>
-      <div class="comparison-showcase reveal" data-comparison-showcase>
-        <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
-          <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1">PutPot</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task2" data-comparison-task="task2" tabindex="-1">HangMug</button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1">PutCharger</button>
-        </div>
-        <div class="comparison-stage" data-comparison-stage></div>
-      </div>
+    <section class="light-section group" id="experiments">
+      <h2 class="group-title reveal">Experiments</h2>
+      <div class="section-head reveal" id="setup"><h2 class="sub-title">Experiment Setup</h2><p>Three bimanual tasks in the real world, each evaluated on five sets of distinct objects with 20 rollouts per set. Policies are trained only in simulation and deployed zero-shot. Policy backends: GR00T N1.6 and DINOv3 + FMT.</p></div>
+      <figure class="spot-fig reveal" data-spot="tasks" data-spot-title="Tasks and objects" data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects. The top row shows object variants, and the bottom row shows the initial and final states of each task.">
+        <div class="spot-stage"><img src="media/paper/tasks.webp?v=202611181500" alt="Real-world tasks. (a) PutPot with five pots and cooktops. (b) HangMug with five mugs and mug trees. (c) PutCharger with drawer cabinets. Each with initial and final states." width="2145" height="744" loading="lazy"></div>
+        <div class="spot-panel"><div class="spot-steps" aria-label="Tasks"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
+      </figure>
     </section>
 
-    <section class="light-section transfer-section sub" id="results">
-      <div class="section-head reveal"><h2>Real-World Results</h2><p>Average task score over five sets of unseen real-world objects per task.</p></div>
+    <section class="light-section results-highlight sub" id="results">
+      <div class="section-head reveal"><h2>SimScale Capabilities</h2><p>Can one human demonstration train policies that transfer zero-shot to diverse real-world objects?</p></div>
 
       <div class="finding reveal">
-        
         <h3>SimScale policies transfer zero-shot to diverse real-world objects with far less human effort.</h3>
         <p>With one human demonstration, SimScale outperforms Real-Demos (60 real-world demonstrations) by 30.0% and the strongest simulation baseline (120 human demonstrations) by 31.7% on average.</p>
         <div class="pchart" data-chart="realworld" aria-label="Bar chart of real-world task scores for Real-Demos, SimFoundry Cousins + DexMimicGen, and SimScale on PutPot, HangMug, and PutCharger."></div>
@@ -301,17 +296,22 @@
         <p>Baselines degrade sharply on objects absent from their training data. SimScale never sees any test object. Bars average three tasks and two policy backends.</p>
         <div class="pchart" data-chart="seen" aria-label="Bar chart of task scores on objects seen and unseen by Real-Demos and by SimFoundry."></div>
       </div>
-
-      
-      <div class="finding reveal"><h3>Experiment Setup</h3><p>Three bimanual tasks, five sets of distinct real-world objects each, 20 rollouts per set. Policies: GR00T N1.6 and DINOv3 + FMT.</p></div>
-      <figure class="spot-fig reveal" data-spot="tasks" data-spot-title="Tasks and objects" data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects. The top row shows object variants, and the bottom row shows the initial and final states of each task.">
-        <div class="spot-stage"><img src="media/paper/tasks.webp?v=202611181500" alt="Real-world tasks. (a) PutPot with five pots and cooktops. (b) HangMug with five mugs and mug trees. (c) PutCharger with drawer cabinets. Each with initial and final states." width="2145" height="744" loading="lazy"></div>
-        <div class="spot-panel"><div class="spot-steps" aria-label="Tasks"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
-      </figure>
+      <div class="finding reveal" id="baselines">
+        <h3>On the same real objects, baselines trained with 120 human demonstrations often fail where SimScale succeeds.</h3>
+        <p>Selected real-world rollouts of SimScale and the simulation baselines, played at 8×. SimFoundry labels mark whether the object is its reconstructed twin or unseen.</p>
+      <div class="comparison-showcase reveal" data-comparison-showcase>
+        <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
+          <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1">PutPot</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task2" data-comparison-task="task2" tabindex="-1">HangMug</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="comparison-task3" data-comparison-task="task3" tabindex="-1">PutCharger</button>
+        </div>
+        <div class="comparison-stage" data-comparison-stage></div>
+      </div>
+      </div>
     </section>
 
     <section class="light-section results-highlight sub" id="asset-analysis">
-      <div class="section-head reveal"><h2>AssetEngine Analysis</h2><p>All policies here use human source demonstrations, to isolate the effect of assets.</p></div>
+      <div class="section-head reveal"><h2>SimScale Analysis: AssetEngine</h2><p>All policies here use human source demonstrations, to isolate the effect of assets.</p></div>
       <div class="finding reveal">
         <h3>AssetEngine assets improve geometric generalization in sim-to-sim settings.</h3>
         <p>Policies trained on AssetEngine assets score highest on every held-out asset source, even on held-out RoboCasa assets.</p>
@@ -350,7 +350,7 @@
     </section>
 
     <section class="light-section sub" id="demo-analysis">
-      <div class="section-head reveal"><h2>DemoEngine Analysis</h2><p>All methods use the same 40 AssetEngine assets.</p></div>
+      <div class="section-head reveal"><h2>SimScale Analysis: DemoEngine</h2><p>All methods use the same 40 AssetEngine assets.</p></div>
       <div class="finding reveal">
         <h3>DemoEngine generates trajectories that match the quality of human-collected demonstrations.</h3>
         <p>One human demonstration matches re-collecting human demonstrations for every asset.</p>
