@@ -98,7 +98,7 @@
   // ---------- Bar charts ----------
   const COLOR = {
     real: '#CC6677', twin: '#F2E3A6', cousins: '#E2BE5A', robocasa: '#C8C2BA', articraft: '#B9A5D0',
-    astra: '#BCD3EC', human: '#6E9FD3', ours: '#1F4E8C', oursAsset: '#6E9FD3'
+    astra: '#BCD3EC', astraAsset: '#8FBF9F', human: '#6E9FD3', ours: '#1F4E8C', oursAsset: '#6E9FD3'
   };
   const TASKS = ['PutPot', 'HangMug', 'PutCharger'];
   // Values follow the paper figures. Each task panel lists one value per series. For charts with two backends,
@@ -125,11 +125,12 @@
       ]
     },
     assets: {
-      series: [['SimFoundry Twin', COLOR.twin], ['SimFoundry Cousins', COLOR.cousins], ['RoboCasa', COLOR.robocasa], ['Articraft', COLOR.articraft], ['SimScale AssetEngine (Ours)', COLOR.oursAsset, true]],
+      series: [['SimFoundry Twin', COLOR.twin], ['SimFoundry Cousins', COLOR.cousins], ['RoboCasa', COLOR.robocasa], ['Articraft', COLOR.articraft], ['GPT-6-Astra', COLOR.astraAsset], ['SimScale AssetEngine (Ours)', COLOR.oursAsset, true]],
       backends: true,
       panels: TASKS.map((t, i) => ({ title: t, groups: [{
-        dino: [[25, 68, 57, 5, 82], [3.5, 56.5, 11, 38, 87.5], [27.8, 43.3, null, 66.9, 85.2]][i],
-        groot: [[26, 62, 36, 11, 83], [47, 50, 30.5, 34.5, 84.5], [49.5, 33.7, null, 62.1, 90.8]][i]
+        // GPT-6-Astra assets were evaluated with DINOv3 + FMT only.
+        dino: [[25, 68, 57, 5, 70, 82], [3.5, 56.5, 11, 38, 7.5, 87.5], [27.8, 43.3, null, 66.9, 52.8, 85.2]][i],
+        groot: [[26, 62, 36, 11, null, 83], [47, 50, 30.5, 34.5, null, 84.5], [49.5, 33.7, null, 62.1, null, 90.8]][i]
       }] }))
     },
     demos: {
