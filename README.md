@@ -30,8 +30,10 @@ bars animate and the real-world charts can switch between the two policy backend
 
 The Method section is an animated overview (inputs, the two engines, and their outputs as videos)
 followed by two short players that step through AssetEngine and DemoEngine on HangMug, with images
-from the paper's method figure. `media/method/assets-field.mp4` is a Blender render of mugs and mug
-trees sampled from the website's generators. `method.js` runs the overview and the players.
+from the paper's method figure. `media/method/assets-field.mp4` (mugs and mug trees sampled from the website's generators),
+`human-demo.mp4` (the recorded HangMug teleoperation, mug_twin demo_1), and `demos.mp4` (recorded HangMug
+demonstrations on 20 sampled mug and mug-tree pairs) are Blender renders in the lighting and materials of
+the opening video, with the robot posed by forward kinematics of its URDF from the recorded joint states. `method.js` runs the overview and the players.
 
 Category videos isolate object imagery; control names and explanations are native
 HTML so they remain readable at mobile sizes. Baseline rollout clips in

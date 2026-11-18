@@ -27,8 +27,9 @@
         const to = row.querySelector('.ov-in').getBoundingClientRect();
         const x1 = from.left + from.width / 2 - box.left, y1 = from.bottom - box.top + 2;
         const x2 = to.left + to.width / 2 - box.left, y2 = to.top - box.top + 2;
-        const ym = (y1 + y2) / 2;
-        links[i].setAttribute('d', `M${x1} ${y1} C${x1} ${ym + 6} ${x2} ${ym - 6} ${x2} ${y2}`);
+        const ym = Math.round((y1 + y2) / 2);
+        links[i].setAttribute('d', `M${x1} ${y1} V${ym} H${x2} V${y2 - 3}`);
+        links[i].setAttribute('marker-end', 'url(#ovah)');
       });
     };
     window.addEventListener('resize', layout);

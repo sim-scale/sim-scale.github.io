@@ -22,7 +22,7 @@ let renderer,scene,camera,group,pivot,shadow,view=null;
 let partColors={},partFinishes=new Map();const materials=new Map();
 try{
   renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor('#eef2ec');
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor('#f2f0eb');
   renderer.outputColorSpace=THREE.SRGBColorSpace;
 }catch(e){renderer=null;}
 if(renderer){
