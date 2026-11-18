@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611192300">
+  <link rel="stylesheet" href="paper.css?v=202611200100">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611192300" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -105,11 +105,11 @@
     <section class="light-section playground-section" id="playground">
       <div class="section-head vis-head reveal"><div><h2>Interactive SimScale Asset Generators</h2></div></div>
       <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div></div>
-      <form class="asset-controls gen-form" onsubmit="return false"><label for="asset-family">Object category</label><select id="asset-family" disabled><option>Loading categories…</option></select>
+      <form class="asset-controls gen-form" onsubmit="return false"><div class="gen-top"><label for="asset-family">Object category</label><select id="asset-family" disabled><option>Loading categories…</option></select><div class="playground-buttons"><button id="sample-asset" type="button" disabled>Random sample</button><button id="reset-asset" type="button" disabled>Reset</button><button id="download-asset" type="button" disabled>Download mesh (.obj)</button></div></div>
       <div id="gen-controls" class="gen-controls" aria-live="off"></div>
       <fieldset class="gen-part gen-joints" id="gen-joints" hidden><legend>Joint Controls</legend><div id="gen-joint-list"></div></fieldset>
       
-      <div class="playground-buttons"><button id="sample-asset" type="button" disabled>Random sample</button><button id="reset-asset" type="button" disabled>Reset</button><button id="download-asset" type="button" disabled>Download mesh (.obj)</button></div><p id="asset-status" class="asset-status" role="status" aria-live="polite">The generators start when this section comes into view.</p></form></div>
+      <p id="asset-status" class="asset-status" role="status" aria-live="polite">The generators start when this section comes into view.</p></form></div>
       <noscript><p>Enable JavaScript to use the 3D preview. Research asset videos remain available above.</p></noscript>
     </section>
 
@@ -121,10 +121,7 @@
         <div class="ov-row">
           <div class="ov-in ov-el" data-t="0">
             <span class="ov-label">Input</span>
-            <div class="ov-input">
-              <p><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8M9 2h6v4H9zM6 4H5a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-1M8 11h8M8 15h5"/></svg><span><small>Task</small><span class="ov-type" data-text="Hang a mug on a mug tree"></span></span></p>
-              <p><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.4"/></svg><span><small>Object categories</small><span class="ov-chips"><i>mug</i><i>mug tree</i></span></span></p>
-            </div>
+            <div class="ov-input"><p class="ov-task"><small>Task</small><span class="ov-type" data-text="Hang a mug on a mug tree"></span></p><div class="ov-cats"><figure><img src="media/method/input-mug.webp?v=202611200100" alt="A mug"><figcaption>mug</figcaption></figure><figure><img src="media/method/input-tree.webp?v=202611200100" alt="A mug tree"><figcaption>mug tree</figcaption></figure></div></div>
           </div>
           <div class="ov-engine ov-el" data-t="1"><span class="ov-arrow"></span><b>AssetEngine</b><small>Author · Critic · Validator</small><span class="ov-arrow"></span></div>
           <figure class="ov-out ov-el" data-t="2"><span class="ov-label">Diverse assets</span><video muted loop playsinline preload="none" poster="media/method/assets-field.webp?v=202611192100"><source src="media/method/assets-field.mp4?v=202611192100" type="video/mp4"></video></figure>
@@ -138,7 +135,7 @@
           <figure class="ov-out ov-el" data-t="5"><span class="ov-label">Diverse demonstrations</span><video muted loop playsinline preload="none" poster="media/method/demos.webp?v=202611192100"><source src="media/method/demos.mp4?v=202611192100" type="video/mp4"></video></figure>
         </div>
         <div class="ov-row">
-          <div class="ov-in ov-el" data-t="6"><span class="ov-label">Policy</span><div class="ov-policy"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="12" width="13" height="10" rx="2"/><circle cx="9.5" cy="17" r="2.6"/><rect x="3" y="27" width="13" height="10" rx="2"/><circle cx="9.5" cy="32" r="2.6"/><path d="M16 17h6M16 32h6M22 17v15M22 24.5h4"/><rect x="26" y="16" width="12" height="17" rx="3"/><path d="M38 24.5h6M41 21.5l3 3-3 3"/></svg><b>RGB visuomotor policy</b><small>Behavior cloning on simulated demonstrations only</small></div></div>
+          <div class="ov-in ov-el" data-t="6"><span class="ov-label">RGB visuomotor policy</span><div class="ov-policy"><div class="ov-pi"><figure><img src="media/method/story-96.webp?v=202611191500" alt="RGB camera view of the robot workstation"><figcaption>RGB images</figcaption></figure><i aria-hidden="true">→</i><b>π</b><i aria-hidden="true">→</i><span>actions</span></div><p>Trained only on simulated demonstrations</p></div></div>
           <div class="ov-engine ov-el" data-t="7"><span class="ov-arrow"></span><b>Zero-shot</b><small>Sim-to-real transfer</small><span class="ov-arrow"></span></div>
           <figure class="ov-out ov-el" data-t="8"><span class="ov-label">Real world</span><video muted loop playsinline preload="none" poster="media/method/real-hangmug.webp?v=202611191900"><source src="media/method/real-hangmug.mp4?v=202611191900" type="video/mp4"></video></figure>
         </div>
