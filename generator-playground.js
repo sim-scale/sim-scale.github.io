@@ -7,7 +7,7 @@ const canvas=$('#asset-canvas'),family=$('#asset-family'),fields=$('#gen-control
 const jointBox=$('#gen-joints'),jointList=$('#gen-joint-list');
 let jointValues=new Map(),jointNames='';
 const download=$('#download-asset'),randomBtn=$('#sample-asset'),resetBtn=$('#reset-asset');
-const meshCount=$('#mesh-count'),overlay=$('#gen-overlay'),timing=$('#gen-timing');
+const overlay=$('#gen-overlay');
 const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
 // Glaze colors of the paper figures; the accent colors handles, knobs, and legs.
 const PALETTE=['#7c9781','#59799e','#ad6c50','#c4a44b','#458186','#815073','#cea29b','#a297c8','#767e86','#2f3338'];
@@ -182,8 +182,6 @@ function show(msg){
   }
   current=msg;pose();
   for(const g of partFinishes.keys())recolor(g);
-  meshCount.textContent=`${tris.toLocaleString()} triangles`;
-  timing.textContent=`generated in ${Math.max(1,Math.round(msg.ms))} ms`;
 }
 
 // ---------- Controls ----------

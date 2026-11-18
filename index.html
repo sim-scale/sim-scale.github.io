@@ -28,7 +28,7 @@
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
-  <script src="generator-playground.js?v=202611161110" type="module"></script>
+  <script src="generator-playground.js?v=202611191000" type="module"></script>
   <script src="research-details.js?v=202611182000" defer></script>
   <script src="rollouts.js?v=202611190130" defer></script>
   <script src="figures.js?v=202611182200" defer></script>
@@ -102,8 +102,8 @@
     </section>
 
     <section class="light-section playground-section" id="playground">
-      <div class="section-head vis-head reveal"><div><h2>Try the Generators Live</h2><p class="takeaway">The actual generators, running in your browser. <b>Move a slider</b> to create a new asset.</p></div></div>
-      <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="preview-bar"><span id="mesh-count">Generator output</span><span id="gen-timing"></span></div><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div><p class="orbit-hint">Drag to Orbit · Scroll or Pinch to Zoom · Double-Click to Reset</p></div>
+      <div class="section-head vis-head reveal"><div><h2>Try the Generators Live</h2></div></div>
+      <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div></div>
       <form class="asset-controls gen-form" onsubmit="return false"><label for="asset-family">Object Category</label><select id="asset-family" disabled><option>Loading categories…</option></select>
       <div id="gen-controls" class="gen-controls" aria-live="off"></div>
       <fieldset class="gen-part gen-joints" id="gen-joints" hidden><legend>Joint Controls</legend><div id="gen-joint-list"></div></fieldset>
