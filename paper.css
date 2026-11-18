@@ -339,7 +339,8 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 .mv-code-split { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); gap: 20px; align-items: center; }
 .mv-code-split .mv-legend { grid-column: 1 / -1; margin-top: 0; }
 .mv-family { position: relative; height: 240px; }
-.mv-family img, .mv-pair img { mix-blend-mode: multiply; }
+.mv-pair img { mix-blend-mode: multiply; }
+.mv-family img { padding: 18px; }
 .mv-family img, .mv-story-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .45s ease; }
 .mv-family img.on, .mv-story-frame img.on { opacity: 1; }
 
@@ -408,3 +409,12 @@ body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 1
 }
 .mv-critic > *, .mv-code-split > *, .mv-validate > *, .mv-story > *, .mv-after { min-width: 0; }
 .mv-code { max-width: 100%; }
+
+/* Human teleoperation marker (storyboard frame and overview flow). */
+.mv-story-badge { left: 12px; top: 12px; bottom: auto; display: flex; align-items: center; gap: 9px; padding: 6px 12px 6px 6px; border-radius: 12px; background: rgba(255,255,255,.94); box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.mv-story-badge .teleop-icon { flex: none; width: 30px; height: 30px; padding: 5px; border-radius: 50%; background: var(--accent); color: #fff; }
+.mv-story-badge b { display: block; color: #1d1d1f; font-size: 13px; font-weight: 650; line-height: 1.2; }
+.mv-story-badge small { display: block; color: #5d655a; font-size: 11.5px; font-weight: 500; line-height: 1.2; }
+.mflow-human { display: inline-flex; align-items: center; gap: 4px; }
+.mflow-human .teleop-icon { flex: none; width: 16px; height: 16px; color: var(--accent); }
+.mv-samples figcaption { font-size: 13.5px; }

@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191500">
+  <link rel="stylesheet" href="paper.css?v=202611191700">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611182200" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -119,7 +119,7 @@
         <div class="mflow-node mflow-input"><span class="mflow-tag">Input</span><div class="mflow-card"><p><small>Task</small>Hang a mug on a mug tree</p><p><small>Categories</small>Mug, Mug tree</p></div></div>
         <div class="mflow-arrow"><span>AssetEngine</span></div>
         <div class="mflow-node"><span class="mflow-tag">Assets</span><img src="media/method/asset-family.webp?v=202611191500" alt="Many generated mugs and mug trees" loading="lazy"></div>
-        <div class="mflow-arrow"><span>DemoEngine</span><small>+ one human demo</small></div>
+        <div class="mflow-arrow"><span>DemoEngine</span><small class="mflow-human"><svg class="teleop-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="6" r="3"/><path d="M2.5 20v-1a6 6 0 0 1 6-6h1.5"/><rect x="12" y="13" width="10" height="7" rx="3.5"/><path d="M14.6 16.5h2.2M15.7 15.4v2.2"/><circle cx="19.4" cy="16.5" r=".5" fill="currentColor"/></svg>+ one human demo</small></div>
         <div class="mflow-node"><span class="mflow-tag">Demonstrations</span><img src="media/method/demo-family.webp?v=202611191500" alt="Many simulated bimanual robots hanging different mugs on different mug trees" loading="lazy"></div>
         <div class="mflow-arrow"><span>Train</span></div>
         <div class="mflow-node mflow-policy"><span class="mflow-tag">Policy</span><div class="mflow-card"><p>RGB visuomotor policy</p><p><small>Zero-shot to the real world</small></p></div></div>
@@ -149,13 +149,12 @@
         <div class="mstep-vis mv-code-split">
           <pre class="mv-code" aria-label="Excerpt of the mug generator"><span class="c-file">mug_generator.py</span><span style="--d:.3s"><span class="c-k">def</span> generate(p):</span><span style="--d:.6s" class="c-abs">    body_height    = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span style="--d:.9s" class="c-rel">    base_diameter  = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span style="--d:1.2s" class="c-dis">    handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span><span style="--d:1.5s">    ...</span><span style="--d:1.8s">    <span class="c-k">return</span> build_mug(...)</span></pre>
           <div class="mv-family" data-cycle aria-label="Mugs sampled from the generator">
-            <img src="media/method/var-body-height-1.webp?v=202611191500" alt="" class="on">
-            <img src="media/method/var-body-height-2.webp?v=202611191500" alt="" loading="lazy">
-            <img src="media/method/var-base-diameter-0.webp?v=202611191500" alt="" loading="lazy">
-            <img src="media/method/var-handle-outline-1.webp?v=202611191500" alt="" loading="lazy">
-            <img src="media/method/var-body-height-0.webp?v=202611191500" alt="" loading="lazy">
-            <img src="media/method/var-handle-opening-depth-2.webp?v=202611191500" alt="" loading="lazy">
-            <img src="media/method/var-rim-diameter-2.webp?v=202611191500" alt="" loading="lazy">
+            <img src="media/method/mug-0.webp?v=202611191700" alt="" class="on">
+            <img src="media/method/mug-1.webp?v=202611191700" alt="" loading="lazy">
+            <img src="media/method/mug-2.webp?v=202611191700" alt="" loading="lazy">
+            <img src="media/method/mug-3.webp?v=202611191700" alt="" loading="lazy">
+            <img src="media/method/mug-4.webp?v=202611191700" alt="" loading="lazy">
+            <img src="media/method/mug-5.webp?v=202611191700" alt="" loading="lazy">
           </div>
           <ul class="mv-legend"><li class="c-abs">Continuous absolute</li><li class="c-rel">Continuous relative</li><li class="c-dis">Discrete</li></ul>
         </div>
@@ -208,7 +207,7 @@
             <img src="media/method/story-281.webp?v=202611191500" alt="Handover: the left arm hands the mug to the right arm" data-stage="1" loading="lazy">
             <img src="media/method/story-459.webp?v=202611191500" alt="Left Observes: the left wrist camera observes the mug tree" data-stage="2" loading="lazy">
             <img src="media/method/story-645.webp?v=202611191500" alt="Insert: the right arm hangs the mug on a branch" data-stage="3" loading="lazy">
-            <span class="mv-story-badge">One human demonstration</span>
+            <span class="mv-story-badge"><svg class="teleop-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="6" r="3"/><path d="M2.5 20v-1a6 6 0 0 1 6-6h1.5"/><rect x="12" y="13" width="10" height="7" rx="3.5"/><path d="M14.6 16.5h2.2M15.7 15.4v2.2"/><circle cx="19.4" cy="16.5" r=".5" fill="currentColor"/></svg><span><b>Human teleoperation</b><small>One demonstration in simulation</small></span></span>
           </div>
           <ol class="mv-stages">
             <li><b>Left Grasp</b><small>Left arm grasps the mug.</small></li>
