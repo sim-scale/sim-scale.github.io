@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611200300">
+  <link rel="stylesheet" href="paper.css?v=202611200400">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611192300" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -44,8 +44,7 @@
       <a href="#assets">Assets</a>
       <a href="#playground">Live Demo</a>
       <a href="#method">Method</a>
-      <a href="#comparison">Baselines</a>
-      <a href="#results">Results</a>
+      <a href="#experiments">Experiments</a>
     </nav>
   </header>
 
@@ -55,14 +54,15 @@
     <nav id="outline-list">
       <a href="#rollouts">Real-World Rollouts</a>
       <a href="#assets">SimScale Assets</a>
-      <a href="#playground">Live Generators</a>
-      <a href="#method">Method Overview</a>
-      <a href="#assetengine">AssetEngine</a>
-      <a href="#demoengine">DemoEngine</a>
-      <a href="#comparison">Baseline Rollouts</a>
-      <a href="#results">Real-World Results</a>
-      <a href="#asset-analysis">AssetEngine Analysis</a>
-      <a href="#demo-analysis">DemoEngine Analysis</a>
+      <a class="sub" href="#playground">Live Generators</a>
+      <a href="#method">Method</a>
+      <a class="sub" href="#assetengine">AssetEngine</a>
+      <a class="sub" href="#demoengine">DemoEngine</a>
+      <a href="#experiments">Experiments</a>
+      <a class="sub" href="#baselines">Baselines</a>
+      <a class="sub" href="#results">Real-World Results</a>
+      <a class="sub" href="#asset-analysis">AssetEngine Analysis</a>
+      <a class="sub" href="#demo-analysis">DemoEngine Analysis</a>
       <a href="#conclusion">Conclusion</a>
     </nav>
   </aside>
@@ -82,7 +82,7 @@
       <header class="title-block"><h1>SimScale: Agentic Simulation Data Scaling for Sim-to-Real Policy Learning</h1><div class="title-links"><a class="title-btn" href="#playground">Interactive SimScale Asset Generators <span aria-hidden="true">→</span></a></div></header>
     </section>
 
-    <section class="light-section results-highlight" id="rollouts">
+    <section class="light-section results-highlight group" id="rollouts">
       <div class="section-head vis-head reveal"><div><h2>Zero-Shot Transfer to Real Robots</h2><p class="takeaway">Trained only on simulation data from <b>one human demonstration</b> per task, SimScale policies generalize to diverse real-world objects for three bimanual manipulation tasks.</p></div></div>
 
       <div class="rollout-showcase reveal" id="real-rollouts">
@@ -97,12 +97,12 @@
       </div>
     </section>
 
-    <section class="light-section asset-section" id="assets">
+    <section class="light-section asset-section group" id="assets">
       <div class="section-head vis-head reveal"><div><h2>Diverse, Physically Plausible Assets</h2><p class="takeaway">SimScale defines a <b>category-level procedural generator</b> for each task-relevant object category, producing both diverse and realistic assets for policy training.</p></div></div>
       <div class="category-explorer reveal" id="category-explorer"><div class="category-tabs" role="tablist" aria-label="Asset category"><span class="category-tabs__label" role="presentation">Task objects</span><button id="category-tab-mug" type="button" role="tab" aria-selected="true" aria-controls="category-panel" tabindex="0" data-category="mug" data-title="Mug">Mug</button><button id="category-tab-mug_tree" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="mug_tree" data-title="Mug Tree">Mug Tree</button><button id="category-tab-pot" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="pot" data-title="Cooking Pot">Cooking Pot</button><button id="category-tab-cooktop" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cooktop" data-title="Cooktop">Cooktop</button><button id="category-tab-charger" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="charger" data-title="Phone Charger">Phone Charger</button><button id="category-tab-drawer_cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="drawer_cabinet" data-title="Two-Drawer Cabinet">Two-Drawer Cabinet</button><span class="category-tabs__label" role="presentation">More categories</span><button id="category-tab-bed" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bed" data-title="Bed">Bed</button><button id="category-tab-bottle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="bottle" data-title="Bottle">Bottle</button><button id="category-tab-cabinet" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="cabinet" data-title="Cabinet">Cabinet</button><button id="category-tab-chair" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="chair" data-title="Chair">Chair</button><button id="category-tab-kettle" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="kettle" data-title="Kettle">Kettle</button><button id="category-tab-lamp" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="lamp" data-title="Lamp">Lamp</button><button id="category-tab-oven" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="oven" data-title="Oven Range">Oven Range</button><button id="category-tab-refrigerator" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="refrigerator" data-title="Refrigerator">Refrigerator</button><button id="category-tab-screwdriver" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="screwdriver" data-title="Screwdriver">Screwdriver</button><button id="category-tab-sofa" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="sofa" data-title="Sofa">Sofa</button><button id="category-tab-suitcase" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="suitcase" data-title="Suitcase">Suitcase</button><button id="category-tab-tv_stand" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="tv_stand" data-title="TV Stand">TV Stand</button><button id="category-tab-table" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="table" data-title="Table">Table</button><button id="category-tab-trash_can" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="trash_can" data-title="Trash Can">Trash Can</button><button id="category-tab-wardrobe" type="button" role="tab" aria-selected="false" aria-controls="category-panel" tabindex="-1" data-category="wardrobe" data-title="Two-Door Wardrobe">Two-Door Wardrobe</button></div><div id="category-panel" role="tabpanel" aria-labelledby="category-tab-mug"><div class="rollout-player category-player"><video controls muted loop playsinline preload="none" poster="media/categories/mug.webp?v=202611180100" aria-label="Mug generator: all parameters moving"><source src="media/categories/mug.mp4?v=202611180100" type="video/mp4"></video></div></div><div class="category-all"><h4>20 categories, one generator each</h4><div class="rollout-player"><video controls muted loop playsinline preload="none" poster="media/categories/all.webp?v=202611180100" aria-label="20 generators with all parameters moving at once"><source src="media/categories/all.mp4?v=202611180100" type="video/mp4"></video></div></div></div>
     </section>
 
-    <section class="light-section playground-section" id="playground">
+    <section class="light-section playground-section sub" id="playground">
       <div class="section-head vis-head reveal"><div><h2>Interactive SimScale Asset Generators</h2></div></div>
       <div class="playground-layout reveal"><div class="playground-preview gen-preview"><div class="gen-canvas-wrap"><canvas id="asset-canvas" width="900" height="700" tabindex="0" role="img" aria-label="Generated asset preview. Drag or use arrow keys to rotate, scroll to zoom."></canvas><div class="gen-overlay" id="gen-overlay" hidden><i aria-hidden="true"></i><span>Loading Python runtime…</span></div></div></div>
       <form class="asset-controls gen-form" onsubmit="return false"><div class="gen-top"><label for="asset-family">Object category</label><select id="asset-family" disabled><option>Loading categories…</option></select><div class="playground-buttons"><button id="sample-asset" type="button" disabled>Random sample</button><button id="reset-asset" type="button" disabled>Reset</button><button id="download-asset" type="button" disabled>Download mesh (.obj)</button></div></div>
@@ -113,8 +113,9 @@
       <noscript><p>Enable JavaScript to use the 3D preview. Research asset videos remain available above.</p></noscript>
     </section>
 
-    <section class="light-section results-highlight" id="method">
-      <div class="section-head vis-head reveal"><div><h2>Method Overview</h2><p class="takeaway">SimScale consists of two engines:</p><ul class="takeaway-list"><li><b>AssetEngine</b> generates diverse and realistic assets.</li><li><b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</li></ul></div></div>
+    <section class="light-section results-highlight group" id="method">
+      <h2 class="group-title reveal">Method</h2>
+      <div class="section-head vis-head reveal"><div><h2 class="sub-title">Overview</h2><p class="takeaway">SimScale consists of two engines:</p><ul class="takeaway-list"><li><b>AssetEngine</b> generates diverse and realistic assets.</li><li><b>DemoEngine</b> generates demonstrations across these assets from one human demonstration.</li></ul></div></div>
 
       <div class="ov" data-ov aria-label="Animated overview of SimScale on the HangMug task">
         <svg class="ov-links" aria-hidden="true"><defs><marker id="ovah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4f8a0b"/></marker></defs></svg>
@@ -143,7 +144,7 @@
       </div>
     </section>
 
-    <section class="light-section" id="assetengine">
+    <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
       <div class="mp reveal" data-player aria-label="AssetEngine walkthrough on the mug category">
         <svg class="mp-diagram" viewBox="0 0 280 330" aria-hidden="true">
@@ -191,7 +192,7 @@
       </div>
     </section>
 
-    <section class="light-section demonstration-section results-highlight" id="demoengine">
+    <section class="light-section demonstration-section results-highlight sub" id="demoengine">
       <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine turns <b>one human demonstration</b> into thousands of trajectories across assets and object poses.</p></div></div>
       <div class="mp reveal" data-player aria-label="DemoEngine walkthrough on HangMug">
         <svg class="mp-diagram" viewBox="0 0 280 330" aria-hidden="true">
@@ -273,8 +274,9 @@
       </div>
     </section>
 
-    <section class="light-section real-section" id="comparison">
-      <div class="section-head vis-head reveal"><div><h2>SimScale vs. Baselines</h2><p class="takeaway">On the same real objects, baselines trained with <b>120 human demonstrations</b> often fail where SimScale, with one, succeeds.</p></div></div>
+    <section class="light-section real-section group" id="comparison">
+      <h2 class="group-title reveal" id="experiments">Experiments</h2>
+      <div class="section-head vis-head reveal" id="baselines"><div><h2 class="sub-title">SimScale vs. Baselines</h2><p class="takeaway">On the same real objects, baselines trained with <b>120 human demonstrations</b> often fail where SimScale, with one, succeeds.</p></div></div>
       <div class="comparison-showcase reveal" data-comparison-showcase>
         <div class="comparison-tabs" role="tablist" aria-label="Choose a task comparison">
           <button class="active" type="button" role="tab" aria-selected="true" aria-controls="comparison-task1" data-comparison-task="task1">PutPot</button>
@@ -285,7 +287,7 @@
       </div>
     </section>
 
-    <section class="light-section transfer-section" id="results">
+    <section class="light-section transfer-section sub" id="results">
       <div class="section-head reveal"><h2>Real-World Results</h2><p>Average task score over five sets of unseen real-world objects per task.</p></div>
 
       <div class="finding reveal">
@@ -308,7 +310,7 @@
       </figure>
     </section>
 
-    <section class="light-section results-highlight" id="asset-analysis">
+    <section class="light-section results-highlight sub" id="asset-analysis">
       <div class="section-head reveal"><h2>AssetEngine Analysis</h2><p>All policies here use human source demonstrations, to isolate the effect of assets.</p></div>
       <div class="finding reveal">
         <h3>AssetEngine assets improve geometric generalization in sim-to-sim settings.</h3>
@@ -347,7 +349,7 @@
       </div>
     </section>
 
-    <section class="light-section" id="demo-analysis">
+    <section class="light-section sub" id="demo-analysis">
       <div class="section-head reveal"><h2>DemoEngine Analysis</h2><p>All methods use the same 40 AssetEngine assets.</p></div>
       <div class="finding reveal">
         <h3>DemoEngine generates trajectories that match the quality of human-collected demonstrations.</h3>
@@ -360,7 +362,7 @@
       </div>
     </section>
 
-    <section class="light-section results-highlight" id="conclusion">
+    <section class="light-section results-highlight group" id="conclusion">
       <h2 class="plain-h2">Conclusion</h2>
       <div class="prose reveal"><p>We presented SimScale, an agentic framework that scales up simulation training data for sim-to-real robot learning with only one human demonstration. Its AssetEngine authors category-level procedural generators that balance geometric diversity and physical plausibility, and its DemoEngine adapts the demonstration across the resulting geometries. Policies trained only on SimScale data transfer zero-shot to diverse real-world objects and outperform the strongest baseline by approximately 30% with far less human effort. These findings support category-level procedural generation as a practical approach to scaling up simulation data for sim-to-real robot learning.</p></div>
     </section>

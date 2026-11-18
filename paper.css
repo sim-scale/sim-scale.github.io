@@ -581,3 +581,42 @@ body, .light-section, .results-highlight, #conclusion, .title-section, .real-sec
 #assets .category-all h4 { color: #000; font-size: 18px; }
 #assets .category-all p, #assets .category-explorer > p { color: rgba(0,0,0,.66); }
 #assets .category-player, #assets .category-player video { border-radius: 4px; }
+
+/* ---------- Section hierarchy: groups (rule + large title) > subsections > findings ---------- */
+main > section.group, main > section.sub { padding-bottom: 0; }
+main > section.group { padding-top: 128px; }
+main > section.group::before { content: ""; display: block; margin: 0 0 56px; border-top: 1px solid rgba(0,0,0,.16); }
+main > section.sub { padding-top: 96px; }
+main > section#conclusion { padding-bottom: 150px; }
+#rollouts.group { padding-top: 88px; }
+.group-title, .group > .section-head h2:not(.sub-title), .group > .plain-h2 {
+  margin: 0 0 14px; color: #000; font-size: 36px; font-weight: 650; line-height: 1.2; letter-spacing: -.02em; }
+.group-title { margin-bottom: 44px; }
+.light-section .vis-head h2.sub-title, .sub .section-head h2, .sub-title {
+  margin: 0 0 8px; color: #000; font-size: 25px; font-weight: 600; line-height: 1.3; letter-spacing: -.01em; }
+.sub .section-head p, .sub-title + .takeaway, .sub-title ~ .takeaway { font-size: 17.5px; }
+.finding > h3 { font-size: 18px; font-weight: 600; line-height: 1.45; color: #000; }
+.finding { margin-top: 44px; }
+.rollout-group-head h3, .mstep-after { font-size: 20px; }
+.outline nav a.sub { padding-left: 28px; font-size: .86rem; }
+@media (max-width: 760px) {
+  main > section.group { padding-top: 88px; }
+  main > section.group::before { margin-bottom: 40px; }
+  main > section.sub { padding-top: 72px; }
+  .group-title, .group > .section-head h2:not(.sub-title), .group > .plain-h2 { font-size: 29px; }
+  .group-title { margin-bottom: 30px; }
+  .light-section .vis-head h2.sub-title, .sub .section-head h2, .sub-title { font-size: 22px; }
+}
+/* Iteration 2: a fainter rule before each subsection; findings one step quieter. */
+main > section.sub { padding-top: 84px; }
+main > section.sub::before { content: ""; display: block; margin: 0 0 44px; border-top: 1px solid rgba(0,0,0,.07); }
+main > section.group::before { border-top-color: rgba(0,0,0,.22); }
+.finding > h3 { font-size: 17.5px; color: #1d1d1f; }
+.finding > p { font-size: 16.5px; }
+.sub .section-head { margin-bottom: 30px; }
+@media (max-width: 760px) { main > section.sub { padding-top: 60px; } main > section.sub::before { margin-bottom: 30px; } }
+/* Iteration 3: the contents rail shows the same two levels. */
+.outline nav a:not(.sub) { color: rgba(0,0,0,.8); font-weight: 600; margin-top: 4px; }
+.outline nav a.sub { color: rgba(0,0,0,.55); font-weight: 400; }
+.outline nav a.active { color: var(--green-deep); }
+.outline.on-dark nav a:not(.sub) { color: rgba(255,255,255,.88); } .outline.on-dark nav a.sub { color: rgba(255,255,255,.62); }
