@@ -665,3 +665,7 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
   border: 1px solid rgba(0,0,0,.25); border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,.06); font: 600 13.5px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
 .ov-replay:hover { color: #000; border-color: rgba(0,0,0,.5); box-shadow: 0 2px 6px rgba(0,0,0,.08); }
 @media (max-width: 760px) { .ov { padding-top: 48px; } .ov-replay { top: 4px; bottom: auto; right: 0; transform: none; } }
+
+/* Object labels under the pose-generalization thumbnails are centered. */
+.rollout-thumb { text-align: center; }
+.rollout-thumb span { justify-self: center; }
