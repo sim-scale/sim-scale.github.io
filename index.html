@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191540">
+  <link rel="stylesheet" href="paper.css?v=202611191720">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -146,7 +146,6 @@
 
     <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
-      <p class="ae-option"><b>Design A</b> · step-through</p>
       <div class="mp ae-a reveal" data-player aria-label="AssetEngine walkthrough on the mug category">
         <svg class="mp-diagram" viewBox="0 0 280 430" aria-hidden="true">
           <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
@@ -239,72 +238,6 @@
         </div>
         <p class="mp-caption" aria-live="polite"></p>
         <div class="mp-controls"><button type="button" class="mp-play" aria-label="Pause">❚❚</button><div class="mp-bars"></div></div>
-      </div>
-      <p class="ae-option"><b>Design B</b> · agent trace</p>
-      <div class="ae-trace reveal" aria-label="AssetEngine agent trace on the mug category">
-        <div class="tr-in"><span>Input to all sub-agents</span><b>Category</b> <span class="sc-chip">Mug</span><b>Task</b> <em>optional</em> <span class="sc-field">Hang a mug on a mug tree.</span></div>
-        <p class="tr-round">Round 1</p>
-        <ol class="tr-log">
-          <li data-who="author">
-            <span class="tr-who">Generator Author</span>
-            <div class="tr-body">
-              <p class="tr-call"><code>web_search(<i>"mug"</i>, <i>"mug dimensions"</i>)</code></p>
-              <div class="tr-imgs"><img src="media/method/web-1.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-2.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-3.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-4.webp?v=202611191500" alt="" loading="lazy"></div>
-              <p class="tr-note">Body height, base diameter, handle loop height and mount position vary widely. Base diameter depends on rim diameter.</p>
-            </div>
-          </li>
-          <li data-who="author">
-            <span class="tr-who">Generator Author</span>
-            <div class="tr-body">
-              <p class="tr-call"><code>write(<i>"mug_generator.py"</i>)</code> <span class="tr-uses">uses <code>box</code> <code>cylinder</code> <code>sweep</code> from the geometry primitive library and <code>union</code> <code>difference</code> from the mesh operation library</span></p>
-              <pre class="sc-code"><span>body_height    = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span>base_diameter  = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span>handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span></pre>
-            </div>
-          </li>
-          <li data-who="critic">
-            <span class="tr-who">Coverage Critic</span>
-            <div class="tr-body">
-              <p class="tr-call"><code>web_search(<i>"ordinary mugs"</i>)</code> and <code>sample(draft)</code></p>
-              <div class="tr-cmp">
-                <figure><div class="tr-imgs n3"><img src="media/method/sample-green.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-navy.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-terra.webp?v=202611191130" alt="" loading="lazy"></div><figcaption>Draft samples</figcaption></figure>
-                <span class="tr-vs">vs</span>
-                <figure><div class="tr-imgs n1"><img class="flag" src="media/method/critic-round.webp?v=202611191500" alt="Rounded mug from the internet" loading="lazy"></div><figcaption>Found on the web</figcaption></figure>
-              </div>
-              <p class="tr-verdict bad"><span class="mv-x">✕</span> Rounded body outline is common but not covered. <b>Revise.</b></p>
-            </div>
-          </li>
-          <li data-who="validator">
-            <span class="tr-who">Geometry Validator</span>
-            <div class="tr-body">
-              <p class="tr-call">Derives two checklists and writes one probe per item with the mesh probe library</p>
-              <div class="tr-checks">
-                <table><colgroup><col style="width:34%"><col><col class="c3"></colgroup>
-                  <tr class="h"><th>Mesh quality</th><th>Probe</th><th>Draft</th></tr>
-                  <tr><td>Cup has an opening</td><td><code>raycast</code> from above reaches the inner floor</td><td class="ok">✓</td></tr>
-                  <tr><td>Handle attached</td><td><code>pair</code> distance between handle and body is zero</td><td class="no">✕</td></tr>
-                  <tr class="h"><th>Task compatibility</th><th>Probe</th><th>Draft</th></tr>
-                  <tr><td>Handle graspable</td><td><code>pair</code> gap inside the loop fits a gripper finger</td><td class="ok">✓</td></tr>
-                  <tr><td>Handle hangable</td><td><code>contains</code> the loop is closed around a peg</td><td class="no">✕</td></tr>
-                </table>
-                <div class="tr-fails"><figure><img src="media/method/detached-handle.webp?v=202611191500" alt="Detached handle" loading="lazy"><figcaption>Detached handle</figcaption></figure><figure><img src="media/method/open-handle.webp?v=202611191500" alt="Open handle loop" loading="lazy"><figcaption>Not a closed loop</figcaption></figure></div>
-              </div>
-              <p class="tr-verdict bad"><span class="mv-x">✕</span> Two items fail on draft samples. <b>Revise.</b></p>
-            </div>
-          </li>
-        </ol>
-        <p class="tr-round">Round 2</p>
-        <ol class="tr-log">
-          <li data-who="author">
-            <span class="tr-who">Generator Author</span>
-            <div class="tr-body">
-              <p class="tr-call"><code>edit(<i>"mug_generator.py"</i>)</code></p>
-              <pre class="sc-code tr-diff"><span class="add">+ body_outline   = p.choice(<span class="c-s">"linear"</span>, <span class="c-s">"rounded"</span>)</span><span class="add">+ handle attached to the body wall, loop closed</span></pre>
-            </div>
-          </li>
-          <li data-who="critic"><span class="tr-who">Coverage Critic</span><div class="tr-body"><p class="tr-verdict good"><span class="mv-ok">✓</span> Common variations are covered. <b>Accept.</b></p></div></li>
-          <li data-who="validator"><span class="tr-who">Geometry Validator</span><div class="tr-body"><p class="tr-verdict good"><span class="mv-ok">✓</span> All checklist items pass on samples. <b>Accept.</b></p></div></li>
-        </ol>
-        <p class="tr-round">Sampling the accepted generator</p>
-        <div class="tr-out"><img src="media/method/sampled-mugs.webp?v=202611191130" alt="Six mugs sampled from the accepted generator" loading="lazy"><p>Random parameters give diverse and physically plausible mugs for DemoEngine.</p></div>
       </div>
     </section>
 
