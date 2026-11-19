@@ -21,12 +21,18 @@
     links.forEach((p) => svg.appendChild(p));
     const layout = () => {
       const box = ov.getBoundingClientRect();
+      // Drop the arrows at the card center, or just past the longest label so the line never crosses its text.
+      const labelRight = Math.max(...rows.slice(1).map((row) => {
+        const label = row.querySelector('.ov-in .ov-label'), r = document.createRange();
+        r.selectNodeContents(label);
+        return r.getBoundingClientRect().right - row.querySelector('.ov-in').getBoundingClientRect().left;
+      }));
       rows.slice(1).forEach((row, i) => {
         const from = rows[i].querySelector('.ov-out').getBoundingClientRect();
-        const to = row.querySelector('.ov-in').getBoundingClientRect();
+        const to = row.querySelector('.ov-in > :last-child').getBoundingClientRect();   // the input card, below its label
         const x1 = from.left + from.width / 2 - box.left, y1 = from.bottom - box.top;
-        const x2 = to.left + to.width / 2 - box.left, y2 = to.top - box.top + 2;
-        const ym = Math.round(y1 + 9);   // run across just below the output, leaving a long drop into the next row
+        const x2 = to.left + Math.max(to.width / 2, labelRight + 18) - box.left, y2 = to.top - box.top;
+        const ym = Math.round(y1 + 9);   // run across just below the output, then drop beside the label onto the card
         links[i].setAttribute('d', `M${x1} ${y1} V${ym} H${x2} V${y2 - 3}`);
         links[i].setAttribute('marker-end', 'url(#ovah)');
       });
