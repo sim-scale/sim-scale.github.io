@@ -718,3 +718,20 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .ov-row + .ov-row { margin-top: 36px; }
 .ov-row + .ov-row { margin-top: 22px; }
 .ov-links { z-index: 3; }   /* arrowheads sit above the cards they point to */
+/* Policy card: simulated dataset --train--> visuomotor policy, drawn as icons. */
+.ov-policy { justify-content: center; }
+.ov-train { display: flex; align-items: flex-start; justify-content: center; gap: 0; }
+.ov-train figure { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; margin: 0; text-align: center; }
+.ov-policy .ov-ico { width: 76px; height: 76px; margin: 0 0 10px; fill: #fff; stroke: #3a3a36; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ov-policy .ov-nn .e path { fill: none; stroke: rgba(0,0,0,.35); stroke-width: 1.1; }
+.ov-policy .ov-nn .n circle { fill: #fff; stroke: #3a3a36; stroke-width: 1.6; }
+.ov-train figcaption b { display: block; color: #1d1d1f; font-size: 15.5px; font-weight: 600; }
+.ov-train figcaption small { display: block; margin-top: 2px; color: var(--muted); font-size: 13.5px; }
+.ov-train-arrow { position: relative; flex: 1 1 auto; min-width: 48px; max-width: 120px; height: 1.5px; margin: 38px 14px 0; background: #3a3a36; }
+.ov-train-arrow::after { content: ""; position: absolute; right: -1px; top: -4.25px; border: 5px solid transparent; border-left: 8px solid #3a3a36; border-right: 0; }
+.ov-train-arrow em { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); color: var(--muted); font-size: 13.5px; font-style: italic; white-space: nowrap; }
+.ov-train figure { flex: 1 1 0; min-width: 0; }
+.ov-train figcaption b { font-size: 15px; }
+.ov-train figcaption small { font-size: 13px; }
+.ov-train-arrow { flex: 0 0 64px; min-width: 0; margin: 38px 6px 0; }
+.ov-train figcaption b { line-height: 1.25; } .ov-train figcaption small { margin-top: 5px; line-height: 1.3; }
