@@ -669,3 +669,7 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 /* Object labels under the pose-generalization thumbnails are centered. */
 .rollout-thumb { text-align: center; }
 .rollout-thumb span { justify-self: center; }
+/* Keep the full outline on the last task tab (styles.css drops its right border). */
+.task-tabs button:last-child { border-right: 1px solid var(--ctl); }
+.task-tabs button:last-child:hover { border-right-color: rgba(0,0,0,.5); }
+.task-tabs button.active:last-child { border-right-color: var(--accent); }
