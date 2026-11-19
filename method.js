@@ -19,6 +19,13 @@
     // Dashed links from each row's output down to the next row's input.
     const links = rows.slice(1).map(() => document.createElementNS('http://www.w3.org/2000/svg', 'path'));
     links.forEach((p) => svg.appendChild(p));
+    // Card positions without the slide-in offset, so links drawn while a card is still animating end in the right place.
+    const settled = (el) => {
+      const r = el.getBoundingClientRect(), host = el.closest('.ov-el');
+      const t = host ? getComputedStyle(host).transform : 'none';
+      const dy = t && t !== 'none' ? new DOMMatrixReadOnly(t).m42 : 0;
+      return { left: r.left, width: r.width, top: r.top - dy, bottom: r.bottom - dy };
+    };
     const layout = () => {
       const box = ov.getBoundingClientRect();
       // Drop the arrows at the card center, or just past the longest label so the line never crosses its text.
@@ -28,8 +35,8 @@
         return r.getBoundingClientRect().right - row.querySelector('.ov-in').getBoundingClientRect().left;
       }));
       rows.slice(1).forEach((row, i) => {
-        const from = rows[i].querySelector('.ov-out').getBoundingClientRect();
-        const to = row.querySelector('.ov-in > :last-child').getBoundingClientRect();   // the input card, below its label
+        const from = settled(rows[i].querySelector('.ov-out'));
+        const to = settled(row.querySelector('.ov-in > :last-child'));   // the input card, below its label
         const x1 = from.left + from.width / 2 - box.left, y1 = from.bottom - box.top;
         const x2 = to.left + Math.max(to.width / 2, labelRight + 18) - box.left, y2 = to.top - box.top;
         const ym = Math.round(y1 + 9);   // run across just below the output, then drop beside the label; the tip stops 2px above the card
