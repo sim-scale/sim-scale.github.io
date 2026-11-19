@@ -32,8 +32,8 @@
         const to = row.querySelector('.ov-in > :last-child').getBoundingClientRect();   // the input card, below its label
         const x1 = from.left + from.width / 2 - box.left, y1 = from.bottom - box.top;
         const x2 = to.left + Math.max(to.width / 2, labelRight + 18) - box.left, y2 = to.top - box.top;
-        const ym = Math.round(y1 + 9);   // run across just below the output, then drop beside the label onto the card
-        links[i].setAttribute('d', `M${x1} ${y1} V${ym} H${x2} V${y2 - 3}`);
+        const ym = Math.round(y1 + 9);   // run across just below the output, then drop beside the label; the tip stops 2px above the card
+        links[i].setAttribute('d', `M${x1} ${y1} V${ym} H${x2} V${y2 - 5.5}`);
         links[i].setAttribute('marker-end', 'url(#ovah)');
       });
     };
