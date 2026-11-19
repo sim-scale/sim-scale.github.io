@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611191440">
+  <link rel="stylesheet" href="paper.css?v=202611191540">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -146,49 +146,165 @@
 
     <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
-      <div class="mp reveal" data-player aria-label="AssetEngine walkthrough on the mug category">
-        <svg class="mp-diagram" viewBox="0 0 280 330" aria-hidden="true">
+      <p class="ae-option"><b>Design A</b> · step-through</p>
+      <div class="mp ae-a reveal" data-player aria-label="AssetEngine walkthrough on the mug category">
+        <svg class="mp-diagram" viewBox="0 0 280 430" aria-hidden="true">
           <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
-          <path class="e" data-e="draft-c" d="M112 66 L74 146" marker-end="url(#ah)"/>
-          <path class="e" data-e="draft-v" d="M168 66 L206 146" marker-end="url(#ah)"/>
-          <path class="e" data-e="rev-c" d="M28 146 C12 100 30 50 68 44" marker-end="url(#ah)"/>
-          <path class="e" data-e="rev-v" d="M252 146 C268 100 250 50 212 44" marker-end="url(#ah)"/>
-          <path class="e" data-e="pass" d="M70 194 L118 252 M210 194 L162 252" marker-end="url(#ah)"/>
-          <text class="el" x="140" y="118" text-anchor="middle">draft</text>
-          <text class="el" x="4" y="112">revise</text>
-          <text class="el" x="276" y="112" text-anchor="end">revise</text>
-          <text class="el" x="140" y="232" text-anchor="middle">both pass</text>
-          <g class="n" data-n="author"><rect x="70" y="22" width="140" height="44" rx="12"/><text x="140" y="49" text-anchor="middle">Generator Author</text></g>
-          <g class="n" data-n="critic"><rect x="10" y="148" width="124" height="44" rx="12"/><text x="72" y="175" text-anchor="middle">Coverage Critic</text></g>
-          <g class="n" data-n="validator"><rect x="146" y="148" width="124" height="44" rx="12"/><text x="208" y="175" text-anchor="middle">Geometry Validator</text></g>
-          <g class="n" data-n="sample"><rect x="76" y="256" width="128" height="44" rx="12"/><text x="140" y="283" text-anchor="middle">Asset Sampling</text></g>
+          <path class="e" data-e="in" d="M140 50 V80" marker-end="url(#ah)"/>
+          <path class="e" data-e="in" d="M44 50 V196" marker-end="url(#ah)"/>
+          <path class="e" data-e="in" d="M236 50 V196" marker-end="url(#ah)"/>
+          <path class="e" data-e="draft-c" d="M112 134 L86 196" marker-end="url(#ah)"/>
+          <path class="e" data-e="draft-v" d="M168 134 L194 196" marker-end="url(#ah)"/>
+          <path class="e" data-e="rev-c" d="M10 222 C0 170 14 112 58 106" marker-end="url(#ah)"/>
+          <path class="e" data-e="rev-v" d="M270 222 C280 170 266 112 222 106" marker-end="url(#ah)"/>
+          <path class="e" data-e="pass" d="M72 250 L118 304 M208 250 L162 304" marker-end="url(#ah)"/>
+          <path class="e" data-e="sample" d="M140 348 V376" marker-end="url(#ah)"/>
+          <text class="el" x="140" y="172" text-anchor="middle">draft</text>
+          <text class="el" x="2" y="146">revise</text>
+          <text class="el" x="278" y="146" text-anchor="end">revise</text>
+          <text class="el" x="140" y="284" text-anchor="middle">both accept</text>
+          <g class="n" data-n="input"><rect x="30" y="8" width="220" height="42" rx="12"/><text x="140" y="27" text-anchor="middle">Task + Category</text><text class="sub" x="140" y="42" text-anchor="middle">input to all sub-agents</text></g>
+          <g class="n" data-n="author"><rect x="58" y="82" width="164" height="52" rx="12"/><text x="140" y="104" text-anchor="middle">Generator Author</text><text class="sub" x="140" y="121" text-anchor="middle">web search · writes code</text></g>
+          <g class="n" data-n="critic"><rect x="6" y="198" width="128" height="52" rx="12"/><text x="70" y="220" text-anchor="middle">Coverage Critic</text><text class="sub" x="70" y="237" text-anchor="middle">web search · compare</text></g>
+          <g class="n" data-n="validator"><rect x="146" y="198" width="128" height="52" rx="12"/><text x="210" y="220" text-anchor="middle">Geometry Validator</text><text class="sub" x="210" y="237" text-anchor="middle">checklists · probes</text></g>
+          <g class="n" data-n="final"><rect x="58" y="306" width="164" height="42" rx="12"/><text x="140" y="332" text-anchor="middle">Accepted Generator</text></g>
+          <g class="n" data-n="sample"><rect x="58" y="378" width="164" height="42" rx="12"/><text x="140" y="404" text-anchor="middle">Sampled Assets</text></g>
           <circle class="mp-dot" r="5"/>
         </svg>
         <div class="mp-stage">
-          <div class="mp-scene" data-n="author" data-e="" data-caption="The Generator Author searches internet images of mugs and writes a generator with interpretable parameters.">
-            <div class="sc-web"><img style="--d:.1s" src="media/method/web-1.webp?v=202611191500" alt="" loading="lazy"><img style="--d:.25s" src="media/method/web-2.webp?v=202611191500" alt="" loading="lazy"><img style="--d:.4s" src="media/method/web-3.webp?v=202611191500" alt="" loading="lazy"><img style="--d:.55s" src="media/method/web-4.webp?v=202611191500" alt="" loading="lazy"></div>
-            <pre class="sc-code" style="--d:1s"><span class="c-file">mug_generator.py</span><span>body_height    = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span>base_diameter  = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span>handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span></pre>
-          </div>
-          <div class="mp-scene" data-n="critic" data-e="draft-c rev-c" data-caption="The Coverage Critic finds common mugs that the draft cannot produce, such as a rounded body, and asks for a revision.">
-            <div class="sc-critic">
-              <figure style="--d:.1s"><img src="media/method/critic-round.webp?v=202611191500" alt="Rounded mug from the internet" loading="lazy"><figcaption><span class="mv-x">✕</span> Not covered</figcaption></figure>
-              <span class="sc-to" style="--d:.8s">revise</span>
-              <figure style="--d:1.2s"><div class="sc-pair"><img src="media/method/outline-linear.webp?v=202611191600" alt="Linear body" loading="lazy"><img src="media/method/outline-rounded.webp?v=202611191600" alt="Rounded body" loading="lazy"></div><figcaption>Body outline: linear or <b>rounded</b></figcaption></figure>
+          <div class="mp-scene" data-n="input" data-e="in" data-dur="5000" data-caption="Every sub-agent receives the same input: the object category and, optionally, a task description.">
+            <p class="sc-step">Input to all sub-agents</p>
+            <div class="sc-input">
+              <div style="--d:.1s"><small>Object category</small><span class="sc-chip">Mug</span></div>
+              <div style="--d:.5s"><small>Task description <em>optional</em></small><span class="sc-field">Hang a mug on a mug tree.</span></div>
             </div>
           </div>
-          <div class="mp-scene" data-n="validator" data-e="draft-v rev-v" data-caption="The Geometry Validator checks mesh quality and task compatibility, and rejects mugs whose handle cannot be hung.">
-            <div class="sc-valid">
-              <figure class="bad" style="--d:.1s"><img src="media/method/detached-handle.webp?v=202611191500" alt="Detached handle" loading="lazy"><figcaption><span class="mv-x">✕</span> Detached handle</figcaption></figure>
-              <figure class="bad" style="--d:.5s"><img src="media/method/open-handle.webp?v=202611191500" alt="Open handle loop" loading="lazy"><figcaption><span class="mv-x">✕</span> Open loop</figcaption></figure>
-              <figure class="good" style="--d:.9s"><img src="media/method/valid.webp?v=202611191500" alt="Valid mug" loading="lazy"><figcaption><span class="mv-ok">✓</span> Valid</figcaption></figure>
+          <div class="mp-scene" data-n="author" data-e="in" data-dur="7000" data-caption="The Generator Author actively searches internet images and dimensions of mugs, and notes which measurements vary and over what ranges.">
+            <p class="sc-step">Generator Author · searches the web</p>
+            <div class="sc-search" style="--d:.1s"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><span class="sc-q">mug, mug dimensions</span></div>
+            <div class="sc-web">
+              <img style="--d:.6s" src="media/method/web-1.webp?v=202611191500" alt="" loading="lazy">
+              <img style="--d:.75s" src="media/method/web-2.webp?v=202611191500" alt="" loading="lazy">
+              <img style="--d:.9s" src="media/method/web-3.webp?v=202611191500" alt="" loading="lazy">
+              <img style="--d:1.05s" src="media/method/web-4.webp?v=202611191500" alt="" loading="lazy">
+            </div>
+            <ul class="sc-notes" style="--d:1.6s"><li>Body height, base diameter, handle loop height and handle mount position vary widely</li><li>Base diameter depends on rim diameter</li></ul>
+          </div>
+          <div class="mp-scene" data-n="author" data-dur="7500" data-caption="It writes the generator as a Python program that builds parts from a geometry primitive library and a mesh operation library. Each variation becomes a parameter.">
+            <p class="sc-step">Generator Author · writes a draft generator</p>
+            <div class="sc-write">
+              <div class="sc-libs" style="--d:.1s">
+                <div><small>Geometry primitive library</small><code>box</code><code>cylinder</code><code>sweep</code><code>…</code></div>
+                <div><small>Mesh operation library</small><code>union</code><code>difference</code><code>intersect</code><code>…</code></div>
+              </div>
+              <pre class="sc-code" style="--d:.6s"><span class="c-file">mug_generator.py</span><span>body_height = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span>base_diameter = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span>loop_height = body_height * p.uniform(…)</span><span>handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span></pre>
+              <div class="sc-sliders" style="--d:1.2s"><small>Draft generator</small><label>Body height<i style="--v:.45"></i></label><label>Base diameter<i style="--v:.6"></i></label><label>Loop height<i style="--v:.5"></i></label><label>Mount height<i style="--v:.55"></i></label></div>
             </div>
           </div>
-          <div class="mp-scene" data-n="sample" data-e="pass" data-caption="Once both reviews pass, sampling the generator gives diverse and physically plausible assets.">
+          <div class="mp-scene" data-n="critic" data-e="draft-c rev-c" data-dur="8000" data-caption="The Coverage Critic independently searches for ordinary mugs and compares them with samples of the draft. It finds common rounded mugs the draft cannot produce, and sends a revision back to the Author.">
+            <p class="sc-step">Coverage Critic · searches the web and compares</p>
+            <div class="sc-cmp">
+              <figure style="--d:.1s"><figcaption>Draft samples</figcaption><div class="sc-row"><img src="media/method/sample-green.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-navy.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-terra.webp?v=202611191130" alt="" loading="lazy"></div></figure>
+              <figure style="--d:.6s"><figcaption><span class="sc-searchmini">ordinary mugs</span> found on the web</figcaption><div class="sc-row"><img class="flag" src="media/method/critic-round.webp?v=202611191500" alt="Rounded mug from the internet" loading="lazy"></div></figure>
+            </div>
+            <p class="sc-verdict bad" style="--d:1.3s"><span class="mv-x">✕</span> Rounded body outline is common but not covered <span class="sc-send">→ revise</span></p>
+          </div>
+          <div class="mp-scene" data-n="validator" data-e="draft-v rev-v" data-dur="9000" data-caption="The Geometry Validator derives two checklists, one for mesh quality and one for task compatibility. For each item it writes a function that probes compiled samples with a mesh probe library, and rejects drafts that fail.">
+            <p class="sc-step">Geometry Validator · two checklists, one probe per item</p>
+            <div class="sc-checks">
+              <table style="--d:.1s"><colgroup><col style="width:22px"><col style="width:34%"><col></colgroup>
+                <tr class="h"><th colspan="2">Mesh quality</th><th>Probe</th></tr>
+                <tr><td>☐</td><td>Cup has an opening</td><td><code>raycast</code> from above reaches the inner floor</td></tr>
+                <tr class="fail"><td>☐</td><td>Handle attached</td><td><code>pair</code> distance between handle and body is zero</td></tr>
+                <tr class="h"><th colspan="2">Task compatibility</th><th>Probe</th></tr>
+                <tr><td>☐</td><td>Handle graspable</td><td><code>pair</code> gap inside the loop fits a gripper finger</td></tr>
+                <tr class="fail"><td>☐</td><td>Handle hangable</td><td><code>contains</code> the loop is closed around a peg</td></tr>
+              </table>
+              <div class="sc-fails">
+                <figure style="--d:.9s"><img src="media/method/detached-handle.webp?v=202611191500" alt="Detached handle" loading="lazy"><figcaption><span class="mv-x">✕</span> Detached handle</figcaption></figure>
+                <figure style="--d:1.3s"><img src="media/method/open-handle.webp?v=202611191500" alt="Open handle loop" loading="lazy"><figcaption><span class="mv-x">✕</span> Not a closed loop</figcaption></figure>
+              </div>
+            </div>
+          </div>
+          <div class="mp-scene" data-n="final" data-e="pass" data-dur="7000" data-caption="The Author revises the draft, here adding a discrete body-outline variable and fixing the handle. The loop repeats until both the Critic and the Validator accept the generator.">
+            <p class="sc-step">Revised and accepted</p>
+            <div class="sc-final">
+              <div class="sc-sliders" style="--d:.1s"><small>Category-level procedural generator</small><label>Body height<i style="--v:.45"></i></label><label>Base diameter<i style="--v:.6"></i></label><label>Loop height<i style="--v:.5"></i></label><label>Mount height<i style="--v:.55"></i></label><div class="sc-new">Body outline <span>○ Linear</span> <span>● Rounded</span> <b>+ new</b></div></div>
+              <ul class="sc-accept" style="--d:.8s"><li><span class="mv-ok">✓</span> Coverage Critic accepts</li><li><span class="mv-ok">✓</span> Geometry Validator accepts</li></ul>
+            </div>
+          </div>
+          <div class="mp-scene" data-n="sample" data-e="sample" data-dur="6500" data-caption="Sampling the accepted generator's parameters gives diverse and physically plausible mugs for DemoEngine.">
             <video class="sc-full" muted loop playsinline preload="none" poster="media/method/assets-field.webp?v=202611201700"><source src="media/method/assets-field.mp4?v=202611201700" type="video/mp4"></video>
           </div>
         </div>
         <p class="mp-caption" aria-live="polite"></p>
         <div class="mp-controls"><button type="button" class="mp-play" aria-label="Pause">❚❚</button><div class="mp-bars"></div></div>
+      </div>
+      <p class="ae-option"><b>Design B</b> · agent trace</p>
+      <div class="ae-trace reveal" aria-label="AssetEngine agent trace on the mug category">
+        <div class="tr-in"><span>Input to all sub-agents</span><b>Category</b> <span class="sc-chip">Mug</span><b>Task</b> <em>optional</em> <span class="sc-field">Hang a mug on a mug tree.</span></div>
+        <p class="tr-round">Round 1</p>
+        <ol class="tr-log">
+          <li data-who="author">
+            <span class="tr-who">Generator Author</span>
+            <div class="tr-body">
+              <p class="tr-call"><code>web_search(<i>"mug"</i>, <i>"mug dimensions"</i>)</code></p>
+              <div class="tr-imgs"><img src="media/method/web-1.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-2.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-3.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/web-4.webp?v=202611191500" alt="" loading="lazy"></div>
+              <p class="tr-note">Body height, base diameter, handle loop height and mount position vary widely. Base diameter depends on rim diameter.</p>
+            </div>
+          </li>
+          <li data-who="author">
+            <span class="tr-who">Generator Author</span>
+            <div class="tr-body">
+              <p class="tr-call"><code>write(<i>"mug_generator.py"</i>)</code> <span class="tr-uses">uses <code>box</code> <code>cylinder</code> <code>sweep</code> from the geometry primitive library and <code>union</code> <code>difference</code> from the mesh operation library</span></p>
+              <pre class="sc-code"><span>body_height    = p.uniform(<span class="c-n">0.050</span>, <span class="c-n">0.125</span>)</span><span>base_diameter  = rim_diameter * p.uniform(<span class="c-n">0.72</span>, <span class="c-n">1.00</span>)</span><span>handle_outline = p.choice(<span class="c-s">"oval"</span>, <span class="c-s">"squared"</span>)</span></pre>
+            </div>
+          </li>
+          <li data-who="critic">
+            <span class="tr-who">Coverage Critic</span>
+            <div class="tr-body">
+              <p class="tr-call"><code>web_search(<i>"ordinary mugs"</i>)</code> and <code>sample(draft)</code></p>
+              <div class="tr-cmp">
+                <figure><div class="tr-imgs n3"><img src="media/method/sample-green.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-navy.webp?v=202611191130" alt="" loading="lazy"><img src="media/method/sample-terra.webp?v=202611191130" alt="" loading="lazy"></div><figcaption>Draft samples</figcaption></figure>
+                <span class="tr-vs">vs</span>
+                <figure><div class="tr-imgs n1"><img class="flag" src="media/method/critic-round.webp?v=202611191500" alt="Rounded mug from the internet" loading="lazy"></div><figcaption>Found on the web</figcaption></figure>
+              </div>
+              <p class="tr-verdict bad"><span class="mv-x">✕</span> Rounded body outline is common but not covered. <b>Revise.</b></p>
+            </div>
+          </li>
+          <li data-who="validator">
+            <span class="tr-who">Geometry Validator</span>
+            <div class="tr-body">
+              <p class="tr-call">Derives two checklists and writes one probe per item with the mesh probe library</p>
+              <div class="tr-checks">
+                <table><colgroup><col style="width:34%"><col><col class="c3"></colgroup>
+                  <tr class="h"><th>Mesh quality</th><th>Probe</th><th>Draft</th></tr>
+                  <tr><td>Cup has an opening</td><td><code>raycast</code> from above reaches the inner floor</td><td class="ok">✓</td></tr>
+                  <tr><td>Handle attached</td><td><code>pair</code> distance between handle and body is zero</td><td class="no">✕</td></tr>
+                  <tr class="h"><th>Task compatibility</th><th>Probe</th><th>Draft</th></tr>
+                  <tr><td>Handle graspable</td><td><code>pair</code> gap inside the loop fits a gripper finger</td><td class="ok">✓</td></tr>
+                  <tr><td>Handle hangable</td><td><code>contains</code> the loop is closed around a peg</td><td class="no">✕</td></tr>
+                </table>
+                <div class="tr-fails"><figure><img src="media/method/detached-handle.webp?v=202611191500" alt="Detached handle" loading="lazy"><figcaption>Detached handle</figcaption></figure><figure><img src="media/method/open-handle.webp?v=202611191500" alt="Open handle loop" loading="lazy"><figcaption>Not a closed loop</figcaption></figure></div>
+              </div>
+              <p class="tr-verdict bad"><span class="mv-x">✕</span> Two items fail on draft samples. <b>Revise.</b></p>
+            </div>
+          </li>
+        </ol>
+        <p class="tr-round">Round 2</p>
+        <ol class="tr-log">
+          <li data-who="author">
+            <span class="tr-who">Generator Author</span>
+            <div class="tr-body">
+              <p class="tr-call"><code>edit(<i>"mug_generator.py"</i>)</code></p>
+              <pre class="sc-code tr-diff"><span class="add">+ body_outline   = p.choice(<span class="c-s">"linear"</span>, <span class="c-s">"rounded"</span>)</span><span class="add">+ handle attached to the body wall, loop closed</span></pre>
+            </div>
+          </li>
+          <li data-who="critic"><span class="tr-who">Coverage Critic</span><div class="tr-body"><p class="tr-verdict good"><span class="mv-ok">✓</span> Common variations are covered. <b>Accept.</b></p></div></li>
+          <li data-who="validator"><span class="tr-who">Geometry Validator</span><div class="tr-body"><p class="tr-verdict good"><span class="mv-ok">✓</span> All checklist items pass on samples. <b>Accept.</b></p></div></li>
+        </ol>
+        <p class="tr-round">Sampling the accepted generator</p>
+        <div class="tr-out"><img src="media/method/sampled-mugs.webp?v=202611191130" alt="Six mugs sampled from the accepted generator" loading="lazy"><p>Random parameters give diverse and physically plausible mugs for DemoEngine.</p></div>
       </div>
     </section>
 
