@@ -673,3 +673,6 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .task-tabs button:last-child { border-right: 1px solid var(--ctl); }
 .task-tabs button:last-child:hover { border-right-color: rgba(0,0,0,.5); }
 .task-tabs button.active:last-child { border-right-color: var(--accent); }
+/* Engine arrows meet the middle of the engine box, whatever text sits below it. */
+.ov-node { position: relative; align-self: stretch; margin: 0 -6px; display: flex; justify-content: center; }
+.ov-engine .ov-node .ov-arrow { position: relative; top: auto; left: auto; right: auto; flex: 1 1 0; width: auto; min-width: 12px; margin: 0; align-self: center; }
