@@ -76,6 +76,31 @@
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; update(); }, { threshold: 0.35 }).observe(player);
+      // Within about a screen of the view, fetch the header and first frames so the video starts as soon as it arrives.
+      // Further away, stop downloading (keeping the position) so bandwidth goes to the video the reader is watching.
+      let parked = null;
+      const park = () => {
+        if (parked || video.readyState === 0) return;
+        const b = video.buffered;
+        if (b.length && b.end(b.length - 1) >= video.duration - 0.5) return;   // already fully buffered
+        parked = { src: video.currentSrc, t: video.currentTime };
+        video.querySelectorAll('source').forEach((s) => s.remove());
+        video.removeAttribute('src');
+        video.load();
+      };
+      const unpark = () => {
+        if (parked) {
+          const { src, t } = parked;
+          parked = null;
+          if (!video.getAttribute('src')) {
+            video.addEventListener('loadedmetadata', () => { try { video.currentTime = t; } catch (e) {} }, { once: true });
+            video.src = src;
+          }
+        }
+        if (video.readyState === 0 && video.preload === 'none') { video.preload = 'metadata'; video.load(); }
+      };
+      new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { unpark(); update(); } else park(); },
+        { rootMargin: '100% 0px 100% 0px' }).observe(player);
     }
     syncPlay();
   });
