@@ -13,8 +13,7 @@
     const els = [...ov.querySelectorAll('.ov-el')].sort((a, b) => a.dataset.t - b.dataset.t);
     const rows = [...ov.querySelectorAll('.ov-row')];
     const svg = ov.querySelector('.ov-links');
-    const type = ov.querySelector('.ov-type');
-    const text = type.dataset.text;
+    const types = [...ov.querySelectorAll('.ov-type')];
     let timers = [], visible = false, started = false;
 
     // Dashed links from each row's output down to the next row's input.
@@ -41,7 +40,7 @@
       ov.classList.remove('typed');
       els.forEach((e) => e.classList.remove('on'));
       links.forEach((p) => p.classList.remove('on'));
-      type.textContent = '';
+      types.forEach((t) => { t.textContent = ''; t.classList.remove('typing'); });
       layout();
       const step = reducedMotion ? 0 : 900;
       els.forEach((el, i) => timers.push(setTimeout(() => {
@@ -51,10 +50,15 @@
         const row = rows.findIndex((r) => r.contains(el));
         if (row > 0 && el.classList.contains('ov-in')) { layout(); links[row - 1].classList.add('on'); }
       }, i * step + (i > 0 && !reducedMotion ? 900 : 0))));
-      // Type the task while the input card appears.
-      const typeAt = (i) => (reducedMotion ? 0 : 150 + i * 32);
-      [...text].forEach((ch, i) => timers.push(setTimeout(() => { type.textContent = text.slice(0, i + 1); }, typeAt(i))));
-      timers.push(setTimeout(() => ov.classList.add('typed'), typeAt(text.length) + 600));
+      // Type the object categories, then the optional task description, while the input card appears.
+      let at = reducedMotion ? 0 : 150;
+      types.forEach((t) => {
+        const text = t.dataset.text;
+        timers.push(setTimeout(() => { types.forEach((x) => x.classList.toggle('typing', x === t)); }, at));
+        [...text].forEach((ch, i) => timers.push(setTimeout(() => { t.textContent = text.slice(0, i + 1); }, at + (reducedMotion ? 0 : i * 32))));
+        if (!reducedMotion) at += text.length * 32 + 280;
+      });
+      timers.push(setTimeout(() => { ov.classList.add('typed'); types.forEach((x) => x.classList.remove('typing')); }, at + (reducedMotion ? 0 : 400)));
     };
     ov.querySelector('.ov-replay').addEventListener('click', run);
     inView(ov, (on) => {
