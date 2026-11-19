@@ -688,3 +688,30 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .ov-chips .ov-type { font-size: inherit; font-weight: inherit; }
 .ov .ov-type::after { display: none; }
 .ov .ov-type.typing::after { display: inline-block; }
+/* Method Overview density and type scale: shorter rows, Replay on the label line, larger card contents. */
+.ov { padding-top: 6px; }
+.ov-replay { top: 0; padding: 3px 11px; font-size: 13px; }
+.ov-row { grid-template-columns: minmax(0, 1.05fr) 168px minmax(0, 1.12fr); }
+.ov-row + .ov-row { margin-top: 26px; }
+.ov-label { margin-bottom: 7px; color: #1d1d1f; font-size: 15px; font-weight: 600; }
+.ov-engine b { padding: 7px 13px; font-size: 15px; font-weight: 600; }
+.ov-engine small { margin-top: 5px; font-size: 13px; line-height: 1.3; }
+.ov-input { padding: 18px 22px; gap: 20px; }
+.ov-field small { margin-bottom: 8px; font-size: 13.5px; }
+.ov-input .ov-chips { gap: 8px; }
+.ov-input .ov-chips i { padding: 5px 13px; font-size: 19px; }
+.ov-desc { padding: 9px 13px; }
+.ov-desc .ov-type { font-size: 19px; }
+.ov-policy { padding: 18px 22px; }
+.ov-pi { gap: 12px; }
+.ov-pi figure { flex: 0 1 50%; }
+.ov-pi figcaption { margin-top: 5px; font-size: 13.5px; }
+.ov-pi b { width: 50px; height: 50px; font-size: 25px; }
+.ov-pi span { font-size: 16px; }
+.ov-policy p { margin: 16px 0 0; color: #1d1d1f; font-size: 15px; font-weight: 500; }
+.ov-teleop { font-size: 13px; }
+@media (max-width: 760px) { .ov { padding-top: 40px; } .ov-row { grid-template-columns: 1fr; } }
+/* Row-to-row connectors: solid arrows in the same ink as the engine arrows. */
+.ov-links path { stroke: #3a3a36; stroke-width: 1.5; stroke-dasharray: none; stroke-linejoin: miter; opacity: 1; }
+.js .ov .ov-links path.on { opacity: 1; }
+.ov-links marker path, .js .ov .ov-links marker path { fill: #3a3a36; stroke: none; opacity: 1; }
