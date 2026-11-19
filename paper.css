@@ -735,3 +735,9 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .ov-train figcaption small { font-size: 13px; }
 .ov-train-arrow { flex: 0 0 64px; min-width: 0; margin: 38px 6px 0; }
 .ov-train figcaption b { line-height: 1.25; } .ov-train figcaption small { margin-top: 5px; line-height: 1.3; }
+/* Policy card in the overview's own ink: icon strokes match the arrows, "train" matches "Sim-to-Real Transfer". */
+.ov-policy .ov-ico { stroke: #3a3a36; stroke-width: 1.5; }
+.ov-policy .ov-nn .e path { stroke: #3a3a36; stroke-width: 1; opacity: .55; }
+.ov-policy .ov-nn .n circle { stroke: #3a3a36; stroke-width: 1.5; }
+.ov-train-arrow em { bottom: 7px; color: var(--muted); font-size: 13px; font-style: normal; font-weight: 400; }
+.ov-train figcaption b { font-size: 15px; font-weight: 600; color: #1d1d1f; }
