@@ -26,7 +26,7 @@
         const to = row.querySelector('.ov-in').getBoundingClientRect();
         const x1 = from.left + from.width / 2 - box.left, y1 = from.bottom - box.top;
         const x2 = to.left + to.width / 2 - box.left, y2 = to.top - box.top + 2;
-        const ym = Math.round((y1 + y2) / 2);
+        const ym = Math.round(y1 + 9);   // run across just below the output, leaving a long drop into the next row
         links[i].setAttribute('d', `M${x1} ${y1} V${ym} H${x2} V${y2 - 3}`);
         links[i].setAttribute('marker-end', 'url(#ovah)');
       });
