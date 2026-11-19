@@ -152,4 +152,46 @@
       if (on && !raf) { t0 = performance.now(); raf = requestAnimationFrame(tick); }
     });
   });
+
+  // ---------- AssetEngine intro: play the build-up video once, then rest on the paper figure ----------
+  document.querySelectorAll('[data-ae]').forEach((ae) => {
+    const film = ae.querySelector('.ae-film');
+    const v = film.querySelector('video');
+    const btn = ae.querySelector('.ae-replay');
+    const agents = [...ae.querySelectorAll('[data-on]')].map((li) => ({
+      li, spans: li.dataset.on.split(' ').map((r) => r.split('-').map(Number)),
+    }));
+    let started = false;
+    const mark = () => {
+      const t = v.currentTime;
+      const live = film.classList.contains('playing');
+      agents.forEach(({ li, spans }) => li.classList.toggle('on', live && spans.some(([a, b]) => t >= a && t < b)));
+    };
+    const start = () => {
+      started = true;
+      btn.hidden = true;
+      film.classList.add('playing');
+      v.currentTime = 0;
+      play(v);
+    };
+    v.addEventListener('timeupdate', mark);
+    v.addEventListener('ended', () => {
+      film.classList.remove('playing');
+      btn.textContent = '↻ Replay';
+      btn.hidden = false;
+      mark();
+    });
+    btn.addEventListener('click', start);
+    if (reducedMotion) {
+      btn.textContent = '▶ Play';
+      btn.hidden = false;
+      return;
+    }
+    film.classList.add('playing');
+    inView(film, (on) => {
+      if (on && !started) start();
+      else if (!on && !v.ended && started) v.pause();
+      else if (on && started && v.paused && !v.ended && film.classList.contains('playing')) play(v);
+    }, 0.5);
+  });
 })();
