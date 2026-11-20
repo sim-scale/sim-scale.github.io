@@ -165,17 +165,24 @@
     const cap = ae.querySelector('.ae-cap');
     const caps = [...ae.querySelectorAll('.ae-caps li')].map((li) => [+li.dataset.t, li.textContent]);
     const FIG = 'The AssetEngine panel of Fig. 2 in the paper. Click the figure to enlarge it, or switch to Video to watch the walkthrough again.';
-    const img = film.querySelector('img');
-    img.addEventListener('click', () => {
+    const fig = film.querySelector('.ae-final');
+    const fit = (wrap) => { const f = wrap.querySelector('.aef'); if (f) f.style.setProperty('--s', wrap.clientWidth / 1100); };
+    if ('ResizeObserver' in window) new ResizeObserver(() => fit(fig)).observe(fig); else fit(fig);
+    fig.addEventListener('click', () => {
       if (mode !== 'figure') return;
       const z = document.createElement('div');
       z.className = 'ae-zoom';
-      z.innerHTML = `<img src="${img.currentSrc || img.src}" alt="">`;
-      const close = () => { z.remove(); document.removeEventListener('keydown', esc); };
+      const copy = fig.cloneNode(true);
+      copy.classList.remove('ae-final');
+      z.appendChild(copy);
+      const close = () => { z.remove(); document.removeEventListener('keydown', esc); window.removeEventListener('resize', refit); };
       const esc = (e) => { if (e.key === 'Escape') close(); };
+      const refit = () => fit(copy);
       z.addEventListener('click', close);
       document.addEventListener('keydown', esc);
+      window.addEventListener('resize', refit);
       document.body.appendChild(z);
+      refit();
     });
     const fmt = (x) => `${Math.floor(x / 60)}:${String(Math.floor(x % 60)).padStart(2, '0')}`;
     let mode = 'video', autoPaused = false, started = false, raf = 0;

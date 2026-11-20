@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611192200">
+  <link rel="stylesheet" href="paper.css?v=202611192300">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,7 +32,7 @@
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
   <script src="figures.js?v=202611202000" defer></script>
-  <script src="method.js?v=202611192200" defer></script>
+  <script src="method.js?v=202611192300" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -149,8 +149,116 @@
       <div class="ae-intro reveal" data-ae>
         <div class="ae-tabs" role="tablist" aria-label="AssetEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
         <div class="ae-film" data-mode="video">
-          <img class="ae-final" src="media/method/assetengine-figure.webp?v=202611192200" alt="AssetEngine panel of Fig. 2: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs." width="3680" height="1223" loading="lazy">
-          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611192200"><source src="media/method/assetengine.mp4?v=202611192200" type="video/mp4"></video>
+          <div class="ae-final aef-wrap" role="img" aria-label="AssetEngine, as in Fig. 2 of the paper: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs.">
+            <div class="aef" aria-hidden="true">
+              <svg width="0" height="0" style="position:absolute"><defs>
+                <marker id="aef-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a8780"/></marker>
+                <marker id="aef-ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c0392b"/></marker>
+                <marker id="aef-ahg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4f8a0b"/></marker>
+                <symbol id="aef-code" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><path d="M-.28 .78L-.95 0L-.28 -.78M.28 .78L.95 0L.28 -.78"/><path d="M-.12 -.82L.12 .82" stroke-width=".11"/></g></symbol>
+                <symbol id="aef-globe" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><circle r=".92" fill="#fff"/><ellipse rx=".5" ry=".92" stroke-width=".1"/><path d="M-.92 0H.92M0 -.92V.92M-.78 .48H.78M-.78 -.48H.78" stroke-width=".09"/></g></symbol>
+                <symbol id="aef-lens" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><circle cx="-.18" cy=".18" r=".62"/><path d="M.3 -.3L.92 -.92" stroke-width=".15"/></g></symbol>
+                <symbol id="aef-cube" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><path d="M0 1L.87 .5L.87 -.5L0 -1L-.87 -.5L-.87 .5Z"/><path d="M0 0L0 1M0 0L.87 -.5M0 0L-.87 -.5" stroke-width=".1"/></g></symbol>
+                <symbol id="aef-clip" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><rect x="-.62" y="-.85" width="1.24" height="1.7" rx=".14" fill="#fff"/><rect x="-.28" y=".68" width=".56" height=".32" fill="#fff" stroke-width=".11"/><path d="M-.36 .28H.36M-.36 -.08H.36M-.36 -.44H.36" stroke-width=".09"/></g></symbol>
+                <symbol id="aef-tag" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><path d="M-.85 .55L.3 .55L.92 0L.3 -.55L-.85 -.55Z"/><circle cx="-.5" r=".14" stroke-width=".1"/></g></symbol>
+                <symbol id="aef-dice" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><rect x="-.8" y="-.8" width="1.6" height="1.6" rx=".3" fill="#fff"/><g fill="currentColor" stroke="none"><circle cx="-.38" cy=".38" r=".13"/><circle r=".13"/><circle cx=".38" cy="-.38" r=".13"/></g></g></symbol>
+                <symbol id="aef-shapes" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><path d="M-.5 .62L-.05 .36L-.05 -.16L-.5 -.42L-.95 -.16L-.95 .36Z" stroke-width=".11"/><path d="M-.5 .1L-.5 .62M-.5 .1L-.05 -.16M-.5 .1L-.95 -.16" stroke-width=".08"/><circle cx=".45" cy="-.28" r=".5" fill="#fff" stroke-width=".11"/><ellipse cx=".45" cy="-.28" rx=".5" ry=".17" stroke-width=".08"/></g></symbol>
+                <symbol id="aef-union" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><circle cx="-.34" r=".62" fill="#E3E8EE"/><circle cx=".34" r=".62" fill="#E3E8EE"/><circle cx="-.34" r=".62"/></g></symbol>
+                <symbol id="aef-meshprobe" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><path d="M-.95 -.6L.4 -.6L.95 -.05L-.4 -.05Z" stroke-width=".1"/><path d="M-.95 -.6L.95 -.05M.4 -.6L-.4 -.05" stroke-width=".08"/><path d="M.62 .95L.12 -.28" stroke-width=".16"/><circle cx=".12" cy="-.28" r=".13" fill="currentColor" stroke="none"/></g></symbol>
+              </defs></svg>
+              <svg class="aef-wires" viewBox="0 0 1100 700">
+                <path d="M196 188H212" marker-end="url(#aef-ah)"/>
+                <path d="M596 188H612" marker-end="url(#aef-ah)"/>
+                <path d="M115 306V348" marker-end="url(#aef-ah)"/>
+                <path d="M415 306V348" marker-end="url(#aef-ah)"/>
+                <path class="red" d="M220 520H234Q238 520 238 516V310" marker-end="url(#aef-ahr)"/>
+                <path class="red" d="M270 520H256Q252 520 252 516V310" marker-end="url(#aef-ahr)"/>
+                <path d="M690 350V310" marker-end="url(#aef-ah)"/>
+                <path d="M580 598H564" marker-end="url(#aef-ah)"/>
+                <path class="green" d="M800 190H856" marker-end="url(#aef-ahg)"/>
+                <path d="M975 306V346" marker-end="url(#aef-ah)"/>
+              </svg>
+
+              <div class="aef-in" style="left:190px; top:10px; width:720px; height:46px">
+                <span class="aef-muted">Input to All Sub-Agents</span>
+                <span class="aef-chip"><svg class="aef-i"><use href="#aef-clip"/></svg><span class="aef-muted">Task:</span> Hang a Mug on a Mug Tree</span>
+                <span class="aef-chip"><svg class="aef-i"><use href="#aef-tag"/></svg><span class="aef-muted">Category:</span> Mug</span>
+              </div>
+
+              <div class="aef-card" style="left:10px; top:74px; width:790px; height:232px"></div>
+              <div class="aef-ttl" style="left:24px; top:86px"><svg class="aef-i"><use href="#aef-code"/></svg>Generator Author</div>
+              <div class="aef-box" style="left:22px; top:170px; width:168px; text-align:center">
+                <div class="aef-row" style="justify-content:center"><svg class="aef-i" style="font-size:24px"><use href="#aef-globe"/></svg><span class="aef-search">Mug</span></div>
+                <div class="aef-muted" style="margin-top:8px">Search for Internet Examples</div>
+              </div>
+              <div class="aef-row" style="position:absolute; left:216px; top:140px; gap:8px">
+                <img src="media/method/web-1.webp?v=202611191500" alt="" class="aef-pic" style="width:88px; height:88px"><img src="media/method/web-2.webp?v=202611191500" alt="" class="aef-pic" style="width:88px; height:88px"><img src="media/method/web-3.webp?v=202611191500" alt="" class="aef-pic" style="width:88px; height:88px"><img src="media/method/web-4.webp?v=202611191500" alt="" class="aef-pic" style="width:88px; height:88px">
+              </div>
+              <div class="aef-box aef-dash" style="left:616px; top:100px; width:176px; height:196px; padding:10px 14px">
+                <div class="aef-muted">Draft Generator</div>
+                <div class="aef-sl">Body Height<i style="--p:50%"></i></div>
+                <div class="aef-sl">Base Diameter<i style="--p:35%"></i></div>
+                <div class="aef-sl">Loop Height<i style="--p:65%"></i></div>
+                <div class="aef-sl">Mount Height<i style="--p:45%"></i></div>
+              </div>
+
+              <span class="aef-lab" style="left:122px; top:318px">Draft Generator</span>
+              <span class="aef-lab" style="left:422px; top:318px">Draft Generator</span>
+              <span class="aef-lab aef-red" style="left:220px; top:530px; width:50px; text-align:center">Revise</span>
+
+              <div class="aef-card" style="left:10px; top:350px; width:210px; height:340px"></div>
+              <div class="aef-ttl" style="left:22px; top:362px"><svg class="aef-i"><use href="#aef-lens"/></svg>Coverage Critic</div>
+              <div class="aef-row aef-box" style="left:22px; top:400px; width:190px; align-items:flex-start"><svg class="aef-i" style="font-size:20px; flex:none"><use href="#aef-globe"/></svg><span class="aef-muted">Search the Web for Counter Examples</span></div>
+              <img src="media/method/critic-round.webp?v=202611191500" alt="" class="aef-pic" style="position:absolute; left:22px; top:458px; width:186px; height:118px">
+              <div class="aef-box aef-red aef-b" style="left:22px; top:588px; width:190px">✕ Rounded Body Outline Not Included</div>
+
+              <div class="aef-card" style="left:270px; top:350px; width:290px; height:340px"></div>
+              <div class="aef-ttl" style="left:282px; top:362px"><svg class="aef-i"><use href="#aef-cube"/></svg>Geometry Validator</div>
+              <div class="aef-box" style="left:284px; top:402px; width:266px">
+                <div class="aef-row aef-muted"><svg class="aef-i" style="font-size:16px"><use href="#aef-cube"/></svg>Mesh Quality</div>
+                <div class="aef-cb">Cup Has an Opening</div><div class="aef-cb">Handle Attached</div>
+                <div class="aef-row aef-muted" style="margin-top:10px"><svg class="aef-i" style="font-size:16px"><use href="#aef-clip"/></svg>Task Compatibility</div>
+                <div class="aef-cb">Handle Graspable</div><div class="aef-cb">Handle Hangable</div>
+              </div>
+              <div class="aef-row" style="position:absolute; left:282px; top:590px; gap:6px; align-items:center">
+                <span class="aef-x"><img src="media/method/detached-handle.webp?v=202611191500" alt="" class="aef-pic" style="width:70px; height:80px"></span><span class="aef-red aef-b" style="width:60px; font-size:13px">Detached Handle</span>
+                <span class="aef-x"><img src="media/method/open-handle.webp?v=202611191500" alt="" class="aef-pic" style="width:70px; height:80px"></span><span class="aef-red aef-b" style="width:60px; font-size:13px">Not a Closed Loop</span>
+              </div>
+
+              <div class="aef-box aef-dash" style="left:580px; top:350px; width:220px; height:180px; padding:8px"></div>
+              <div class="aef-lib" style="left:588px; top:358px; width:204px">
+                <div class="aef-row"><svg class="aef-i"><use href="#aef-shapes"/></svg>Geometry Primitive Library</div>
+                <div><code>box</code><code>sphere</code><code>cone</code><code>…</code></div>
+              </div>
+              <div class="aef-lib" style="left:588px; top:446px; width:204px">
+                <div class="aef-row"><svg class="aef-i"><use href="#aef-union"/></svg>Mesh Operation Library</div>
+                <div><code>union</code><code>diff</code><code>intersect</code><code>…</code></div>
+              </div>
+              <div class="aef-lib" style="left:580px; top:556px; width:220px">
+                <div class="aef-row"><svg class="aef-i"><use href="#aef-meshprobe"/></svg>Mesh Probe Library</div>
+                <div><code>raycast</code><code>contains</code><code>pair</code><code>…</code></div>
+              </div>
+
+              <span class="aef-lab aef-green" style="left:800px; top:166px; width:60px; text-align:center; font-size:12px">Accepted</span>
+              <div class="aef-card" style="left:860px; top:74px; width:230px; height:232px"></div>
+              <div class="aef-box aef-b" style="left:872px; top:86px; width:208px; font-size:16px; line-height:1.25">Category-Level Procedural Generator <span class="aef-final">Final</span></div>
+              <div class="aef-box" style="left:872px; top:136px; width:208px; display:grid; grid-template-columns:1fr 1fr; column-gap:14px">
+                <div class="aef-sl">Body Height<i style="--p:50%"></i></div>
+                <div class="aef-sl">Base Diameter<i style="--p:35%"></i></div>
+                <div class="aef-sl">Loop Height<i style="--p:65%"></i></div>
+                <div class="aef-sl">Mount Height<i style="--p:45%"></i></div>
+              </div>
+              <div class="aef-box aef-new" style="left:872px; top:240px; width:208px">
+                <div class="aef-row" style="justify-content:space-between">Body Outline<span class="aef-green aef-b" style="font-size:13px">+ New</span></div>
+                <div class="aef-row" style="gap:14px"><span class="aef-radio">Linear</span><span class="aef-radio on">Rounded</span></div>
+              </div>
+              <span class="aef-lab" style="left:983px; top:316px">Sample</span>
+              <div class="aef-card" style="left:860px; top:350px; width:230px; height:340px"></div>
+              <div class="aef-ttl" style="left:872px; top:362px"><svg class="aef-i"><use href="#aef-dice"/></svg>Sampled Mugs</div>
+              <img src="media/method/sampled-mugs.webp?v=202611191130" alt="" style="position:absolute; left:868px; top:400px; width:214px; height:280px; object-fit:contain">
+            </div>
+          </div>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611192300"><source src="media/method/assetengine.mp4?v=202611192300" type="video/mp4"></video>
         </div>
         <div class="ae-bar">
           <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
