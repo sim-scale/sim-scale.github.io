@@ -134,7 +134,7 @@
       }] }))
     },
     demos: {
-      series: [['GPT-6-Astra Programs', COLOR.astra, false, true], ['Human Demos per Asset (120 human demos)', COLOR.human], ['SimScale DemoEngine (Ours, 1 human demo)', COLOR.ours, true]],
+      series: [['GPT-6-Astra Programs', COLOR.astra], ['Human Demos per Asset (120 human demos)', COLOR.human], ['SimScale DemoEngine (Ours, 1 human demo)', COLOR.ours, true]],
       backends: true,
       panels: TASKS.map((t, i) => ({ title: t, groups: [{
         dino: [[0, 82, 90], [0, 87.5, 84.5], [7.2, 85.2, 84.5]][i],
