@@ -71,7 +71,9 @@
     const all = document.createElement('button');
     all.type = 'button'; all.className = 'spot-all'; all.textContent = 'Full figure';
     all.addEventListener('click', () => { stop(); show(-1); });
-    nav.appendChild(all);
+    // Figures marked data-spot-auto="off" open on the full figure and only zoom when a part is clicked.
+    const auto = fig.dataset.spotAuto !== 'off';
+    if (auto) nav.appendChild(all); else nav.insertBefore(all, nav.firstChild);
     let current = -1, timer = null, visible = false, userStopped = false;
     const show = (i) => {
       current = i;
@@ -87,7 +89,7 @@
     const start = () => { if (!timer && !userStopped && !reducedMotion) timer = setInterval(tick, 5200); };
     const stop = () => { userStopped = true; clearInterval(timer); timer = null; };
     show(-1);
-    if (reducedMotion || !('IntersectionObserver' in window)) return;
+    if (!auto || reducedMotion || !('IntersectionObserver' in window)) return;
     new IntersectionObserver((entries) => entries.forEach((e) => {
       visible = e.isIntersecting;
       if (visible) { if (current < 0 && !userStopped) show(0); start(); }
