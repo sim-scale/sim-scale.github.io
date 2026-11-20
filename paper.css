@@ -889,3 +889,10 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .tk-pair figcaption { margin-top: 4px; text-align: center; color: rgba(0,0,0,.6); font-size: 13px; }
 @media (max-width: 700px) { .tk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 6px; } .tk-rows { display: none; } .tk-col { grid-row: auto; } .tk-col { padding: 3px; } .tk-h { font-size: 12px; } .tk-pair figcaption { font-size: 11px; } }
 
+
+/* Method Overview boxes in the same light stone as the engine figures (videos unchanged). */
+.ov-input, .ov-policy { background: #f8f6f2; border: 1px solid #e4e0d8; }
+.ov-input .ov-chips i { background: transparent; border-color: #d9d4c9; }
+.ov-engine b { background: #f8f6f2; }
+.ov-policy .ov-ico, .ov-policy .ov-nn .n circle { fill: #f8f6f2; }
+.ov-desc { background: transparent; border-color: #d9d4c9; }
