@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611200000">
+  <link rel="stylesheet" href="paper.css?v=202611200100">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,7 +32,7 @@
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
   <script src="figures.js?v=202611202000" defer></script>
-  <script src="method.js?v=202611200000" defer></script>
+  <script src="method.js?v=202611200100" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -138,7 +138,7 @@
         <div class="ov-row">
           <div class="ov-in ov-el" data-t="6"><span class="ov-label">RGB Visuomotor Policy</span><div class="ov-policy"><div class="ov-train"><figure><svg class="ov-ico" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="10" rx="15" ry="5"/><path d="M9 10v28c0 2.8 6.7 5 15 5s15-2.2 15-5V10"/><path d="M9 19.3c0 2.8 6.7 5 15 5s15-2.2 15-5"/><path d="M9 28.6c0 2.8 6.7 5 15 5s15-2.2 15-5"/></svg><figcaption><b>Simulated Dataset</b></figcaption></figure><span class="ov-train-arrow"><em>Train</em></span><figure><svg class="ov-ico ov-nn" viewBox="0 0 48 48" aria-hidden="true"><g class="e"><path d="M8 12L24 8"/><path d="M8 12L24 19"/><path d="M8 12L24 29"/><path d="M8 12L24 40"/><path d="M8 24L24 8"/><path d="M8 24L24 19"/><path d="M8 24L24 29"/><path d="M8 24L24 40"/><path d="M8 36L24 8"/><path d="M8 36L24 19"/><path d="M8 36L24 29"/><path d="M8 36L24 40"/><path d="M24 8L40 17"/><path d="M24 8L40 31"/><path d="M24 19L40 17"/><path d="M24 19L40 31"/><path d="M24 29L40 17"/><path d="M24 29L40 31"/><path d="M24 40L40 17"/><path d="M24 40L40 31"/></g><g class="n"><circle cx="8" cy="12" r="3.4"/><circle cx="8" cy="24" r="3.4"/><circle cx="8" cy="36" r="3.4"/><circle cx="24" cy="8" r="3.4"/><circle cx="24" cy="19" r="3.4"/><circle cx="24" cy="29" r="3.4"/><circle cx="24" cy="40" r="3.4"/><circle cx="40" cy="17" r="3.4"/><circle cx="40" cy="31" r="3.4"/></g></svg><figcaption><b>Visuomotor Policy</b></figcaption></figure></div></div></div>
           <div class="ov-engine ov-el" data-t="7"><span class="ov-node"><span class="ov-arrow"></span><b>Zero-Shot</b><span class="ov-arrow"></span></span><small>Sim-to-Real Transfer</small></div>
-          <figure class="ov-out ov-el" data-t="8"><span class="ov-label">Real World Deployment</span><video muted loop playsinline preload="none" poster="media/method/real-hangmug.webp?v=202611191900"><source src="media/method/real-hangmug.mp4?v=202611191900" type="video/mp4"></video></figure>
+          <figure class="ov-out ov-el" data-t="8"><span class="ov-label">Real World Deployment</span><video muted loop playsinline preload="none" poster="media/method/real-hangmug.webp?v=202611200100"><source src="media/method/real-hangmug.mp4?v=202611200100" type="video/mp4"></video></figure>
         </div>
         <button class="ov-replay" type="button" aria-label="Replay the overview animation">↻ Replay</button>
       </div>
@@ -174,7 +174,7 @@
                 <path class="red" d="M220 520H234Q238 520 238 516V310" marker-end="url(#aef-ahr)"/>
                 <path class="red" d="M270 520H256Q252 520 252 516V310" marker-end="url(#aef-ahr)"/>
                 <path d="M690 350V310" marker-end="url(#aef-ah)"/>
-                <path d="M580 598H564" marker-end="url(#aef-ah)"/>
+                <path d="M580 640H564" marker-end="url(#aef-ah)"/>
                 <path class="green" d="M800 190H856" marker-end="url(#aef-ahg)"/>
                 <path d="M975 432V472" marker-end="url(#aef-ah)"/>
               </svg>
@@ -225,16 +225,16 @@
                 <span class="aef-x"><img src="media/method/open-handle.webp?v=202611191500" alt="" class="aef-pic" style="width:70px; height:80px"></span><span class="aef-red aef-b" style="width:60px; font-size:13px">Not a Closed Loop</span>
               </div>
 
-              <div class="aef-box aef-dash" style="left:580px; top:350px; width:220px; height:180px; padding:8px"></div>
-              <div class="aef-lib" style="left:588px; top:358px; width:204px">
+              <div class="aef-box aef-dash" style="left:580px; top:350px; width:220px; height:212px"></div>
+              <div class="aef-lib" style="left:588px; top:358px; width:204px; height:94px">
                 <div class="aef-row"><svg class="aef-i"><use href="#aef-shapes"/></svg>Geometry Primitive Library</div>
                 <div><code>box</code><code>sphere</code><code>cone</code><code>…</code></div>
               </div>
-              <div class="aef-lib" style="left:588px; top:446px; width:204px">
+              <div class="aef-lib" style="left:588px; top:460px; width:204px; height:94px">
                 <div class="aef-row"><svg class="aef-i"><use href="#aef-union"/></svg>Mesh Operation Library</div>
                 <div><code>union</code><code>diff</code><code>intersect</code><code>…</code></div>
               </div>
-              <div class="aef-lib" style="left:580px; top:556px; width:220px">
+              <div class="aef-lib" style="left:580px; top:590px; width:220px; height:100px">
                 <div class="aef-row"><svg class="aef-i"><use href="#aef-meshprobe"/></svg>Mesh Probe Library</div>
                 <div><code>raycast</code><code>contains</code><code>pair</code><code>…</code></div>
               </div>
@@ -258,15 +258,15 @@
               <img src="media/method/sampled-mugs.webp?v=202611191130" alt="" style="position:absolute; left:868px; top:530px; width:214px; height:150px; object-fit:contain">
             </div>
           </div>
-          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611192300"><source src="media/method/assetengine.mp4?v=202611192300" type="video/mp4"></video>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611200100"><source src="media/method/assetengine.mp4?v=202611200100" type="video/mp4"></video>
         </div>
         <div class="ae-bar">
           <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
-          <input class="ae-seek" type="range" min="0" max="70" step="0.05" value="0" aria-label="Seek">
-          <span class="ae-time">0:00 / 1:10</span>
+          <input class="ae-seek" type="range" min="0" max="75" step="0.05" value="0" aria-label="Seek">
+          <span class="ae-time">0:00 / 1:15</span>
         </div>
         <p class="ae-cap" aria-live="polite"></p>
-        <ol class="ae-caps" hidden><li data-t="0">AssetEngine has three sub-agents. Each receives the object category and an optional task description.</li><li data-t="6">The Generator Author searches the internet for real examples of the category and notes which dimensions vary across them.</li><li data-t="14">It writes a draft procedural generator in code from geometry primitives and mesh operations. Each varying dimension becomes a parameter.</li><li data-t="22.6">The draft generator goes to both reviewers.</li><li data-t="27.4">The Coverage Critic searches the web for counter examples: common shapes of the category that the generator cannot produce.</li><li data-t="37">If it finds any, it sends the generator back to the Author for revision.</li><li data-t="40">The Geometry Validator derives two checklists, one for mesh quality and one for task compatibility, and writes a mesh probe for each item. It runs the probes on assets sampled from the generator.</li><li data-t="51.6">If any item fails, it also asks for a revision.</li><li data-t="54.6">The Author revises the generator to cover the missing shapes and fix the failed items.</li><li data-t="61.4">The loop repeats until both reviewers accept. The final generator then samples diverse, physically plausible assets of the category.</li></ol>
+        <ol class="ae-caps" hidden><li data-t="0">AssetEngine has three sub-agents. Each receives the object category and an optional task description.</li><li data-t="6">The Generator Author searches the internet for real examples of the category and notes which dimensions vary across them.</li><li data-t="14">It writes a draft procedural generator in code from geometry primitives and mesh operations. Each varying dimension becomes a parameter.</li><li data-t="22.6">The draft generator goes to both reviewers.</li><li data-t="27.4">The Coverage Critic searches the web for counter examples: common shapes of the category that the generator cannot produce.</li><li data-t="37">If it finds any, it sends the generator back to the Author for revision.</li><li data-t="40">The Geometry Validator derives two checklists, one for mesh quality and one for task compatibility, and writes a mesh probe for each item. It runs the probes on assets sampled from the generator.</li><li data-t="51.6">If any item fails, it also asks for a revision.</li><li data-t="54.6">The Author revises the generator to cover the missing shapes and fix the failed items.</li><li data-t="61.4">The loop repeats until both reviewers accept.</li><li data-t="64.6">The accepted generator is the final category-level procedural generator. Sampling its parameters gives diverse, physically plausible assets.</li></ol>
       </div>
     </section>
 

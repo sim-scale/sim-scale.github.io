@@ -855,7 +855,7 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .aef-tall .aef-sl { margin-top: 0; margin-bottom: 22px; font-size: 14.5px; }
 .aef-cb { position: relative; margin-top: 6px; padding-left: 22px; }
 .aef-cb::before { content: ""; position: absolute; left: 2px; top: 3px; width: 11px; height: 11px; border: 1.3px solid #6b6b66; border-radius: 2px; }
-.aef-lib { padding: 7px 10px; background: #fff; border: 1px solid #cfccc4; border-radius: 5px; font-size: 14px; }
+.aef-lib { display: flex; flex-direction: column; justify-content: center; padding: 7px 10px; background: #fff; border: 1px solid #cfccc4; border-radius: 5px; font-size: 14px; }
 .aef-lib .aef-i { font-size: 18px; }
 .aef-lib code { display: inline-block; margin: 7px 3px 0 0; padding: 0 4px; background: #f1f0ec; border: 1px solid #cfccc4; border-radius: 4px; font: 11px "DejaVu Sans Mono", Menlo, monospace; }
 .aef-x { position: relative; display: block; flex: none; }
