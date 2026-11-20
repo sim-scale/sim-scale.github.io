@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611192000">
+  <link rel="stylesheet" href="paper.css?v=202611192100">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,7 +32,7 @@
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
   <script src="figures.js?v=202611202000" defer></script>
-  <script src="method.js?v=202611192000" defer></script>
+  <script src="method.js?v=202611192100" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -147,11 +147,18 @@
     <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
       <div class="ae-intro reveal" data-ae>
-        <div class="ae-film">
-          <img class="ae-final" src="media/method/assetengine-final.webp?v=202611192000" alt="AssetEngine on the mug category: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs." width="1920" height="960" loading="lazy">
-          <video class="ae-video" muted playsinline preload="none" poster="media/method/assetengine-start.webp?v=202611192000" aria-hidden="true"><source src="media/method/assetengine.mp4?v=202611192000" type="video/mp4"></video>
+        <div class="ae-tabs" role="tablist" aria-label="AssetEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
+        <div class="ae-film" data-mode="video">
+          <img class="ae-final" src="media/method/assetengine-final.webp?v=202611192000" alt="AssetEngine panel of Fig. 2: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs." width="1920" height="960" loading="lazy">
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611192100"><source src="media/method/assetengine.mp4?v=202611192100" type="video/mp4"></video>
         </div>
-        <button type="button" class="ae-replay" hidden>↻ Replay</button>
+        <div class="ae-bar">
+          <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
+          <input class="ae-seek" type="range" min="0" max="70" step="0.05" value="0" aria-label="Seek">
+          <span class="ae-time">0:00 / 1:10</span>
+        </div>
+        <p class="ae-cap" aria-live="polite"></p>
+        <ol class="ae-caps" hidden><li data-t="0">AssetEngine has three sub-agents. Each receives the object category and, optionally, the task.</li><li data-t="6">The Generator Author searches the internet for real mugs and notes which dimensions vary across them.</li><li data-t="14">It then writes a draft generator in code from geometry primitives and mesh operations. Every varying dimension becomes a parameter.</li><li data-t="22.6">The draft generator goes to both reviewers.</li><li data-t="27.4">The Coverage Critic searches the web for common mugs that the draft cannot produce. Rounded bodies are missing.</li><li data-t="37">It sends the generator back to the Author for revision.</li><li data-t="40">The Geometry Validator writes two checklists, one for mesh quality and one for task compatibility, with a mesh probe for each item. On draft samples, the handle is detached and its loop is open.</li><li data-t="51.6">It also asks for a revision.</li><li data-t="54.6">The Author adds a rounded body outline and makes the handle a closed loop attached to the body.</li><li data-t="61.4">Both reviewers accept. The final generator then samples diverse, physically plausible mugs.</li></ol>
       </div>
     </section>
 

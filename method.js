@@ -157,41 +157,59 @@
   document.querySelectorAll('[data-ae]').forEach((ae) => {
     const film = ae.querySelector('.ae-film');
     const v = film.querySelector('video');
-    const btn = ae.querySelector('.ae-replay');
-    const agents = [...ae.querySelectorAll('[data-on]')].map((li) => ({
-      li, spans: li.dataset.on.split(' ').map((r) => r.split('-').map(Number)),
-    }));
-    let started = false;
-    const mark = () => {
+    const tabs = [...ae.querySelectorAll('.ae-tabs button')];
+    const bar = ae.querySelector('.ae-bar');
+    const btn = ae.querySelector('.ae-play');
+    const seek = ae.querySelector('.ae-seek');
+    const time = ae.querySelector('.ae-time');
+    const cap = ae.querySelector('.ae-cap');
+    const caps = [...ae.querySelectorAll('.ae-caps li')].map((li) => [+li.dataset.t, li.textContent]);
+    const FIG = 'The AssetEngine panel of Fig. 2 in the paper. Switch to Video to watch the walkthrough again.';
+    const fmt = (x) => `${Math.floor(x / 60)}:${String(Math.floor(x % 60)).padStart(2, '0')}`;
+    let mode = 'video', autoPaused = false, started = false, raf = 0;
+    const dur = () => (Number.isFinite(v.duration) && v.duration > 0 ? v.duration : +seek.max);
+    const sync = () => {
       const t = v.currentTime;
-      const live = film.classList.contains('playing');
-      agents.forEach(({ li, spans }) => li.classList.toggle('on', live && spans.some(([a, b]) => t >= a && t < b)));
+      seek.max = dur(); seek.value = t;
+      time.textContent = `${fmt(t)} / ${fmt(dur())}`;
+      if (mode === 'video') {
+        let c = caps[0][1];
+        for (const [s0, txt] of caps) if (t >= s0) c = txt;
+        if (cap.textContent !== c) cap.textContent = c;
+      }
     };
-    const start = () => {
-      started = true;
-      btn.hidden = true;
-      film.classList.add('playing');
-      v.currentTime = 0;
-      play(v);
+    const loop = () => { sync(); if (!v.paused) raf = requestAnimationFrame(loop); };
+    v.addEventListener('play', () => { btn.classList.add('on'); btn.setAttribute('aria-label', 'Pause'); cancelAnimationFrame(raf); loop(); });
+    v.addEventListener('pause', () => { btn.classList.remove('on'); btn.setAttribute('aria-label', 'Play'); sync(); });
+    v.addEventListener('seeked', sync);
+    v.addEventListener('loadedmetadata', sync);
+    const setMode = (m) => {
+      mode = m;
+      film.dataset.mode = m;
+      tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.mode === m)));
+      bar.hidden = m !== 'video';
+      if (m === 'figure') { v.pause(); cap.textContent = FIG; } else sync();
     };
-    v.addEventListener('timeupdate', mark);
-    v.addEventListener('ended', () => {
-      film.classList.remove('playing');
-      btn.textContent = '↻ Replay';
-      btn.hidden = false;
-      mark();
-    });
-    btn.addEventListener('click', start);
-    if (reducedMotion) {
-      btn.textContent = '▶ Play';
-      btn.hidden = false;
-      return;
-    }
-    film.classList.add('playing');
+    const toggle = () => {
+      autoPaused = false;
+      if (v.paused) { if (v.ended || v.currentTime >= dur() - .05) v.currentTime = 0; started = true; play(v); } else v.pause();
+    };
+    v.addEventListener('ended', () => setMode('figure'));
+    tabs.forEach((b) => b.addEventListener('click', () => {
+      if (b.dataset.mode === mode) return;
+      setMode(b.dataset.mode);
+      if (mode === 'video') { if (v.ended || v.currentTime >= dur() - .05) v.currentTime = 0; started = true; autoPaused = false; play(v); }
+    }));
+    btn.addEventListener('click', toggle);
+    v.addEventListener('click', toggle);
+    seek.addEventListener('input', () => { v.currentTime = +seek.value; sync(); });
+    sync();
+    if (reducedMotion) return;
     inView(film, (on) => {
-      if (on && !started) start();
-      else if (!on && !v.ended && started) v.pause();
-      else if (on && started && v.paused && !v.ended && film.classList.contains('playing')) play(v);
+      if (mode !== 'video') return;
+      if (on && !started) { started = true; play(v); }
+      else if (!on && !v.paused) { autoPaused = true; v.pause(); }
+      else if (on && autoPaused) { autoPaused = false; play(v); }
     }, 0.5);
   });
 })();
