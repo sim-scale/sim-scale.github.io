@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611220200">
+  <link rel="stylesheet" href="paper.css?v=202611220300">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -366,7 +366,13 @@
 
     <section class="light-section group" id="experiments">
       <h2 class="group-title reveal">Experiments</h2>
-      <div class="section-head reveal" id="setup"><h2 class="sub-title">Experiment Setup</h2><p>Three bimanual tasks in the real world, each evaluated on five sets of distinct objects with 20 rollouts per set. Policies are trained only in simulation and deployed zero-shot. Policy backends: GR00T N1.6 and DINOv3 + FMT.</p></div>
+      <div class="section-head reveal" id="setup"><h2 class="sub-title">Experiment Setup</h2><p>Three bimanual tasks in the real world, each evaluated on five sets of distinct objects with 20 rollouts per set. Policies are trained only in simulation and deployed zero-shot. Policy backends: GR00T N1.6 and DINOv3 + FMT.</p><p class="bl-head">Baselines</p><ul class="baseline-list">
+        <li><b>Real-world demonstrations:</b> Real-Demos uses 60 real-world demonstrations per task, 20 on each of three object sets, so three of the five test sets appear in its training data.</li>
+        <li><b>Curated asset library:</b> RoboCasa assets, with human source demonstrations collected for each asset.</li>
+        <li><b>Agentic asset generators:</b> Articraft and GPT-6-Astra assets, with human source demonstrations collected for each asset.</li>
+        <li><b>Real-to-sim:</b> SimFoundry reconstructs a digital twin from a real-world video of a test object set and augments it with 40 digital cousins.</li>
+        <li><b>Other demonstration sources:</b> On the same AssetEngine assets, human demonstrations collected for each asset, or task programs that GPT-6-Astra writes for each asset.</li>
+      </ul></div>
       <figure class="spot-fig reveal" data-spot="tasks" data-spot-auto="cycle" data-spot-title="Tasks and objects." data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects.">
         <div class="spot-stage tk-stage">
           <div class="tk-grid">
