@@ -78,7 +78,7 @@
       task.methods.forEach((method) => {
         const row = document.createElement('section');
         row.className = 'comparison-method';
-        row.innerHTML = `<header><h3>${method.label}${method.key === 'ours' ? ' <span>(Ours)</span>' : ''}</h3><small>${method.detail}</small></header>`;
+        row.innerHTML = `<header><h3>${method.label}${method.key === 'ours' ? ' <span>(Ours)</span>' : ''}</h3></header>`;
         const grid = document.createElement('div');
         grid.className = 'comparison-rollout-grid';
 
@@ -87,7 +87,7 @@
           const prefix = `media/comparisons/${task.id}_${method.key}_${number}`;
           const figure = document.createElement('figure');
           figure.className = 'comparison-rollout';
-          const status = domain ? `${domain} / ${outcome}` : outcome;
+          const status = outcome;
           figure.innerHTML = `<video muted loop playsinline preload="none" data-poster="${prefix}.jpg?v=202611162000" data-autoplay aria-label="${method.label}: ${task.objects[index]}, ${status}"><source src="${prefix}.mp4?v=202611200700" type="video/mp4"></video><figcaption><span class="comparison-outcome comparison-outcome-${outcome.toLowerCase()}">${status}</span></figcaption>`;
           grid.appendChild(figure);
         });
