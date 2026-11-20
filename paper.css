@@ -900,3 +900,4 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .ov-field small { margin-bottom: 10px; color: #1d1d1f; font-size: 16px; font-weight: 650; }
 .ov-field small em { margin-left: 4px; padding: 0; border: 0; color: var(--muted); font-size: 14px; font-weight: 400; }
 .ov-input .ov-chips i, .ov-desc .ov-type { font-size: 17px; font-weight: 400; }
+.pc-bar[hidden], .pc-legend li[hidden] { display: none; }

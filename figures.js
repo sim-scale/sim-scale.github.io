@@ -189,8 +189,9 @@
     let backend = 'dino', shown = false;
     const head = document.createElement('div'); head.className = 'pc-head';
     const legend = document.createElement('ul'); legend.className = 'pc-legend';
+    const items = [];
     cfg.series.forEach(([name, color, ours, hatch]) => {
-      const li = document.createElement('li');
+      const li = document.createElement('li'); items.push(li);
       if (ours) li.className = 'ours';
       li.innerHTML = `<i style="--c:${color}"${hatch ? ' class="hatch"' : ''}></i>${name}`;
       legend.appendChild(li);
@@ -228,7 +229,7 @@
           bar.innerHTML = '<span class="pc-val">0.0</span>';
           bar.title = name;
           row.appendChild(bar);
-          bars.push({ bar, val: bar.firstChild, pick, i: bars.length });
+          bars.push({ bar, val: bar.firstChild, pick, si, i: bars.length });
         });
         group.appendChild(row);
         if (g.label) { const l = document.createElement('div'); l.className = 'pc-glabel'; l.textContent = g.label; group.appendChild(l); }
@@ -241,11 +242,14 @@
     host.appendChild(grid);
     const yl = document.createElement('p'); yl.className = 'pc-axis'; yl.textContent = 'Task score (%)'; host.insertBefore(yl, grid);
     const update = () => {
+      // As in the paper figures, a missing condition has no bar, and a method without any result for the
+      // selected backend (GPT-6-Astra assets under GR00T N1.6) leaves the legend too.
+      items.forEach((li, si) => { li.hidden = bars.some((b) => b.si === si) && bars.every((b) => b.si !== si || b.pick() === null); });
       bars.forEach(({ bar, val, pick, i }) => {
         const v = pick(), delay = shown ? 0 : i * 70;
         bar.style.transitionDelay = delay + 'ms';
-        if (v === null) { bar.style.height = '0%'; bar.classList.add('na'); val.textContent = 'N/A'; val.dataset.v = 0; return; }
-        bar.classList.remove('na');
+        bar.hidden = v === null;
+        if (v === null) { bar.style.height = '0%'; val.dataset.v = 0; return; }
         bar.style.height = (v / 1.1) + '%';
         countUp(val, v, delay);
       });
