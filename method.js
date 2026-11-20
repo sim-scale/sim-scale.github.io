@@ -164,7 +164,19 @@
     const time = ae.querySelector('.ae-time');
     const cap = ae.querySelector('.ae-cap');
     const caps = [...ae.querySelectorAll('.ae-caps li')].map((li) => [+li.dataset.t, li.textContent]);
-    const FIG = 'The AssetEngine panel of Fig. 2 in the paper. Switch to Video to watch the walkthrough again.';
+    const FIG = 'The AssetEngine panel of Fig. 2 in the paper. Click the figure to enlarge it, or switch to Video to watch the walkthrough again.';
+    const img = film.querySelector('img');
+    img.addEventListener('click', () => {
+      if (mode !== 'figure') return;
+      const z = document.createElement('div');
+      z.className = 'ae-zoom';
+      z.innerHTML = `<img src="${img.currentSrc || img.src}" alt="">`;
+      const close = () => { z.remove(); document.removeEventListener('keydown', esc); };
+      const esc = (e) => { if (e.key === 'Escape') close(); };
+      z.addEventListener('click', close);
+      document.addEventListener('keydown', esc);
+      document.body.appendChild(z);
+    });
     const fmt = (x) => `${Math.floor(x / 60)}:${String(Math.floor(x % 60)).padStart(2, '0')}`;
     let mode = 'video', autoPaused = false, started = false, raf = 0;
     const dur = () => (Number.isFinite(v.duration) && v.duration > 0 ? v.duration : +seek.max);
