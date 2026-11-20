@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611200200">
+  <link rel="stylesheet" href="paper.css?v=202611201100">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,7 +32,7 @@
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
   <script src="figures.js?v=202611202000" defer></script>
-  <script src="method.js?v=202611200400" defer></script>
+  <script src="method.js?v=202611201100" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -146,7 +146,7 @@
 
     <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
-      <div class="ae-intro reveal" data-ae>
+      <div class="ae-intro reveal" data-ae data-figcap="The AssetEngine panel of Fig. 2 in the paper, with mugs as the running example. Click the figure to enlarge it.">
         <div class="ae-tabs" role="tablist" aria-label="AssetEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
         <div class="ae-film" data-mode="video">
           <div class="ae-final aef-wrap" role="img" aria-label="AssetEngine, as in Fig. 2 of the paper: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs.">
@@ -272,46 +272,58 @@
 
     <section class="light-section demonstration-section results-highlight sub" id="demoengine">
       <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine turns <b>one human demonstration</b> into thousands of trajectories across assets and object poses.</p></div></div>
-      <div class="mp reveal" data-player aria-label="DemoEngine walkthrough on HangMug">
-        <svg class="mp-diagram" viewBox="0 0 280 330" aria-hidden="true">
-          <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
-          <path class="e" data-e="a" d="M140 62 L140 96" marker-end="url(#ah2)"/>
-          <path class="e" data-e="b" d="M140 144 L140 178" marker-end="url(#ah2)"/>
-          <text class="el" x="150" y="166">+ sampled assets</text>
-          <path class="e" data-e="c" d="M140 226 L140 260" marker-end="url(#ah2)"/>
-          <g class="n" data-n="human"><rect x="50" y="18" width="180" height="44" rx="12"/><text x="140" y="45" text-anchor="middle">One human demo</text></g>
-          <g class="n" data-n="story"><rect x="50" y="100" width="180" height="44" rx="12"/><text x="140" y="127" text-anchor="middle">Storyboard</text></g>
-          <g class="n" data-n="source"><rect x="50" y="182" width="180" height="44" rx="12"/><text x="140" y="209" text-anchor="middle">Source demos per asset</text></g>
-          <g class="n" data-n="pose"><rect x="50" y="264" width="180" height="44" rx="12"/><text x="140" y="291" text-anchor="middle">Pose expansion</text></g>
-          <circle class="mp-dot" r="5"/>
-        </svg>
-        <div class="mp-stage">
-          <div class="mp-scene" data-n="human" data-e="" data-caption="A human teleoperates HangMug once in simulation, on one sampled mug and mug tree." data-dur="5200">
-            <div class="sc-story" data-flip>
-              <img src="media/method/story-0.webp?v=202611191500" alt="" class="on"><img src="media/method/story-96.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/story-281.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/story-459.webp?v=202611191500" alt="" loading="lazy"><img src="media/method/story-645.webp?v=202611191500" alt="" loading="lazy">
-              <span class="mv-story-badge"><svg class="teleop-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="6" r="3"/><path d="M2.5 20v-1a6 6 0 0 1 6-6h1.5"/><rect x="12" y="13" width="10" height="7" rx="3.5"/><path d="M14.6 16.5h2.2M15.7 15.4v2.2"/><circle cx="19.4" cy="16.5" r=".5" fill="currentColor"/></svg><span><b>Human teleoperation</b><small>One demonstration in simulation</small></span></span>
+      <div class="ae-intro reveal" data-ae data-figcap="The DemoEngine panel of Fig. 2 in the paper, with HangMug as the running example. Click the figure to enlarge it.">
+        <div class="ae-tabs" role="tablist" aria-label="DemoEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
+        <div class="ae-film" data-mode="video" style="--far: 1100 / 600">
+          <div class="ae-final aef-wrap" style="--far: 1100 / 600" role="img" aria-label="DemoEngine, as in Fig. 2 of the paper: one human demonstration on one sampled asset is distilled into a storyboard, a source-demo script produces source demonstrations on other assets, and synthetic trajectory generation expands them to new object poses.">
+            <div class="aef" style="height:600px" aria-hidden="true">
+              <svg width="0" height="0" style="position:absolute"><defs>
+                <marker id="def-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a8780"/></marker>
+                <symbol id="def-copies" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><rect x="-.35" y="-.25" width="1.25" height="1" fill="#fff" stroke-width=".09"/><rect x="-.62" y="-.52" width="1.25" height="1" fill="#fff" stroke-width=".09"/><rect x="-.9" y="-.8" width="1.25" height="1" fill="#fff"/></g></symbol>
+                <symbol id="def-joycon" viewBox="-1.1 -1.1 2.2 2.2"><g stroke="none"><rect x="-.80" y="-.98" width=".7" height="1.96" rx=".3" fill="#1C1F24"/><rect x="-.78" y="-.95" width=".66" height="1.9" rx=".28" fill="#2BB3DC"/><rect x=".10" y="-.98" width=".7" height="1.96" rx=".3" fill="#1C1F24"/><rect x=".12" y="-.95" width=".66" height="1.9" rx=".28" fill="#F0554B"/><circle cx="-.45" cy="-.42" r=".2" fill="#2B2E34"/><circle cx=".45" cy=".34" r=".2" fill="#2B2E34"/><g fill="#2B2E34"><circle cx="-.45" cy=".03" r=".075"/><circle cx="-.45" cy=".37" r=".075"/><circle cx="-.62" cy=".2" r=".075"/><circle cx="-.28" cy=".2" r=".075"/><circle cx=".45" cy="-.41" r=".075"/><circle cx=".45" cy="-.75" r=".075"/><circle cx=".28" cy="-.58" r=".075"/><circle cx=".62" cy="-.58" r=".075"/></g></g></symbol>
+              </defs></svg>
+              <svg class="aef-wires" viewBox="0 0 1100 600" style="height:600px">
+                <path d="M262 150H282" marker-end="url(#def-ah)"/>
+                <path d="M1078 150H1090V316H175V340" marker-end="url(#def-ah)"/>
+                <path d="M342 470H366" marker-end="url(#def-ah)"/>
+                <path d="M846 470H870" marker-end="url(#def-ah)"/>
+              </svg>
+
+              <div class="aef-card" style="left:10px; top:22px; width:250px; height:262px"></div>
+              <svg class="aef-i" style="left:24px; top:70px; font-size:56px"><use href="#def-joycon"/></svg>
+              <img src="media/method/asset-a.webp?v=202611200000" alt="" style="position:absolute; left:84px; top:42px; width:160px; height:170px; object-fit:contain">
+              <div class="aef-box aef-b" style="left:22px; top:222px; width:226px; text-align:center; font-size:15px; line-height:1.25">One Human Demo on One Sampled Asset</div>
+
+              <div class="aef-ttl" style="left:290px; top:22px">Storyboard</div>
+              <div class="aef-row" style="position:absolute; left:290px; top:58px; gap:10px; align-items:flex-start">
+                <figure class="aef-kf"><img src="media/method/story-96.webp?v=202611191500" alt=""><figcaption>1 Left Grasp</figcaption></figure>
+                <figure class="aef-kf"><img src="media/method/story-281.webp?v=202611191500" alt=""><figcaption>2 Handover</figcaption></figure>
+                <figure class="aef-kf"><img src="media/method/story-459.webp?v=202611191500" alt=""><figcaption>3 Left Observes</figcaption></figure>
+                <figure class="aef-kf"><img src="media/method/story-645.webp?v=202611191500" alt=""><figcaption>4 Insert</figcaption></figure>
+              </div>
+
+              <div class="aef-card aef-codepane" style="left:10px; top:344px; width:330px; height:244px">
+                <div class="aef-codehd">source_demo.py</div>
+                <div><b>pick</b>(left, scene.mug.handle)</div><div><b>handover</b>(left, right)</div><div><b>observe</b>(left, scene.tree.peg)</div><div><b>hang</b>(right, scene.tree.peg)</div><div><b>retreat</b>(right)</div>
+              </div>
+
+              <div class="aef-ttl" style="left:372px; top:356px">Source Demos on Other Assets</div>
+              <img src="media/method/source-overview.webp?v=202611200000" alt="" class="aef-pic" style="position:absolute; left:372px; top:398px; width:470px; height:120px; object-fit:cover">
+
+              <div class="aef-card" style="left:874px; top:404px; width:216px; height:132px"></div>
+              <svg class="aef-i" style="left:890px; top:446px; font-size:40px; stroke:#1d1d1f"><use href="#def-copies"/></svg>
+              <div class="aef-box aef-b" style="left:940px; top:430px; width:140px; text-align:center; font-size:17px; line-height:1.3">Synthetic Trajectory Generation</div>
             </div>
           </div>
-          <div class="mp-scene" data-n="story" data-e="a" data-caption="An agent converts the demonstration into a storyboard: the stage order, key poses, and timing of every generated demonstration.">
-            <ol class="sc-frames">
-              <li style="--d:.1s"><img src="media/method/story-96.webp?v=202611191500" alt="" loading="lazy"><span>Left Grasp</span></li>
-              <li style="--d:.4s"><img src="media/method/story-281.webp?v=202611191500" alt="" loading="lazy"><span>Handover</span></li>
-              <li style="--d:.7s"><img src="media/method/story-459.webp?v=202611191500" alt="" loading="lazy"><span>Left Observes</span></li>
-              <li style="--d:1s"><img src="media/method/story-645.webp?v=202611191500" alt="" loading="lazy"><span>Insert</span></li>
-            </ol>
-          </div>
-          <div class="mp-scene" data-n="source" data-e="b" data-caption="The agent writes one script whose targets follow each asset's geometry, and adapts it to every sampled mug and mug tree.">
-            <div class="sc-source">
-              <pre class="sc-code" style="--d:.1s"><span class="c-file">source_demo.py</span><span>pick(left, <span class="c-geo">scene.mug.handle</span>)</span><span>handover(left, right)</span><span>observe(left, <span class="c-geo">scene.tree.peg</span>)</span><span>hang(right, <span class="c-geo">scene.tree.peg</span>)</span></pre>
-              <div class="sc-src3"><img style="--d:.7s" src="media/method/source-B.webp?v=202611191500" alt="" loading="lazy"><img style="--d:.95s" src="media/method/source-C.webp?v=202611191500" alt="" loading="lazy"><img style="--d:1.2s" src="media/method/source-D.webp?v=202611191500" alt="" loading="lazy"></div>
-            </div>
-          </div>
-          <div class="mp-scene" data-n="pose" data-e="c" data-caption="DexMimicGen expands each asset's source demos to new object poses. One human demonstration becomes thousands of trajectories." data-dur="6500">
-            <video class="sc-full" muted loop playsinline preload="none" poster="media/method/demos.webp?v=202611211500"><source src="media/method/demos.mp4?v=202611211500" type="video/mp4"></video>
-          </div>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/demoengine-start.webp?v=202611200000"><source src="media/method/demoengine.mp4?v=202611200000" type="video/mp4"></video>
         </div>
-        <p class="mp-caption" aria-live="polite"></p>
-        <div class="mp-controls"><button type="button" class="mp-play" aria-label="Pause">❚❚</button><div class="mp-bars"></div></div>
+        <div class="ae-bar">
+          <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
+          <input class="ae-seek" type="range" min="0" max="80" step="0.05" value="0" aria-label="Seek">
+          <span class="ae-time">0:00 / 1:20</span>
+        </div>
+        <p class="ae-cap" aria-live="polite"></p>
+        <ol class="ae-caps" hidden><li data-t="0">DemoEngine takes one human demonstration, teleoperated in simulation on one sampled mug and mug tree, and the assets sampled by AssetEngine.</li><li data-t="5.5">It adapts the demonstration across assets in four stages.</li><li data-t="9">Storyboard construction distills the demonstration into keyframes and their timings. It also keeps stages without contact, such as the left arm moving its wrist camera to observe the mug tree.</li><li data-t="23">The storyboard guides a robot execution script.</li><li data-t="26">Source-demo bootstrapping writes one robot execution script with motion planning, gripper control, and collision checking, and iterates on three sampled assets until the robot completes the task.</li><li data-t="42">The validated script goes to parallel asset specialization.</li><li data-t="45">Agents adapt the validated script to the remaining assets in parallel. Each asset gets three source demonstrations from different initial poses, kept only if the robot completes the task and matches the human's pacing.</li><li data-t="56">The source demonstrations go to pose expansion.</li><li data-t="59">Pose expansion uses DexMimicGen to generate trajectories at new object poses and keeps only successful executions.</li><li data-t="69.4">Together, one human demonstration becomes thousands of training trajectories across assets and object poses.</li></ol>
       </div>
 
       <h3 class="mstep-after reveal">Large-Scale Synthetic Data Generation Across Object Geometries and Poses</h3>

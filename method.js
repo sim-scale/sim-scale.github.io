@@ -164,7 +164,7 @@
     const time = ae.querySelector('.ae-time');
     const cap = ae.querySelector('.ae-cap');
     const caps = [...ae.querySelectorAll('.ae-caps li')].map((li) => [+li.dataset.t, li.textContent]);
-    const FIG = 'The AssetEngine panel of Fig. 2 in the paper, with mugs as the running example. Click the figure to enlarge it.';
+    const FIG = ae.dataset.figcap || '';
     const fig = film.querySelector('.ae-final');
     const fit = (wrap) => { const f = wrap.querySelector('.aef'); if (f) f.style.setProperty('--s', wrap.clientWidth / 1100); };
     if ('ResizeObserver' in window) new ResizeObserver(() => fit(fig)).observe(fig); else fit(fig);
