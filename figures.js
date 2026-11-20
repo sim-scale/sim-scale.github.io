@@ -117,11 +117,12 @@
       ]
     },
     sim2sim: {
-      series: [['SimFoundry Twin', COLOR.twin], ['SimFoundry Cousins', COLOR.cousins], ['RoboCasa', COLOR.robocasa], ['Articraft', COLOR.articraft], ['SimScale AssetEngine (Ours)', COLOR.oursAsset, true]],
+      // Fig. 7: averages of three tasks with DINOv3 + FMT.
+      series: [['SimFoundry Twin', COLOR.twin], ['SimFoundry Cousins', COLOR.cousins], ['RoboCasa', COLOR.robocasa], ['Articraft', COLOR.articraft], ['GPT-6-Astra', COLOR.astraAsset], ['SimScale AssetEngine (Ours)', COLOR.oursAsset, true]],
       panels: [
-        { title: 'Held-out AssetEngine assets', groups: [{ v: [28.1, 35.2, 48.6, 54.3, 92.1] }] },
-        { title: 'Held-out RoboCasa assets', groups: [{ v: [45.9, 53.8, 57.0, 33.6, 79.6] }] },
-        { title: 'Digital twins of real objects', groups: [{ v: [47.8, 55.5, 57.4, 42.9, 85.7] }] }
+        { title: 'Held-out AssetEngine assets', groups: [{ v: [26.9, 36.7, 53.6, 51.9, 60.6, 92.4] }] },
+        { title: 'Held-out RoboCasa assets', groups: [{ v: [54.1, 67.6, 70.4, 42.5, 52.1, 96.9] }] },
+        { title: 'Digital twins of real objects', groups: [{ v: [46.9, 54.2, 61.5, 42.7, 55.1, 83.3] }] }
       ]
     },
     assets: {
