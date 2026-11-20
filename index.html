@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611192300">
+  <link rel="stylesheet" href="paper.css?v=202611200000">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -32,7 +32,7 @@
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
   <script src="figures.js?v=202611202000" defer></script>
-  <script src="method.js?v=202611192300" defer></script>
+  <script src="method.js?v=202611200000" defer></script>
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -176,7 +176,7 @@
                 <path d="M690 350V310" marker-end="url(#aef-ah)"/>
                 <path d="M580 598H564" marker-end="url(#aef-ah)"/>
                 <path class="green" d="M800 190H856" marker-end="url(#aef-ahg)"/>
-                <path d="M975 306V346" marker-end="url(#aef-ah)"/>
+                <path d="M975 432V472" marker-end="url(#aef-ah)"/>
               </svg>
 
               <div class="aef-in" style="left:190px; top:10px; width:720px; height:46px">
@@ -240,22 +240,22 @@
               </div>
 
               <span class="aef-lab aef-green" style="left:800px; top:166px; width:60px; text-align:center; font-size:12px">Accepted</span>
-              <div class="aef-card" style="left:860px; top:74px; width:230px; height:232px"></div>
+              <div class="aef-card" style="left:860px; top:74px; width:230px; height:358px"></div>
               <div class="aef-box aef-b" style="left:872px; top:86px; width:208px; font-size:16px; line-height:1.25">Category-Level Procedural Generator <span class="aef-final">Final</span></div>
-              <div class="aef-box" style="left:872px; top:136px; width:208px; display:grid; grid-template-columns:1fr 1fr; column-gap:14px">
+              <div class="aef-box aef-tall" style="left:872px; top:142px; width:208px">
                 <div class="aef-sl">Body Height<i style="--p:50%"></i></div>
                 <div class="aef-sl">Base Diameter<i style="--p:35%"></i></div>
                 <div class="aef-sl">Loop Height<i style="--p:65%"></i></div>
                 <div class="aef-sl">Mount Height<i style="--p:45%"></i></div>
               </div>
-              <div class="aef-box aef-new" style="left:872px; top:240px; width:208px">
+              <div class="aef-box aef-new" style="left:872px; top:352px; width:208px">
                 <div class="aef-row" style="justify-content:space-between">Body Outline<span class="aef-green aef-b" style="font-size:13px">+ New</span></div>
                 <div class="aef-row" style="gap:14px"><span class="aef-radio">Linear</span><span class="aef-radio on">Rounded</span></div>
               </div>
-              <span class="aef-lab" style="left:983px; top:316px">Sample</span>
-              <div class="aef-card" style="left:860px; top:350px; width:230px; height:340px"></div>
-              <div class="aef-ttl" style="left:872px; top:362px"><svg class="aef-i"><use href="#aef-dice"/></svg>Sampled Mugs</div>
-              <img src="media/method/sampled-mugs.webp?v=202611191130" alt="" style="position:absolute; left:868px; top:400px; width:214px; height:280px; object-fit:contain">
+              <span class="aef-lab" style="left:983px; top:446px">Sample</span>
+              <div class="aef-card" style="left:860px; top:476px; width:230px; height:214px"></div>
+              <div class="aef-ttl" style="left:872px; top:488px"><svg class="aef-i"><use href="#aef-dice"/></svg>Sampled Mugs</div>
+              <img src="media/method/sampled-mugs.webp?v=202611191130" alt="" style="position:absolute; left:868px; top:530px; width:214px; height:150px; object-fit:contain">
             </div>
           </div>
           <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611192300"><source src="media/method/assetengine.mp4?v=202611192300" type="video/mp4"></video>
@@ -266,7 +266,7 @@
           <span class="ae-time">0:00 / 1:10</span>
         </div>
         <p class="ae-cap" aria-live="polite"></p>
-        <ol class="ae-caps" hidden><li data-t="0">AssetEngine has three sub-agents. Each receives the object category and, optionally, the task.</li><li data-t="6">The Generator Author searches the internet for real mugs and notes which dimensions vary across them.</li><li data-t="14">It then writes a draft generator in code from geometry primitives and mesh operations. Every varying dimension becomes a parameter.</li><li data-t="22.6">The draft generator goes to both reviewers.</li><li data-t="27.4">The Coverage Critic searches the web for common mugs that the draft cannot produce. Rounded bodies are missing.</li><li data-t="37">It sends the generator back to the Author for revision.</li><li data-t="40">The Geometry Validator writes two checklists, one for mesh quality and one for task compatibility, with a mesh probe for each item. On draft samples, the handle is detached and its loop is open.</li><li data-t="51.6">It also asks for a revision.</li><li data-t="54.6">The Author adds a rounded body outline and makes the handle a closed loop attached to the body.</li><li data-t="61.4">Both reviewers accept. The final generator then samples diverse, physically plausible mugs.</li></ol>
+        <ol class="ae-caps" hidden><li data-t="0">AssetEngine has three sub-agents. Each receives the object category and an optional task description.</li><li data-t="6">The Generator Author searches the internet for real examples of the category and notes which dimensions vary across them.</li><li data-t="14">It writes a draft procedural generator in code from geometry primitives and mesh operations. Each varying dimension becomes a parameter.</li><li data-t="22.6">The draft generator goes to both reviewers.</li><li data-t="27.4">The Coverage Critic searches the web for counter examples: common shapes of the category that the generator cannot produce.</li><li data-t="37">If it finds any, it sends the generator back to the Author for revision.</li><li data-t="40">The Geometry Validator derives two checklists, one for mesh quality and one for task compatibility, and writes a mesh probe for each item. It runs the probes on assets sampled from the generator.</li><li data-t="51.6">If any item fails, it also asks for a revision.</li><li data-t="54.6">The Author revises the generator to cover the missing shapes and fix the failed items.</li><li data-t="61.4">The loop repeats until both reviewers accept. The final generator then samples diverse, physically plausible assets of the category.</li></ol>
       </div>
     </section>
 
