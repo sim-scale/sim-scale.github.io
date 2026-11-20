@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611212100">
+  <link rel="stylesheet" href="paper.css?v=202611220200">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
@@ -274,19 +274,19 @@
       <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">Generate thousands of trajectories across object geometries and poses from <b>one human demonstration</b>.</p></div></div>
       <div class="ae-intro reveal" data-ae data-figcap="The DemoEngine panel of Fig. 2 in the paper, with HangMug as the running example. Click the figure to enlarge it.">
         <div class="ae-tabs" role="tablist" aria-label="DemoEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
-        <div class="ae-film" data-mode="video" style="--far: 1100 / 600">
-          <div class="ae-final aef-wrap" style="--far: 1100 / 600; --card: #f8f6f2; --cardline: #e4e0d8" role="img" aria-label="DemoEngine, as in Fig. 2 of the paper: one human demonstration on one sampled asset is distilled into a storyboard, a source-demo script produces source demonstrations on other assets, and synthetic trajectory generation expands them to new object poses.">
-            <div class="aef" style="height:600px" aria-hidden="true">
+        <div class="ae-film" data-mode="video" style="--far: 1100 / 540">
+          <div class="ae-final aef-wrap" style="--far: 1100 / 540; --card: #f8f6f2; --cardline: #e4e0d8" role="img" aria-label="DemoEngine, as in Fig. 2 of the paper: one human demonstration on one sampled asset is distilled into a storyboard, a source-demo script produces source demonstrations on other assets, and synthetic trajectory generation expands them to new object poses.">
+            <div class="aef" style="height:540px" aria-hidden="true">
               <svg width="0" height="0" style="position:absolute"><defs>
                 <marker id="def-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b7480"/></marker>
                 <symbol id="def-copies" viewBox="-1.1 -1.1 2.2 2.2"><g transform="scale(1,-1)"><rect x="-.35" y="-.25" width="1.25" height="1" fill="#fff" stroke-width=".09"/><rect x="-.62" y="-.52" width="1.25" height="1" fill="#fff" stroke-width=".09"/><rect x="-.9" y="-.8" width="1.25" height="1" fill="#fff"/></g></symbol>
                 <symbol id="def-joycon" viewBox="-1.1 -1.1 2.2 2.2"><g stroke="none"><rect x="-.80" y="-.98" width=".7" height="1.96" rx=".3" fill="#1C1F24"/><rect x="-.78" y="-.95" width=".66" height="1.9" rx=".28" fill="#2BB3DC"/><rect x=".10" y="-.98" width=".7" height="1.96" rx=".3" fill="#1C1F24"/><rect x=".12" y="-.95" width=".66" height="1.9" rx=".28" fill="#F0554B"/><circle cx="-.45" cy="-.42" r=".2" fill="#2B2E34"/><circle cx=".45" cy=".34" r=".2" fill="#2B2E34"/><g fill="#2B2E34"><circle cx="-.45" cy=".03" r=".075"/><circle cx="-.45" cy=".37" r=".075"/><circle cx="-.62" cy=".2" r=".075"/><circle cx="-.28" cy=".2" r=".075"/><circle cx=".45" cy="-.41" r=".075"/><circle cx=".45" cy="-.75" r=".075"/><circle cx=".28" cy="-.58" r=".075"/><circle cx=".62" cy="-.58" r=".075"/></g></g></symbol>
               </defs></svg>
-              <svg class="aef-wires" viewBox="0 0 1100 600" style="height:600px">
+              <svg class="aef-wires" viewBox="0 0 1100 540" style="height:540px">
                 <path d="M262 150H282" marker-end="url(#def-ah)"/>
                 <path d="M1078 150H1090V316H175V340" marker-end="url(#def-ah)"/>
-                <path d="M342 470H366" marker-end="url(#def-ah)"/>
-                <path d="M846 470H870" marker-end="url(#def-ah)"/>
+                <path d="M342 442H366" marker-end="url(#def-ah)"/>
+                <path d="M846 442H870" marker-end="url(#def-ah)"/>
               </svg>
 
               <div class="aef-card" style="left:10px; top:22px; width:250px; height:262px"></div>
@@ -302,28 +302,28 @@
                 <figure class="aef-kf"><img src="media/method/story-645.webp?v=202611191500" alt=""><figcaption>4 Insert</figcaption></figure>
               </div>
 
-              <div class="aef-card aef-codepane" style="left:10px; top:344px; width:330px; height:244px">
+              <div class="aef-card aef-codepane" style="left:10px; top:344px; width:330px; height:186px">
                 <div class="aef-codehd">source_demo.py</div>
                 <div><b>pick</b>(left, scene.mug.handle)</div><div><b>handover</b>(left, right)</div><div><b>observe</b>(left, scene.tree.peg)</div><div><b>hang</b>(right, scene.tree.peg)</div><div><b>retreat</b>(right)</div>
               </div>
 
-              <div class="aef-ttl" style="left:372px; top:356px">Source Demos on Other Assets</div>
-              <img src="media/method/source-overview.webp?v=202611200000" alt="" class="aef-pic" style="position:absolute; left:372px; top:398px; width:470px; height:120px; object-fit:cover">
+              <div class="aef-ttl" style="left:372px; top:344px">Source Demos on Other Assets</div>
+              <img src="media/method/source-overview.webp?v=202611200000" alt="" class="aef-pic" style="position:absolute; left:372px; top:382px; width:470px; height:120px; object-fit:cover">
 
-              <div class="aef-card" style="left:874px; top:404px; width:216px; height:132px"></div>
-              <svg class="aef-i" style="left:890px; top:446px; font-size:40px; stroke:#252a32"><use href="#def-copies"/></svg>
-              <div class="aef-box aef-b" style="left:940px; top:430px; width:140px; text-align:center; font-size:17px; line-height:1.3">Synthetic Trajectory Generation</div>
+              <div class="aef-card" style="left:874px; top:376px; width:216px; height:132px"></div>
+              <svg class="aef-i" style="left:890px; top:418px; font-size:40px; stroke:#252a32"><use href="#def-copies"/></svg>
+              <div class="aef-box aef-b" style="left:940px; top:402px; width:140px; text-align:center; font-size:17px; line-height:1.3">Synthetic Trajectory Generation</div>
             </div>
           </div>
-          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/demoengine-start.webp?v=202611220100"><source src="media/method/demoengine.mp4?v=202611220100" type="video/mp4"></video>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/demoengine-start.webp?v=202611220200"><source src="media/method/demoengine.mp4?v=202611220200" type="video/mp4"></video>
         </div>
         <div class="ae-bar">
           <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
-          <input class="ae-seek" type="range" min="0" max="80" step="0.05" value="0" aria-label="Seek">
-          <span class="ae-time">0:00 / 1:20</span>
+          <input class="ae-seek" type="range" min="0" max="69.7" step="0.05" value="0" aria-label="Seek">
+          <span class="ae-time">0:00 / 1:09</span>
         </div>
         <p class="ae-cap" aria-live="polite"></p>
-        <ol class="ae-caps" hidden><li data-t="0">DemoEngine takes one human demonstration, teleoperated in simulation on one sampled asset of each task-relevant category, and the assets sampled by AssetEngine.</li><li data-t="5.5">It adapts the demonstration across assets in four stages.</li><li data-t="9">Storyboard construction distills the demonstration into keyframes and their timings. It also keeps stages without contact, such as moving a wrist camera to observe the target object.</li><li data-t="23">The storyboard guides a robot execution script.</li><li data-t="26">Source-demo bootstrapping writes one robot execution script with motion planning, gripper control, and collision checking, and iterates on three sampled assets until the robot completes the task.</li><li data-t="42">The validated script goes to parallel asset specialization.</li><li data-t="45">Agents adapt the validated script to the remaining assets in parallel. Each asset gets three source demonstrations from different initial poses, kept only if the robot completes the task and matches the human's pacing.</li><li data-t="56">The source demonstrations go to pose expansion.</li><li data-t="59">Pose expansion uses DexMimicGen to generate trajectories at new object poses and keeps only successful executions.</li><li data-t="69.4">Together, one human demonstration becomes thousands of training trajectories across object geometries and poses.</li></ol>
+        <ol class="ae-caps" hidden><li data-t="0">DemoEngine takes one human demonstration, teleoperated in simulation on one sampled asset of each task-relevant category, and the assets sampled by AssetEngine.</li><li data-t="5.5">It adapts the demonstration across assets in four stages.</li><li data-t="9">Storyboard construction distills the demonstration into keyframes and their timings. It also keeps stages without contact, such as moving a wrist camera to observe the target object.</li><li data-t="20">The storyboard guides a robot execution script.</li><li data-t="23">Source-demo bootstrapping writes one robot execution script with motion planning, gripper control, and collision checking, and iterates on three sampled assets until the robot completes the task.</li><li data-t="37.1">The validated script goes to parallel asset specialization.</li><li data-t="40.1">Agents adapt the validated script to the remaining assets in parallel. Each asset gets three source demonstrations from different initial poses, kept only if the robot completes the task and matches the human's pacing.</li><li data-t="48.7">The source demonstrations go to pose expansion.</li><li data-t="51.7">Pose expansion uses DexMimicGen to generate trajectories at new object poses and keeps only successful executions.</li><li data-t="59.1">Together, one human demonstration becomes thousands of training trajectories across object geometries and poses.</li></ol>
       </div>
 
       <h3 class="mstep-after reveal">Large-Scale Synthetic Data Generation Across Object Geometries and Poses</h3>
