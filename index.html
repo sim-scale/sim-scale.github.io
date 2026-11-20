@@ -24,14 +24,14 @@
   <meta name="twitter:image:alt" content="Bimanual robots manipulating procedurally generated objects in simulation.">
   <link rel="stylesheet" href="styles.css?v=202611182300">
   <link rel="stylesheet" href="feedback.css?v=202611182300">
-  <link rel="stylesheet" href="paper.css?v=202611211100">
+  <link rel="stylesheet" href="paper.css?v=202611211300">
   <script>document.documentElement.classList.add('js');</script>
   <script src="script.js?v=202611212330" defer></script>
   <script src="outline.js?v=202611182000" defer></script>
   <script src="generator-playground.js?v=202611201800" type="module"></script>
   <script src="research-details.js?v=202611201900" defer></script>
   <script src="rollouts.js?v=202611212330" defer></script>
-  <script src="figures.js?v=202611211030" defer></script>
+  <script src="figures.js?v=202611211200" defer></script>
   <script src="method.js?v=202611201100" defer></script>
 </head>
 <body>
@@ -146,10 +146,10 @@
 
     <section class="light-section sub" id="assetengine">
       <div class="section-head vis-head reveal"><div><h2>AssetEngine: Authoring Procedural Asset Generators</h2><p class="takeaway">Three sub-agents revise a <b>category-level procedural generator</b> in a loop until it passes both reviews.</p></div></div>
-      <div class="ae-intro reveal" style="--tint: #e6eff9" data-ae data-figcap="The AssetEngine panel of Fig. 2 in the paper, with mugs as the running example. Click the figure to enlarge it.">
+      <div class="ae-intro reveal" data-ae data-figcap="The AssetEngine panel of Fig. 2 in the paper, with mugs as the running example. Click the figure to enlarge it.">
         <div class="ae-tabs" role="tablist" aria-label="AssetEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
         <div class="ae-film" data-mode="video">
-          <div class="ae-final aef-wrap" style="--tint: #e6eff9" role="img" aria-label="AssetEngine, as in Fig. 2 of the paper: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs.">
+          <div class="ae-final aef-wrap" style="--card: #e6eff9; --cardline: #c3d3e4" role="img" aria-label="AssetEngine, as in Fig. 2 of the paper: the Generator Author searches the internet and writes a draft generator, the Coverage Critic and the Geometry Validator send it back for revision, and the accepted generator samples diverse mugs.">
             <div class="aef" aria-hidden="true">
               <svg width="0" height="0" style="position:absolute"><defs>
                 <marker id="aef-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b7480"/></marker>
@@ -258,7 +258,7 @@
               <img src="media/method/sampled-mugs.webp?v=202611191130" alt="" style="position:absolute; left:868px; top:530px; width:214px; height:150px; object-fit:contain">
             </div>
           </div>
-          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611211100"><source src="media/method/assetengine.mp4?v=202611211100" type="video/mp4"></video>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/assetengine-start.webp?v=202611211200"><source src="media/method/assetengine.mp4?v=202611211200" type="video/mp4"></video>
         </div>
         <div class="ae-bar">
           <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
@@ -272,10 +272,10 @@
 
     <section class="light-section demonstration-section results-highlight sub" id="demoengine">
       <div class="section-head vis-head reveal"><div><h2>DemoEngine: Generating Demonstrations Across Assets</h2><p class="takeaway">DemoEngine turns <b>one human demonstration</b> into thousands of trajectories across assets and object poses.</p></div></div>
-      <div class="ae-intro reveal" style="--tint: #e7f2e4" data-ae data-figcap="The DemoEngine panel of Fig. 2 in the paper, with HangMug as the running example. Click the figure to enlarge it.">
+      <div class="ae-intro reveal" data-ae data-figcap="The DemoEngine panel of Fig. 2 in the paper, with HangMug as the running example. Click the figure to enlarge it.">
         <div class="ae-tabs" role="tablist" aria-label="DemoEngine view"><button type="button" role="tab" data-mode="video" aria-selected="true">Video</button><button type="button" role="tab" data-mode="figure" aria-selected="false">Figure</button></div>
         <div class="ae-film" data-mode="video" style="--far: 1100 / 600">
-          <div class="ae-final aef-wrap" style="--far: 1100 / 600; --tint: #e7f2e4" role="img" aria-label="DemoEngine, as in Fig. 2 of the paper: one human demonstration on one sampled asset is distilled into a storyboard, a source-demo script produces source demonstrations on other assets, and synthetic trajectory generation expands them to new object poses.">
+          <div class="ae-final aef-wrap" style="--far: 1100 / 600; --card: #e7f2e4; --cardline: #c2d8bb" role="img" aria-label="DemoEngine, as in Fig. 2 of the paper: one human demonstration on one sampled asset is distilled into a storyboard, a source-demo script produces source demonstrations on other assets, and synthetic trajectory generation expands them to new object poses.">
             <div class="aef" style="height:600px" aria-hidden="true">
               <svg width="0" height="0" style="position:absolute"><defs>
                 <marker id="def-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b7480"/></marker>
@@ -315,7 +315,7 @@
               <div class="aef-box aef-b" style="left:940px; top:430px; width:140px; text-align:center; font-size:17px; line-height:1.3">Synthetic Trajectory Generation</div>
             </div>
           </div>
-          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/demoengine-start.webp?v=202611211100"><source src="media/method/demoengine.mp4?v=202611211100" type="video/mp4"></video>
+          <video class="ae-video" muted playsinline preload="metadata" poster="media/method/demoengine-start.webp?v=202611211200"><source src="media/method/demoengine.mp4?v=202611211200" type="video/mp4"></video>
         </div>
         <div class="ae-bar">
           <button type="button" class="ae-play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
@@ -367,8 +367,27 @@
     <section class="light-section group" id="experiments">
       <h2 class="group-title reveal">Experiments</h2>
       <div class="section-head reveal" id="setup"><h2 class="sub-title">Experiment Setup</h2><p>Three bimanual tasks in the real world, each evaluated on five sets of distinct objects with 20 rollouts per set. Policies are trained only in simulation and deployed zero-shot. Policy backends: GR00T N1.6 and DINOv3 + FMT.</p></div>
-      <figure class="spot-fig reveal" data-spot="tasks" data-spot-auto="off" data-spot-title="Tasks and objects." data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects.">
-        <div class="spot-stage"><img src="media/paper/tasks.webp?v=202611181500" alt="Real-world tasks. (a) PutPot with five pots and cooktops. (b) HangMug with five mugs and mug trees. (c) PutCharger with drawer cabinets. Each with initial and final states." width="2145" height="744" loading="lazy"></div>
+      <figure class="spot-fig reveal" data-spot="tasks" data-spot-auto="cycle" data-spot-title="Tasks and objects." data-spot-text="SimScale is evaluated on three bimanual manipulation tasks in the real world, each with five sets of distinct objects.">
+        <div class="spot-stage tk-stage">
+          <div class="tk-grid">
+            <div class="tk-rows" aria-hidden="true"><span class="tk-r1">Object<br>Variants</span><span class="tk-r2">Task<br>Setup</span></div>
+            <div class="tk-col" data-part="0">
+              <div class="tk-h">(a) PutPot</div>
+              <img class="tk-obj" src="media/paper/tasks/task-pot-objects.webp?v=202611211200" alt="Five pots and cooktops" loading="lazy">
+              <div class="tk-pair"><figure><img src="media/paper/tasks/task-pot-initial.webp?v=202611211200" alt="" loading="lazy"><figcaption>Initial</figcaption></figure><figure><img src="media/paper/tasks/task-pot-final.webp?v=202611211200" alt="" loading="lazy"><figcaption>Final</figcaption></figure></div>
+            </div>
+            <div class="tk-col" data-part="1">
+              <div class="tk-h">(b) HangMug</div>
+              <img class="tk-obj" src="media/paper/tasks/task-mug-objects.webp?v=202611211200" alt="Five mugs and mug trees" loading="lazy">
+              <div class="tk-pair"><figure><img src="media/paper/tasks/task-mug-initial.webp?v=202611211200" alt="" loading="lazy"><figcaption>Initial</figcaption></figure><figure><img src="media/paper/tasks/task-mug-final.webp?v=202611211200" alt="" loading="lazy"><figcaption>Final</figcaption></figure></div>
+            </div>
+            <div class="tk-col" data-part="2">
+              <div class="tk-h">(c) PutCharger</div>
+              <img class="tk-obj" src="media/paper/tasks/task-charger-objects.webp?v=202611211200" alt="Drawer cabinets of different designs" loading="lazy">
+              <div class="tk-pair"><figure><img src="media/paper/tasks/task-charger-initial.webp?v=202611211200" alt="" loading="lazy"><figcaption>Initial</figcaption></figure><figure><img src="media/paper/tasks/task-charger-final.webp?v=202611211200" alt="" loading="lazy"><figcaption>Final</figcaption></figure></div>
+            </div>
+          </div>
+        </div>
         <div class="spot-panel"><div class="spot-steps" aria-label="Tasks"></div><p class="spot-caption" aria-live="polite"><span class="spot-title"></span><span class="spot-text"></span></p></div>
       </figure>
     </section>

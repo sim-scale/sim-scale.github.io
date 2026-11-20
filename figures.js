@@ -42,10 +42,11 @@
       { r: [50.2, 0.2, 24.8, 99.6], t: 'GPT-6-Astra', d: 'Asked for many diverse mugs, the generator drifts into irregular body shapes (bottom three rows).' },
       { r: [75.2, 0.2, 24.6, 99.6], t: 'SimScale AssetEngine (Ours)', d: 'Samples from the category-level procedural generator vary widely in body shape and handle design while remaining physically plausible.' }
     ],
+    // The task figure is drawn in HTML, so each step highlights its column (part) instead of a fixed region.
     tasks: [
-      { r: [8.6, 0.5, 30.4, 99], t: 'PutPot', d: 'The robot grasps a pot with both arms and places it upright on a cooktop. Five sets of distinct objects.' },
-      { r: [39.2, 0.5, 30.2, 99], t: 'HangMug', d: 'The robot picks up a mug, hands it over to the other arm, and hangs it on a mug tree. Five sets of distinct objects.' },
-      { r: [69.6, 0.5, 30.2, 99], t: 'PutCharger', d: 'The robot picks up a charger, opens a drawer, places the charger inside, and closes the drawer. Five sets of distinct objects.' }
+      { part: 0, t: 'PutPot', d: 'The robot grasps a pot with both arms and places it upright on a cooktop. Five sets of distinct objects.' },
+      { part: 1, t: 'HangMug', d: 'The robot picks up a mug, hands it over to the other arm, and hangs it on a mug tree. Five sets of distinct objects.' },
+      { part: 2, t: 'PutCharger', d: 'The robot picks up a charger, opens a drawer, places the charger inside, and closes the drawer. Five sets of distinct objects.' }
     ]
   };
 
@@ -71,8 +72,9 @@
     const all = document.createElement('button');
     all.type = 'button'; all.className = 'spot-all'; all.textContent = 'Full figure';
     all.addEventListener('click', () => { stop(); show(-1); });
-    // Figures marked data-spot-auto="off" open on the full figure and only zoom when a part is clicked.
-    const auto = fig.dataset.spotAuto !== 'off';
+    // data-spot-auto="off": open on the full figure and highlight a part only when it is clicked.
+    // data-spot-auto="cycle": open on the full figure (4 s), step through the parts (2 s each), twice, then rest on the full figure.
+    const mode = fig.dataset.spotAuto, auto = mode !== 'off' && mode !== 'cycle';
     if (auto) nav.appendChild(all); else nav.insertBefore(all, nav.firstChild);
     let current = -1, timer = null, visible = false, userStopped = false;
     const show = (i) => {
@@ -81,14 +83,36 @@
       all.setAttribute('aria-pressed', String(i < 0));
       fig.classList.toggle('spot-on', i >= 0);
       if (i < 0) { title.textContent = fig.dataset.spotTitle || ''; text.textContent = fig.dataset.spotText || ''; return; }
-      const [l, t, w, h] = steps[i].r;
+      let [l, t, w, h] = steps[i].r || [0, 0, 100, 100];
+      const part = steps[i].part !== undefined && stage.querySelector(`[data-part="${steps[i].part}"]`);
+      if (part) {
+        const sr = stage.getBoundingClientRect(), pr = part.getBoundingClientRect();
+        [l, t, w, h] = [(pr.left - sr.left) / sr.width * 100, (pr.top - sr.top) / sr.height * 100, pr.width / sr.width * 100, pr.height / sr.height * 100];
+      }
       Object.assign(box.style, { left: l + '%', top: t + '%', width: w + '%', height: h + '%' });
       title.textContent = steps[i].t; text.textContent = steps[i].d;
     };
     const tick = () => show((current + 1) % steps.length);
     const start = () => { if (!timer && !userStopped && !reducedMotion) timer = setInterval(tick, 5200); };
-    const stop = () => { userStopped = true; clearInterval(timer); timer = null; };
+    const stop = () => { userStopped = true; clearInterval(timer); clearTimeout(timer); timer = null; };
     show(-1);
+    if (mode === 'cycle' && !reducedMotion && 'IntersectionObserver' in window) {
+      const plan = [];
+      for (let k = 0; k < 2; k++) { plan.push([-1, 4000]); steps.forEach((_, j) => plan.push([j, 2000])); }
+      plan.push([-1, 0]);
+      let step = 0, began = false;
+      const next = () => {
+        if (userStopped || step >= plan.length) return;
+        const [i, ms] = plan[step++];
+        show(i);
+        if (ms) timer = setTimeout(next, ms);
+      };
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting && !began) { began = true; io.disconnect(); next(); }
+      }), { threshold: 0.45 });
+      io.observe(fig);
+      return;
+    }
     if (!auto || reducedMotion || !('IntersectionObserver' in window)) return;
     new IntersectionObserver((entries) => entries.forEach((e) => {
       visible = e.isIntersecting;
