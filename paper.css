@@ -896,3 +896,7 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .ov-engine b { background: #f8f6f2; }
 .ov-policy .ov-ico, .ov-policy .ov-nn .n circle { fill: #f8f6f2; }
 .ov-desc { background: transparent; border-color: #d9d4c9; }
+/* Input field names read as headings above the values. */
+.ov-field small { margin-bottom: 10px; color: #1d1d1f; font-size: 16px; font-weight: 650; }
+.ov-field small em { margin-left: 4px; padding: 0; border: 0; color: var(--muted); font-size: 14px; font-weight: 400; }
+.ov-input .ov-chips i, .ov-desc .ov-type { font-size: 17px; font-weight: 400; }
