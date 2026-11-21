@@ -463,7 +463,7 @@
       </div>
       <div class="finding reveal">
         <h3>DemoEngine trajectories are more suitable for visuomotor policy training than datasets distilled from GPT-6-Astra programs.</h3>
-        <p>GPT-6-Astra programs succeed in simulation but move unnaturally, and their policies almost entirely fail in the real world.</p>
+        <p>Although GPT-6-Astra programs solve the task in simulation with more than 95% success rate, policies trained on their trajectories almost entirely fail in the real world. These programs produce motions unlike natural human motions, such as unwanted pauses and inconsistent speeds, while DemoEngine adapts the single human demonstration across object geometries and preserves natural human motions and intents.</p>
         <div class="pchart" data-chart="demos" aria-label="Bar chart of real-world task scores by demonstration source: GPT-6-Astra programs, human demonstrations per asset, and SimScale DemoEngine."></div>
       </div>
     </section>
