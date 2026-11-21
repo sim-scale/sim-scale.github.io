@@ -919,3 +919,6 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .tk-fig .tk-stage { position: relative; padding: 6px; }
 .tk-fig .fig-caption { margin: 12px 0 0; }
 .baselines { margin-top: 8px; }
+/* Experiments: the first takeaway sits right under its section title (the 76px gap is only between takeaways). */
+.section-head + .finding { margin-top: 0; }
+.sub .section-head:has(+ .finding) { margin-bottom: 18px; }
