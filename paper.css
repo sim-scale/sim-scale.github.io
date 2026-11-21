@@ -930,7 +930,6 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .us-fig .pc-legend { margin-bottom: 16px; }
 .us-fig .fig-caption { margin-top: 22px; }
 #demo-analysis .finding + .finding { margin-top: 20px; }
-.title-btn { padding: 11px 22px; color: #fff; background: var(--accent); border: 0; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 1px 2px rgba(40,60,10,.18); transition: background .15s, transform .15s; }
-.title-btn span { color: inherit; transition: transform .15s; }
-.title-btn:hover, .title-btn:focus-visible { color: #fff; background: #437609; }
-.title-btn:hover span, .title-btn:focus-visible span { transform: translateX(3px); }
+.title-btn { padding: 7px 16px; color: rgba(0,0,0,.78); background: #f1eee7; border: 1px solid #dcd7cc; border-radius: 4px; box-shadow: none; font: 500 15px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; transition: border-color .15s, background .15s; }
+.title-btn span { color: var(--accent); }
+.title-btn:hover, .title-btn:focus-visible { color: #000; background: #ebe7de; border-color: rgba(0,0,0,.4); }
