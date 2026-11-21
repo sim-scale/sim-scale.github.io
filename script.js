@@ -88,7 +88,7 @@
           const figure = document.createElement('figure');
           figure.className = 'comparison-rollout';
           const status = outcome;
-          figure.innerHTML = `<video muted loop playsinline preload="none" data-poster="${prefix}.jpg?v=202611222000" data-autoplay aria-label="${method.label}: ${task.objects[index]}, ${status}"><source src="${prefix}.mp4?v=202611222000" type="video/mp4"></video><figcaption><span class="comparison-outcome comparison-outcome-${outcome.toLowerCase()}">${status}</span></figcaption>`;
+          figure.innerHTML = `<video muted loop playsinline preload="none" data-poster="${prefix}.jpg?v=202611222100" data-autoplay aria-label="${method.label}: ${task.objects[index]}, ${status}"><source src="${prefix}.mp4?v=202611222100" type="video/mp4"></video><figcaption><span class="comparison-outcome comparison-outcome-${outcome.toLowerCase()}">${status}</span></figcaption>`;
           grid.appendChild(figure);
         });
 
