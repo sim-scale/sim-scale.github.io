@@ -930,5 +930,5 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .us-fig .pc-legend { margin-bottom: 16px; }
 .us-fig .fig-caption { margin-top: 22px; }
 #demo-analysis .finding + .finding { margin-top: 20px; }
-.title-btn { background: transparent; font-weight: 700; }
+.title-btn { background: transparent; }
 .title-btn:hover, .title-btn:focus-visible { background: transparent; }
