@@ -922,3 +922,10 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 /* Experiments: the first takeaway sits right under its section title (the 76px gap is only between takeaways). */
 .section-head + .finding { margin-top: 0; }
 .sub .section-head:has(+ .finding) { margin-bottom: 18px; }
+
+.us-fig { margin: 0; }
+.us-fig .us-block { margin-top: 30px; }
+.us-fig .us-block:first-child { margin-top: 8px; }
+.us-fig .us-block h5 { margin-bottom: 10px; }
+.us-fig .pc-legend { margin-bottom: 16px; }
+.us-fig .fig-caption { margin-top: 22px; }
