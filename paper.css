@@ -930,6 +930,5 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .us-fig .pc-legend { margin-bottom: 16px; }
 .us-fig .fig-caption { margin-top: 22px; }
 #demo-analysis .finding + .finding { margin-top: 20px; }
-.title-btn { padding: 7px 16px; color: rgba(0,0,0,.78); background: #f1eee7; border: 1px solid #dcd7cc; border-radius: 4px; box-shadow: none; font: 500 15px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; transition: border-color .15s, background .15s; }
-.title-btn span { color: var(--accent); }
-.title-btn:hover, .title-btn:focus-visible { color: #000; background: #ebe7de; border-color: rgba(0,0,0,.4); }
+.title-btn { background: transparent; font-weight: 700; }
+.title-btn:hover, .title-btn:focus-visible { background: transparent; }
