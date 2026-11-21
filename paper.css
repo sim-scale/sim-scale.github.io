@@ -930,5 +930,6 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .us-fig .pc-legend { margin-bottom: 16px; }
 .us-fig .fig-caption { margin-top: 22px; }
 #demo-analysis .finding + .finding { margin-top: 20px; }
-.title-btn { background: transparent; }
-.title-btn:hover, .title-btn:focus-visible { background: transparent; }
+.title-btn { box-sizing: border-box; height: 34px; padding: 0 13px; gap: 8px; color: #000; background: transparent; border: 1px solid rgba(0,0,0,.22); border-radius: 999px; font-size: 13.5px; font-weight: 500; transition: border-color .16s, background .16s, color .16s, transform .16s; }
+.title-btn span { color: inherit; }
+.title-btn:hover, .title-btn:focus-visible { color: #4a7a00; background: transparent; border-color: #76b900; transform: translateY(-1px); }
