@@ -929,3 +929,4 @@ main > section.group::before { border-top-color: rgba(0,0,0,.22); }
 .us-fig .us-block h5 { margin-bottom: 10px; }
 .us-fig .pc-legend { margin-bottom: 16px; }
 .us-fig .fig-caption { margin-top: 22px; }
+#demo-analysis .finding + .finding { margin-top: 20px; }
