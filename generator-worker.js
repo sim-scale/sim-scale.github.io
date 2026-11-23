@@ -1,6 +1,5 @@
-// Runs the SimScale AssetEngine procedural generators (the original Python code) in a Web Worker,
-// with Pyodide for Python and manifold's WebAssembly build for mesh Booleans. The page stays responsive
-// while a generator runs, and only the newest request is built when sliders move quickly.
+// Runs the AssetEngine Python generators in a Web Worker (Pyodide, with manifold's WebAssembly build for mesh
+// Booleans). Only the newest build request is kept while a build runs.
 import {loadPyodide} from 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs';
 import Manifold from './vendor/manifold.js';
 
@@ -12,7 +11,7 @@ async function start(){
   py=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'});
   post({type:'progress',stage:'Loading NumPy'});
   const [bundle,manifold]=await Promise.all([
-    fetch('media/generators/webgen.zip?v=202611161110').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
+    fetch('media/generators/webgen.zip').then(r=>{if(!r.ok)throw new Error('generator bundle request failed');return r.arrayBuffer();}),
     Manifold({locateFile:f=>new URL(`vendor/${f}`,self.location.href).href}),
     py.loadPackage('numpy',{messageCallback:()=>{}}),
   ]);

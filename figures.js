@@ -1,7 +1,5 @@
-// Paper figures on the page.
-// 1. Spotlight figures: a paper figure with a moving highlight that steps through its parts, each with a caption.
-// 2. Bar charts rebuilt from the numbers of the paper figures. Bars grow when the chart scrolls into view, and
-//    charts with two policy backends can switch between them.
+// Bar charts rebuilt from the paper figures. Bars grow when a chart scrolls into view, and charts with two
+// policy backends can switch between them.
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const whenVisible = (el, fn, threshold = 0.3) => {
@@ -12,123 +10,13 @@
     io.observe(el);
   };
 
-  // ---------- Spotlight figures ----------
-  // Regions are [left, top, width, height] in percent of the image.
-  const SPOTS = {
-    method: [
-      { r: [15.5, 0.4, 54.8, 6.6], t: 'Input', d: 'All AssetEngine sub-agents receive the object category (Mug) and an optional task description (Hang a mug on a mug tree).' },
-      { r: [2.4, 7.2, 67.6, 19.4], t: 'Generator Author', d: 'The Generator Author searches internet images to identify geometric variations, feature dependencies, and measurement ranges, and writes a draft category-level procedural generator in Python.' },
-      { r: [2.4, 29.2, 15.6, 24.2], t: 'Coverage Critic', d: 'The Coverage Critic independently searches for ordinary mugs and compares them with sampled assets. It finds mugs with a rounded body outline that the draft generator cannot produce.' },
-      { r: [21.6, 29.2, 48.6, 24.2], t: 'Geometry Validator', d: 'The Geometry Validator derives a mesh-quality checklist and a task-compatibility checklist, and checks compiled samples with a mesh probe library. It rejects drafts with a detached handle or a handle that is not a closed loop.' },
-      { r: [74.4, 7.2, 23.8, 46.4], t: 'Asset Sampling', d: 'The generator is revised until it passes both reviews. Randomly sampling its parameters then yields diverse and physically plausible assets.' },
-      { r: [15.4, 56.4, 78.4, 21], t: 'Storyboard', d: 'DemoEngine converts one human demonstration, teleoperated on one sampled mug and mug tree, into a storyboard of keyframes: left grasp, handover, left observes, and insert.' },
-      { r: [29.6, 77.4, 68.6, 22.2], t: 'Source Demos on Other Assets', d: 'Guided by the storyboard, an agent writes a source-demo script that separates the shared task structure from geometry-dependent targets. Parallel agents then adapt it to the other assets.' },
-      { r: [15.6, 84.6, 13.6, 9.4], t: 'DexMimicGen', d: 'DexMimicGen expands the source demonstrations of each asset to new object poses and keeps only executions that complete the task.' },
-      { r: [0.4, 56.4, 14.8, 43.2], t: 'Policy', d: 'RGB visuomotor policies are trained on the resulting data and deployed zero-shot on unseen real-world objects.' }
-    ],
-    params: [
-      { r: [8.5, 3.5, 33, 23], t: 'Body Outline', d: 'Discrete variable: a linear or a rounded body outline.' },
-      { r: [52.5, 3.5, 47, 23], t: 'Rim Diameter', d: 'Continuous variable over the range of rim diameters found in internet images.' },
-      { r: [3, 27, 44, 21], t: 'Body Height', d: 'Continuous absolute variable, sampled over its ordinary range.' },
-      { r: [52.5, 27, 47, 21], t: 'Base Diameter', d: 'Continuous relative variable, defined relative to the rim diameter.' },
-      { r: [8.5, 53, 33, 25], t: 'Handle Outline', d: 'Discrete variable: an oval or a squared handle.' },
-      { r: [52.5, 53, 47, 24], t: 'Loop Height', d: 'Continuous variable for the height of the handle loop.' },
-      { r: [1.5, 78, 49, 21.5], t: 'Loop Width', d: 'Continuous variable for how far the handle loop extends from the body.' },
-      { r: [52.5, 78, 47, 21.5], t: 'Mount Height', d: 'Continuous variable for where the handle is mounted on the body.' }
-    ],
-    compare: [
-      { r: [0.2, 0.2, 24.8, 99.6], t: 'SimFoundry Cousins', d: 'Digital cousins of a reconstructed mug. Physically implausible geometry appears in the wavy rim (third row) and the double-loop handle (last row).' },
-      { r: [25.2, 0.2, 24.8, 99.6], t: 'Articraft', d: 'Assets generated individually by an agent. The ring-shaped handles are highly similar across assets.' },
-      { r: [50.2, 0.2, 24.8, 99.6], t: 'GPT-6-Astra', d: 'Asked for many diverse mugs, the generator drifts into irregular body shapes (bottom three rows).' },
-      { r: [75.2, 0.2, 24.6, 99.6], t: 'SimScale AssetEngine (Ours)', d: 'Samples from the category-level procedural generator vary widely in body shape and handle design while remaining physically plausible.' }
-    ],
-    // The task figure is drawn in HTML, so each step highlights its column (part) instead of a fixed region.
-    tasks: [
-      { part: 0, t: 'PutPot', d: 'The robot grasps a pot with both arms and places it upright on a cooktop. Five sets of distinct objects.' },
-      { part: 1, t: 'HangMug', d: 'The robot picks up a mug, hands it over to the other arm, and hangs it on a mug tree. Five sets of distinct objects.' },
-      { part: 2, t: 'PutCharger', d: 'The robot picks up a charger, opens a drawer, places the charger inside, and closes the drawer. Five sets of distinct objects.' }
-    ]
-  };
-
-  document.querySelectorAll('[data-spot]').forEach((fig) => {
-    const steps = SPOTS[fig.dataset.spot];
-    const stage = fig.querySelector('.spot-stage');
-    if (!steps || !stage) return;
-    const box = document.createElement('div');
-    box.className = 'spot-box';
-    box.setAttribute('aria-hidden', 'true');
-    stage.appendChild(box);
-    const nav = fig.querySelector('.spot-steps');
-    const title = fig.querySelector('.spot-title');
-    const text = fig.querySelector('.spot-text');
-    const buttons = steps.map((s, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.innerHTML = `<span>${i + 1}</span>${s.t}`;
-      b.addEventListener('click', () => { stop(); show(i); });
-      nav.appendChild(b);
-      return b;
-    });
-    const all = document.createElement('button');
-    all.type = 'button'; all.className = 'spot-all'; all.textContent = 'Full figure';
-    all.addEventListener('click', () => { stop(); show(-1); });
-    // data-spot-auto="off": open on the full figure and highlight a part only when it is clicked.
-    // data-spot-auto="cycle": open on the full figure (4 s), step through the parts (2 s each), twice, then rest on the full figure.
-    const mode = fig.dataset.spotAuto, auto = mode !== 'off' && mode !== 'cycle';
-    if (auto) nav.appendChild(all); else nav.insertBefore(all, nav.firstChild);
-    let current = -1, timer = null, visible = false, userStopped = false;
-    const show = (i) => {
-      current = i;
-      buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
-      all.setAttribute('aria-pressed', String(i < 0));
-      fig.classList.toggle('spot-on', i >= 0);
-      if (i < 0) { title.textContent = fig.dataset.spotTitle || ''; text.textContent = fig.dataset.spotText || ''; return; }
-      let [l, t, w, h] = steps[i].r || [0, 0, 100, 100];
-      const part = steps[i].part !== undefined && stage.querySelector(`[data-part="${steps[i].part}"]`);
-      if (part) {
-        const sr = stage.getBoundingClientRect(), pr = part.getBoundingClientRect();
-        [l, t, w, h] = [(pr.left - sr.left) / sr.width * 100, (pr.top - sr.top) / sr.height * 100, pr.width / sr.width * 100, pr.height / sr.height * 100];
-      }
-      Object.assign(box.style, { left: l + '%', top: t + '%', width: w + '%', height: h + '%' });
-      title.textContent = steps[i].t; text.textContent = steps[i].d;
-    };
-    const tick = () => show((current + 1) % steps.length);
-    const start = () => { if (!timer && !userStopped && !reducedMotion) timer = setInterval(tick, 5200); };
-    const stop = () => { userStopped = true; clearInterval(timer); clearTimeout(timer); timer = null; };
-    show(-1);
-    if (mode === 'cycle' && !reducedMotion && 'IntersectionObserver' in window) {
-      const plan = [];
-      for (let k = 0; k < 2; k++) { plan.push([-1, 4000]); steps.forEach((_, j) => plan.push([j, 2000])); }
-      plan.push([-1, 0]);
-      let step = 0, began = false;
-      const next = () => {
-        if (userStopped || step >= plan.length) return;
-        const [i, ms] = plan[step++];
-        show(i);
-        if (ms) timer = setTimeout(next, ms);
-      };
-      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-        if (e.isIntersecting && !began) { began = true; io.disconnect(); next(); }
-      }), { threshold: 0.45 });
-      io.observe(fig);
-      return;
-    }
-    if (!auto || reducedMotion || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver((entries) => entries.forEach((e) => {
-      visible = e.isIntersecting;
-      if (visible) { if (current < 0 && !userStopped) show(0); start(); }
-      else { clearInterval(timer); timer = null; }
-    }), { threshold: 0.45 }).observe(fig);
-  });
-
-  // ---------- Bar charts ----------
   const COLOR = {
     real: '#CC6677', twin: '#F2E3A6', cousins: '#E2BE5A', robocasa: '#C8C2BA', articraft: '#B9A5D0',
     astra: '#BCD3EC', astraAsset: '#8FBF9F', human: '#6E9FD3', ours: '#1F4E8C', oursAsset: '#6E9FD3'
   };
   const TASKS = ['PutPot', 'HangMug', 'PutCharger'];
-  // Values follow the paper figures. Each task panel lists one value per series. For charts with two backends,
-  // values are given for DINOv3 + FMT (dino) and GR00T N1.6 (groot). null marks a condition that does not exist.
+  // Task scores (%) from the paper figures, one value per series. Charts with two backends give DINOv3 + FMT (dino)
+  // and GR00T N1.6 (groot) values. null marks a condition that does not exist.
   const CHARTS = {
     realworld: {
       series: [['Real-Demos (60 real-world demos)', COLOR.real], ['SimFoundry Cousins + DexMimicGen (120 human demos)', COLOR.cousins], ['SimScale (Ours, 1 human demo)', COLOR.ours, true]],
@@ -143,7 +31,7 @@
       ]
     },
     sim2sim: {
-      // Fig. 7: averages of three tasks with DINOv3 + FMT.
+      // Averages over the three tasks with DINOv3 + FMT.
       series: [['SimFoundry Twin', COLOR.twin], ['SimFoundry Cousins', COLOR.cousins], ['RoboCasa', COLOR.robocasa], ['Articraft', COLOR.articraft], ['GPT-6-Astra', COLOR.astraAsset], ['SimScale AssetEngine (Ours)', COLOR.oursAsset, true]],
       panels: [
         { title: 'Held-out AssetEngine assets', groups: [{ v: [26.9, 36.7, 53.6, 51.9, 60.6, 92.4] }] },
@@ -190,10 +78,10 @@
     const head = document.createElement('div'); head.className = 'pc-head';
     const legend = document.createElement('ul'); legend.className = 'pc-legend';
     const items = [];
-    cfg.series.forEach(([name, color, ours, hatch]) => {
+    cfg.series.forEach(([name, color, ours]) => {
       const li = document.createElement('li'); items.push(li);
       if (ours) li.className = 'ours';
-      li.innerHTML = `<i style="--c:${color}"${hatch ? ' class="hatch"' : ''}></i>${name}`;
+      li.innerHTML = `<i style="--c:${color}"></i>${name}`;
       legend.appendChild(li);
     });
     head.appendChild(legend);
@@ -220,11 +108,11 @@
       p.groups.forEach((g) => {
         const group = document.createElement('div'); group.className = 'pc-group';
         const row = document.createElement('div'); row.className = 'pc-bars';
-        cfg.series.forEach(([name, color, ours, hatch], si) => {
+        cfg.series.forEach(([name, color, ours], si) => {
           const pick = () => (g.v || g[backend])[si];
-          if (g.v && g.v[si] === null) return;            // this series has no bar in this group
+          if (g.v && g.v[si] === null) return;
           const bar = document.createElement('div');
-          bar.className = 'pc-bar' + (ours ? ' ours' : '') + (hatch ? ' hatch' : '');
+          bar.className = 'pc-bar' + (ours ? ' ours' : '');
           bar.style.setProperty('--c', color);
           bar.innerHTML = '<span class="pc-val">0.0</span>';
           bar.title = name;
@@ -242,8 +130,7 @@
     host.appendChild(grid);
     const yl = document.createElement('p'); yl.className = 'pc-axis'; yl.textContent = 'Task score (%)'; host.insertBefore(yl, grid);
     const update = () => {
-      // As in the paper figures, a missing condition has no bar, and a method without any result for the
-      // selected backend (GPT-6-Astra assets under GR00T N1.6) leaves the legend too.
+      // A method with no result for the selected backend is also dropped from the legend.
       items.forEach((li, si) => { li.hidden = bars.some((b) => b.si === si) && bars.every((b) => b.si !== si || b.pick() === null); });
       bars.forEach(({ bar, val, pick, i }) => {
         const v = pick(), delay = shown ? 0 : i * 70;
@@ -258,7 +145,7 @@
     whenVisible(host, update);
   });
 
-  // ---------- User-study stacked bars ----------
+  // User-study stacked bars
   document.querySelectorAll('[data-stack]').forEach((host) => {
     const segs = [...host.querySelectorAll('.us-seg')];
     whenVisible(host, () => segs.forEach((s, i) => {

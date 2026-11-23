@@ -1,5 +1,4 @@
-// Contents menu in the top left corner: it appears once the reader scrolls past the hero, names the section
-// in view, and opens a list of all sections.
+// Contents menu: appears after the hero, shows the current section, and opens a list of all sections.
 (() => {
   const outline = document.getElementById('outline');
   if (!outline) return;
@@ -13,7 +12,7 @@
   links.forEach((a) => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
   document.addEventListener('click', (e) => { if (!outline.contains(e.target)) setOpen(false); });
-  // The section behind the list decides its text color, so it reads on dark and light sections alike.
+  // Match the text color to the section behind the menu.
   const backdrops = [hero, ...document.querySelectorAll('main > section, .section-divider')].filter(Boolean);
   const isDark = (el) => el === hero || el.classList.contains('dark-section') || el.classList.contains('section-divider') || el.classList.contains('abstract-section');
   const update = () => {

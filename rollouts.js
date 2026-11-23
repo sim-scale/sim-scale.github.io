@@ -1,6 +1,5 @@
-// Full-width real-robot rollout players: a control strip below each video (play, progress, full screen), playback only
-// while the player is on screen, and object switching for the pose-generalization videos. Videos use preload="none",
-// so nothing is downloaded until a player comes into view, and a switcher only fetches the object that is selected.
+// Rollout players: play/progress/full-screen controls, playback only while on screen, and object switching.
+// Videos load lazily, and a switcher only fetches the selected object.
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const icons = {
@@ -22,7 +21,7 @@
     player.appendChild(bar);
     const [playBtn, scrub, expandBtn] = [...bar.children];
 
-    // A reader who pauses keeps it paused; otherwise the video plays whenever it is on screen.
+    // Plays while on screen unless the reader paused it.
     let userPaused = reducedMotion, onScreen = false;
     const syncPlay = () => {
       playBtn.innerHTML = video.paused ? icons.play : icons.pause;
@@ -38,7 +37,7 @@
     video.addEventListener('click', () => playBtn.click());
     video.addEventListener('play', syncPlay);
     video.addEventListener('pause', syncPlay);
-    // Follow playback, except while the reader is holding the knob (focus alone must not freeze it).
+    // The scrubber follows playback except while it is being dragged.
     let dragging = false;
     const release = () => { dragging = false; };
     scrub.addEventListener('pointerdown', () => { dragging = true; });
@@ -55,11 +54,10 @@
       else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
     });
 
-    // GitHub Pages sometimes answers a new file with a brief 503 right after a deploy, and the browser then gives up on
-    // the video. Retry a few times with a fresh URL so the player recovers without a page reload.
+    // Retry a failed load a few times (e.g. a transient 503 right after a deploy).
     let retries = 0, retryTimer = null;
     const retry = () => {
-      if (retryTimer || retries >= 4) return;            // one pending retry at a time
+      if (retryTimer || retries >= 4) return;
       const src = (video.currentSrc || video.querySelector('source')?.src || '').replace(/([?&])r=\d+&?/, '$1').replace(/[?&]$/, '');
       if (!src) return;
       const attempt = ++retries;
@@ -76,13 +74,12 @@
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; update(); }, { threshold: 0.35 }).observe(player);
-      // Within about a screen of the view, fetch the header and first frames so the video starts as soon as it arrives.
-      // Further away, stop downloading (keeping the position) so bandwidth goes to the video the reader is watching.
+      // Preload within about a screen of the view; farther away, stop downloading but keep the position.
       let parked = null;
       const park = () => {
         if (parked || video.readyState === 0) return;
         const b = video.buffered;
-        if (b.length && b.end(b.length - 1) >= video.duration - 0.5) return;   // already fully buffered
+        if (b.length && b.end(b.length - 1) >= video.duration - 0.5) return;
         parked = { src: video.currentSrc, t: video.currentTime };
         video.querySelectorAll('source').forEach((s) => s.remove());
         video.removeAttribute('src');
@@ -105,7 +102,7 @@
     syncPlay();
   });
 
-  // Object switcher: swap the video in place and keep playing if the player is on screen.
+  // Object switcher.
   document.querySelectorAll('[data-rollout-switch]').forEach((demo) => {
     const player = demo.querySelector('.rollout-player');
     const video = player.querySelector('video');

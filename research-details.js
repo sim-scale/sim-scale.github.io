@@ -1,11 +1,11 @@
 (() => {
- // Category videos: one per generator, swapped in place in the shared rollout player (rollouts.js adds its controls).
- const V='202611201900',tabs=[...document.querySelectorAll('[data-category]')],player=document.querySelector('.category-player'),video=player&&player.querySelector('video');
+ // Category tabs: swap the generator video in the shared player (controls come from rollouts.js).
+ const tabs=[...document.querySelectorAll('[data-category]')],player=document.querySelector('.category-player'),video=player&&player.querySelector('video');
  const select=(key,focus=false)=>{
   const tab=tabs.find(t=>t.dataset.category===key);
   tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus();});
   document.querySelector('#category-panel').setAttribute('aria-labelledby',`category-tab-${key}`);
-  video.poster=`media/categories/${key}.webp?v=${V}`;video.src=`media/categories/${key}.mp4?v=${V}`;
+  video.poster=`media/categories/${key}.webp`;video.src=`media/categories/${key}.mp4`;
   video.setAttribute('aria-label',`${tab.dataset.title} generator: all parameters moving`);video.load();
   if(player.rolloutUpdate)player.rolloutUpdate();
  };

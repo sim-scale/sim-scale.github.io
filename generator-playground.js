@@ -1,7 +1,7 @@
 import * as THREE from './vendor/three.module.min.js';
 
-// Interactive AssetEngine generators: every slider move runs the original Python generator in a Web
-// Worker (generator-worker.js) and shows the exact mesh it returns. Nothing is precomputed or interpolated.
+// Interactive AssetEngine generators: each control change runs the Python generator in a Web Worker
+// (generator-worker.js) and renders the returned mesh with Three.js.
 const $=s=>document.querySelector(s);
 const canvas=$('#asset-canvas'),family=$('#asset-family'),fields=$('#gen-controls'),status=$('#asset-status');
 const jointBox=$('#gen-joints'),jointList=$('#gen-joint-list');
@@ -9,8 +9,7 @@ let jointValues=new Map(),jointNames='';
 const download=$('#download-asset'),randomBtn=$('#sample-asset'),resetBtn=$('#reset-asset');
 const overlay=$('#gen-overlay');
 const TASK=['mug','mug_tree','pot','cooktop','charger','drawer_cabinet'];
-// Realistic finishes per part, as in the category videos (the same table renders those videos). The color
-// swatches recolor a part and keep its finish (ceramic stays glossy, wood keeps its grain, steel stays metal).
+// Material finishes per category and part. Recoloring a part keeps its finish.
 const M={
   ceramic:c=>({color:c,roughness:.22,metalness:0,clearcoat:.7,clearcoatRoughness:.12}),
   steel:(c='#e4e6e9')=>({color:c,roughness:.16,metalness:1}),
@@ -49,7 +48,7 @@ const LOOK={
   tv_stand:{'Console Body':M.wood('#6e4c32'),'Fronts':M.wood('#b98f63'),'Leg':BLACKMETAL,dark:BLACKMETAL},
   wardrobe:{'*':M.wood('#c29a6b'),dark:BLACKMETAL},
 };
-// Swatches for recoloring: natural glazes, woods, and paints.
+// Color swatches.
 const PALETTE=['#d9cdb8','#3d6e99','#c94f3d','#e8c46a','#3f8f6e','#f0eee8','#2a2c30','#c49a6c','#82593a','#c9cdd2'];
 const DEFAULT_BODY='#3d6e99';
 function lookDef(g,finish){
@@ -68,7 +67,7 @@ let worker=null,categories=null,spec=null,settings={},lastGood=null,latest=0,sho
 let yaw=.6,tilt=.42,zoom=1,drag=null,radius=.3,targetZ=.15;
 const setStatus=t=>{status.textContent=t;};
 
-// ---------- Rendering ----------
+// Rendering
 let renderer,scene,camera,group,pivot,shadow,view=null;
 let partColors={},partFinishes=new Map();const materials=new Map();
 try{
@@ -82,7 +81,7 @@ let keyLight=null,ground=null;
 if(renderer){
   scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(30,1,.005,50);camera.up.set(0,0,1);
   group=new THREE.Group();pivot=new THREE.Group();pivot.add(group);scene.add(pivot);
-  // Studio environment for reflections: a soft gradient dome with softboxes and strip lights, as in the videos.
+  // Studio environment map for reflections: gradient dome, softboxes, and strip lights.
   const env=new THREE.Scene();
   env.add(new THREE.Mesh(new THREE.SphereGeometry(10,48,24),new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,
     vertexShader:'varying vec3 p; void main(){p=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
@@ -98,7 +97,7 @@ if(renderer){
   scene.add(new THREE.HemisphereLight(0xffffff,0x7d8778,.55));
   const rim=new THREE.DirectionalLight(0xffffff,.7);rim.position.set(3,2.5,2.5);scene.add(rim);
   ground=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.ShadowMaterial({opacity:.1}));ground.receiveShadow=true;scene.add(ground);
-  // A soft contact shadow under the asset.
+  // Soft contact shadow.
   const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
   const grad=g.createRadialGradient(64,64,4,64,64,64);grad.addColorStop(0,'rgba(60,52,40,.26)');grad.addColorStop(1,'rgba(60,52,40,0)');
   g.fillStyle=grad;g.fillRect(0,0,128,128);
@@ -108,7 +107,7 @@ if(renderer){
 const render=()=>{
   if(!renderer)return;const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
   renderer.setSize(w,h,false);camera.aspect=w/h;
-  // Far enough that the bounding sphere fits the narrower field of view.
+  // Fit the bounding sphere in the narrower field of view.
   const half=Math.min(camera.fov/2,Math.atan(Math.tan(camera.fov*Math.PI/360)*camera.aspect)*180/Math.PI)*Math.PI/180;
   const d=radius/Math.sin(half)*1.08*zoom;
   camera.position.set(Math.sin(yaw)*Math.cos(tilt)*d,-Math.cos(yaw)*Math.cos(tilt)*d,Math.sin(tilt)*d+targetZ);
@@ -119,10 +118,10 @@ if(renderer)new ResizeObserver(render).observe(canvas);
 const hex=c=>'#'+c.getHexString();
 const tint=(h,a)=>hex(new THREE.Color(h).lerp(new THREE.Color('#ffffff'),a));
 const shade=(h,a)=>hex(new THREE.Color(h).multiplyScalar(a));
-// The finish a part shows in the swatch row: its main surface.
+// Default swatch color of a part: its main finish.
 function defaultColor(g){const f=partFinishes.get(g);const main=f&&f.size===1?[...f][0]:'body';return lookDef(g,main).color;}
 const colorOf=g=>partColors[g]||defaultColor(g);
-// A chosen color replaces the part's main color. Light, printed, dark, and metal finishes follow it as before.
+// Color of a part's finish after recoloring (dark and metal finishes keep their own color).
 function finishColor(g,finish){
   const d=lookDef(g,finish);if(!partColors[g])return d.color;
   const c=partColors[g],f=partFinishes.get(g);if(f&&f.size===1)return c;
@@ -163,7 +162,7 @@ function recolor(g){
   render();
 }
 
-// Normals that stay sharp at creases (box edges) and smooth on curved surfaces (lathes, lofts).
+// Normals that stay sharp at creases and smooth on curved surfaces.
 function creasedGeometry(positions,indices,crease=Math.cos(32*Math.PI/180)){
   const nTri=indices.length/3,pos=new Float32Array(nTri*9),nor=new Float32Array(nTri*9),fn=new Float32Array(nTri*3);
   const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();
@@ -188,7 +187,7 @@ function creasedGeometry(positions,indices,crease=Math.cos(32*Math.PI/180)){
   return geo;
 }
 
-// Link frames from the joint tree, with movable joints opened by a fraction of their range.
+// World frames of all links from the joint tree and current joint values.
 const originMatrix=(xyz,rpy)=>new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(rpy[0],rpy[1],rpy[2],'ZYX')).setPosition(xyz[0],xyz[1],xyz[2]);
 function linkFrames(joints,links){
   const byChild=new Map(joints.map(j=>[j.child,j])),frames=new Map();
@@ -206,20 +205,19 @@ function linkFrames(joints,links){
   };
   links.forEach(frame);return frames;
 }
-// The turn that the paper figures give each category, so that the asset faces the camera.
+// Yaw (and tilt) that makes the asset face the camera, per category rule.
 function orientation(){
   const rule=view?.orient,joints=current.joints,pts=[];
   const moving=new Set(joints.filter(j=>j.type==='revolute'||j.type==='prismatic').map(j=>j.child));
   const children=new Set(joints.map(j=>j.child));
-  // Boxes in the object's own frame (mesh matrices only), so the turn applied to the previous sample does not leak in.
+  // Bounding boxes in the object frame, ignoring the previous turn.
   const boxOf=pred=>{const b=new THREE.Box3();group.children.forEach(m=>{if(!pred(m.userData.link))return;m.geometry.computeBoundingBox();b.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrix));});return b;};
   group.children.forEach(m=>{const p=m.geometry.attributes.position,v=new THREE.Vector3();for(let i=0;i<p.count;i++)pts.push(v.fromBufferAttribute(p,i).applyMatrix4(m.matrix).clone());});
   const all=new THREE.Box3().setFromPoints(pts),ext=all.getSize(new THREE.Vector3());
   const snap=a=>Math.round(a/(Math.PI/2))*Math.PI/2;
   if(typeof rule==='number')return [rule*Math.PI/180,0];
   if(rule==='front'){
-    // Drawers slide out of the front: their opening direction (joint axis toward the far limit) fixes the turn,
-    // whatever the parameters or the current joint values. Doors fall back to where the moving parts sit.
+    // Face the opening direction of the drawers, or else the side where the moving parts sit.
     const frames=linkFrames(joints,[...new Set(current.parts.map(p=>p.link))]),dir=new THREE.Vector3();
     for(const j of joints){
       if(j.type!=='prismatic')continue;
@@ -249,7 +247,7 @@ function pose(){
   if(!current)return;
   const frames=linkFrames(current.joints,[...new Set(current.parts.map(p=>p.link))]);
   group.children.forEach(m=>{m.matrixAutoUpdate=false;m.matrix.copy(frames.get(m.userData.link));});
-  if(fitNext){const [yawObj,tiltObj]=orientation();pivot.rotation.set(0,tiltObj,yawObj,'ZYX');canvas.dataset.turn=Math.round(yawObj*180/Math.PI);}
+  if(fitNext){const [yawObj,tiltObj]=orientation();pivot.rotation.set(0,tiltObj,yawObj,'ZYX');}
   pivot.position.set(0,0,0);pivot.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(pivot),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
   pivot.position.set(-center.x,-center.y,-box.min.z);pivot.updateMatrixWorld(true);
@@ -281,7 +279,7 @@ function show(msg){
   for(const g of partFinishes.keys())recolor(g);
 }
 
-// ---------- Controls ----------
+// Controls
 const fmt=(v,unit)=>{
   if(typeof v!=='number')return String(v);
   if(unit==='m')return v<1?`${(v*100).toFixed(1)} cm`:`${v.toFixed(2)} m`;
@@ -292,7 +290,7 @@ const fmt=(v,unit)=>{
 };
 function renderControls(){
   fields.innerHTML='';
-  // One block per part of the object, in the order of the paper figure (main body first).
+  // One block per part, main body first.
   const blocks=new Map();
   for(const g of [...(spec.groups||[]),...spec.controls.map(c=>c.group)]){
     if(blocks.has(g))continue;
@@ -314,7 +312,7 @@ function renderControls(){
     }
     blocks.get(c.group).append(box);
   });
-  // A color row at the bottom of each part box: the palette on one line, and a free color picker below.
+  // Color row at the bottom of each part block.
   for(const [g,set] of blocks){
     const row=document.createElement('div');row.className='gen-color';
     row.innerHTML=`<span class="gen-label">Color</span><div class="gen-swatches" role="group" aria-label="${g} color"></div><label class="gen-custom">Custom <input type="color" value="${defaultColor(g)}" aria-label="${g} custom color"></label>`;
@@ -325,9 +323,7 @@ function renderControls(){
     set.append(row);
   }
 }
-// Joint controls, as in the AssetEngine viewer: one slider per movable joint of the current model, over its
-// limits, with its type. Joints that the current choices do not create are not shown. A joint starts 60% open,
-// away from its closed end, and keeps its value while sliders change the shape.
+// One slider per movable joint over its limits. A joint starts 60% open and keeps its value across rebuilds.
 const pretty=n=>n.replace(/_/g,' ').replace(/\b(to|of|and)\b|\b\w/g,(w,small)=>small?w:w.toUpperCase());
 const jointText=(j,q)=>j.type==='prismatic'?`${(q*100).toFixed(1)} cm`:`${(q*180/Math.PI).toFixed(0)}°`;
 function syncJoints(joints){
@@ -361,19 +357,19 @@ function mark(box,v){box.querySelectorAll('button').forEach(b=>b.setAttribute('a
 function sync(controls){
   for(const box of fields.querySelectorAll('.gen-field')){
     const c=spec.controls.find(x=>x.factor===box.dataset.factor),s=controls[c.factor];if(!s)continue;
-    // A parameter that only applies to some choices shows only when it applies.
+    // Hide parameters that do not apply to the current choices.
     box.hidden=!s.active;
     if(c.kind==='choice'){mark(box,s.value);continue;}
     const input=box.querySelector('input'),out=box.querySelector('output');
     out.value=fmt(s.value,c.unit);input.setAttribute('aria-valuetext',out.value);
-    // The knob follows the generator, except for the slider that is being dragged.
+    // Sync the slider to the generator, except while it is being dragged.
     if(typeof s.t==='number'&&!(document.activeElement===input&&settings[c.factor]?.[0]==='q'))input.value=String(s.t);
     const [lo,hi]=box.querySelectorAll('.gen-range span');
     if(!c.derived&&typeof s.low==='number'){lo.textContent=fmt(s.low,c.unit);hi.textContent=fmt(s.high,c.unit);}
   }
 }
-// After each accepted build: the settings to fall back to, and absolute values for sliders whose range
-// depends on another slider (a pot height relative to its diameter), so they hold when that slider moves.
+// After each accepted build, store fallback settings, and pin relative parameters to absolute values so they
+// hold when the parameter they depend on changes.
 function remember(controls){
   lastGood={};
   for(const c of spec.controls){
@@ -383,7 +379,7 @@ function remember(controls){
   }
 }
 function resetView(){zoom=1;fitNext=true;if(view){yaw=(view.azimuth+90)*Math.PI/180;tilt=view.elevation*Math.PI/180;}}
-// At most one build in flight: moves made while the generator runs collapse into one newest request.
+// At most one build in flight; changes made meanwhile collapse into one newest request.
 let inflight=false,pending=false;
 function request(){
   if(!worker||!spec)return;
@@ -403,7 +399,7 @@ function startWorker(){
   if(!renderer){setStatus('This interactive preview needs WebGL. The asset videos above remain available.');return;}
   if(typeof WebAssembly!=='object'){setStatus('This interactive preview needs WebAssembly.');return;}
   overlay.hidden=false;setStatus('Starting the Python generators in your browser (about 10 MB, downloaded once)…');
-  worker=new Worker(new URL('./generator-worker.js?v=202611161110',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./generator-worker.js',import.meta.url),{type:'module'});
   worker.onerror=()=>{setStatus('The generator runtime failed to start. Please reload to retry.');overlay.hidden=true;};
   worker.onmessage=({data:m})=>{
     if(m.type==='progress'){overlay.querySelector('span').textContent=m.stage+'…';}
@@ -459,7 +455,7 @@ download.addEventListener('click',()=>{
   a.href=url;a.download=`simscale-${spec.key}.obj`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 
-// Orbit (one pointer), pinch zoom (two pointers), wheel zoom, and double-click to reset the view.
+// Orbit, pinch zoom, wheel zoom, and double-click to reset the view.
 const pointers=new Map();let pinch=null;
 canvas.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,[e.clientX,e.clientY]);canvas.setPointerCapture(e.pointerId);
   if(pointers.size===2){const [a,b]=[...pointers.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),zoom};drag=null;}else drag=[e.clientX,e.clientY];});
@@ -476,7 +472,7 @@ canvas.addEventListener('keydown',e=>{
   yaw+=k[0];tilt=Math.max(-.15,Math.min(1.35,tilt+k[1]));render();
 });
 
-// Start the runtime only when the playground comes near the viewport, so the rest of the page loads as before.
+// Start the runtime only when the playground nears the viewport.
 const section=$('#playground');
 if('IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();startWorker();}},{rootMargin:'600px 0px'});

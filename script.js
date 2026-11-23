@@ -1,10 +1,10 @@
+// Page-wide behavior: hero title, scroll progress, comparison and demo tabs, lazy posters, autoplay, reveal.
 (() => {
   const root = document.documentElement;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const heroVideo = document.querySelector('.hero-video');
 
-  // The hero video plays once, from close-ups of single tasks out to the full scene. When it ends, the last
-  // frame stays, darkens, and the title fades in.
+  // The hero video plays once; when it ends, the title fades in over the last frame.
   const hero = document.querySelector('.cinematic-hero');
   const showTitle = () => hero && hero.classList.add('hero-done');
   if (heroVideo && reducedMotion) {
@@ -30,31 +30,17 @@
   window.addEventListener('scroll', updateProgress, { passive: true });
   window.addEventListener('resize', updateProgress);
 
+  // Real-robot comparison clips: media/comparisons/<task>_<method>_<NN>.{mp4,jpg}, one per object.
+  const S = 'Success', F = 'Failure';
+  const methods = (simfoundry, articraft) => [
+    { key: 'ours', label: 'SimScale', outcomes: [S, S, S, S] },
+    { key: 'simfoundry', label: 'SimFoundry', outcomes: simfoundry },
+    { key: 'articraft', label: 'Articraft', outcomes: articraft },
+  ];
   const comparisonTasks = [
-    {
-      id: 'task1', number: '01', title: 'PutPot', objects: ['White Pot', 'Gray Pot', 'Tall Pot', 'Steel Pot'],
-      methods: [
-        { key: 'ours', label: 'SimScale', detail: '1 human demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: 'DexMimicGen, 120 human demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: 'DexMimicGen, 120 human demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
-      ]
-    },
-    {
-      id: 'task2', number: '02', title: 'HangMug', objects: ['Green Mug', 'Bronze Mug', 'Cyan Mug', 'Pink Mug'],
-      methods: [
-        { key: 'ours', label: 'SimScale', detail: '1 human demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: 'DexMimicGen, 120 human demos', outcomes: [['Success', 'Twin'], ['Success', 'Unseen'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: 'DexMimicGen, 120 human demos', outcomes: [['Failure', ''], ['Failure', ''], ['Failure', ''], ['Failure', '']] }
-      ]
-    },
-    {
-      id: 'task3', number: '03', title: 'PutCharger', objects: ['Fabric Drawers', 'Tall Metal Cabinet', 'Black Drawers', 'White Drawers'],
-      methods: [
-        { key: 'ours', label: 'SimScale', detail: '1 human demo', outcomes: [['Success', ''], ['Success', ''], ['Success', ''], ['Success', '']] },
-        { key: 'simfoundry', label: 'SimFoundry', detail: 'DexMimicGen, 120 human demos', outcomes: [['Success', 'Unseen'], ['Failure', 'Twin'], ['Failure', 'Unseen'], ['Failure', 'Unseen']] },
-        { key: 'articraft', label: 'Articraft', detail: 'DexMimicGen, 120 human demos', outcomes: [['Success', ''], ['Failure', ''], ['Failure', ''], ['Success', '']] }
-      ]
-    }
+    { id: 'task1', objects: ['White Pot', 'Gray Pot', 'Tall Pot', 'Steel Pot'], methods: methods([S, S, F, F], [F, F, F, F]) },
+    { id: 'task2', objects: ['Green Mug', 'Bronze Mug', 'Cyan Mug', 'Pink Mug'], methods: methods([S, S, F, F], [F, F, F, F]) },
+    { id: 'task3', objects: ['Fabric Drawers', 'Tall Metal Cabinet', 'Black Drawers', 'White Drawers'], methods: methods([S, F, F, F], [S, F, F, S]) },
   ];
 
   document.querySelectorAll('[data-comparison-showcase]').forEach((showcase) => {
@@ -70,11 +56,6 @@
       panel.setAttribute('aria-labelledby', `comparison-tab-${task.id}`);
       panel.hidden = taskIndex !== 0;
 
-      const heading = document.createElement('header');
-      heading.className = 'comparison-task-heading';
-      heading.innerHTML = "";
-      panel.appendChild(heading);
-
       task.methods.forEach((method) => {
         const row = document.createElement('section');
         row.className = 'comparison-method';
@@ -82,13 +63,11 @@
         const grid = document.createElement('div');
         grid.className = 'comparison-rollout-grid';
 
-        method.outcomes.forEach(([outcome, domain], index) => {
-          const number = String(index + 1).padStart(2, '0');
-          const prefix = `media/comparisons/${task.id}_${method.key}_${number}`;
+        method.outcomes.forEach((outcome, index) => {
+          const prefix = `media/comparisons/${task.id}_${method.key}_${String(index + 1).padStart(2, '0')}`;
           const figure = document.createElement('figure');
           figure.className = 'comparison-rollout';
-          const status = outcome;
-          figure.innerHTML = `<video muted loop playsinline preload="none" data-poster="${prefix}.jpg?v=202611230000" data-autoplay aria-label="${method.label}: ${task.objects[index]}, ${status}"><source src="${prefix}.mp4?v=202611230000" type="video/mp4"></video><figcaption><span class="comparison-outcome comparison-outcome-${outcome.toLowerCase()}">${status}</span></figcaption>`;
+          figure.innerHTML = `<video muted loop playsinline preload="none" data-poster="${prefix}.jpg" data-autoplay aria-label="${method.label}: ${task.objects[index]}, ${outcome}"><source src="${prefix}.mp4" type="video/mp4"></video><figcaption><span class="comparison-outcome comparison-outcome-${outcome.toLowerCase()}">${outcome}</span></figcaption>`;
           grid.appendChild(figure);
         });
 
@@ -166,7 +145,7 @@
     });
   });
 
-  // Posters of videos far down the page load only when the reader gets within about a screen of them.
+  // Lazy-load video posters about one screen ahead.
   const lazyPosters = [...document.querySelectorAll('video[data-poster]')];
   const showPoster = (video) => { video.poster = video.dataset.poster; video.removeAttribute('data-poster'); };
   if ('IntersectionObserver' in window) {
@@ -206,7 +185,7 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });  // tall blocks reveal as soon as their top enters the view
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
 
   document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 })();
